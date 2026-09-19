@@ -53,39 +53,39 @@ body {
 @layer components {
   /* Contenedores de página */
   .contenedor {
-    @apply contenedor;
+    @apply mx-auto max-w-5xl px-6 py-16 sm:py-24;
   }
   .contenedor-estrecho {
-    @apply contenedor-estrecho;
+    @apply mx-auto max-w-2xl px-6 py-16;
   }
   .seccion {
-    @apply seccion;
+    @apply border-t border-corte-oro/20 py-16;
   }
 
   /* Tipografía */
   .kicker {
-    @apply kicker;
+    @apply font-display text-lg italic text-corte-lavanda;
   }
   .titulo-1 {
-    @apply titulo-1;
+    @apply max-w-2xl font-display text-5xl font-semibold leading-tight text-corte-pergamino sm:text-6xl;
   }
   .titulo-2 {
-    @apply titulo-2;
+    @apply font-display text-3xl font-semibold text-corte-pergamino;
   }
   .titulo-3 {
-    @apply titulo-3;
+    @apply font-display text-xl text-corte-pergamino;
   }
   .texto-destacado {
     @apply max-w-xl text-lg leading-relaxed text-corte-pergamino/[.85];
   }
   .texto {
-    @apply texto;
+    @apply max-w-xl text-corte-pergamino/75;
   }
   .texto-suave {
-    @apply texto-suave;
+    @apply text-sm text-corte-pergamino/60;
   }
   .precio {
-    @apply precio;
+    @apply font-display text-3xl text-corte-oro;
   }
 
   /* Botones: se usan juntos, p. ej. class="boton boton-primario" */
