@@ -49,7 +49,21 @@ body {
     radial-gradient(circle at 85% 75%, rgb(var(--humo-lavanda) / 0.15), transparent 45%);
   background-attachment: fixed;
 }
-
+@layer components {
+  /* Formularios y avisos */
+  .etiqueta {
+    @apply mb-1 block text-sm text-corte-pergamino/70;
+  }
+  .campo {
+    @apply w-full rounded-sm border border-corte-pergamino/30 bg-transparent px-4 py-3 text-corte-pergamino placeholder:text-corte-pergamino/40 focus:border-corte-oro focus:outline-none disabled:opacity-60;
+  }
+  .aviso-ok {
+    @apply border border-corte-oro/40 px-4 py-3 text-corte-pergamino/85;
+  }
+  .aviso-error {
+    @apply border border-rosa-peonia px-4 py-3 text-rosa-palido;
+  }
+}
 @layer components {
   /* Contenedores de página */
   .contenedor {

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, Suscripcion, Perfil } from "@/lib/supabaseClient";
 import BotonPago from "@/components/BotonPago";
+import Link from "next/link";
+
 
 const ESTADOS: Record<string, string> = {
   active: "Activa",
@@ -175,7 +177,9 @@ export default function PanelPage() {
             Elegir un plan
           </a>
         )}
-
+        <Link href="/perfil" className="boton boton-secundario">
+          Mi perfil
+        </Link>
         {tieneHistorialDePago && (
           <BotonPago
             tipo="portal"
