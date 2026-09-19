@@ -47,8 +47,7 @@ export default function Home() {
         </h2>
         <p className="mt-3 max-w-xl text-corte-pergamino/75">
           No es solo un libro: es una entrega mensual con su propio capítulo
-          y goodies temáticos, pensada para vivirse igual que Alondra vive la
-          Corte — poco a poco, secreto a secreto.
+          y papelería temática para que la lectura sea más inmversiva.
         </p>
 
         <ol className="mt-10 space-y-8">
@@ -60,7 +59,7 @@ export default function Home() {
               </h3>
               <p className="mt-1 text-corte-pergamino/75">
                 Eliges tu plan y quedas registrada en la Corte. Tu suscripción
-                se gestiona de forma segura a través de Stripe.
+                se gestiona de forma segura a través de <b>Stripe</b>.
               </p>
             </div>
           </li>
@@ -114,7 +113,7 @@ export default function Home() {
               <span className="text-base text-corte-pergamino/60">/ mes</span>
             </p>
             <p className="mt-1 text-sm text-corte-pergamino/60">
-              Precio de preventa del primer correo 9€ · precio habitual 11 €/mes
+              Precio de preventa del primer correo 9€ · precio habitual <b>11€ al mes.</b>
             </p>
             <p className="mt-4 flex-1 text-corte-pergamino/75">
               Cada mes, un capítulo nuevo de El Fuego de las Herederas con sus
