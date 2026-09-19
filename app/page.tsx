@@ -27,15 +27,21 @@ export default function Home() {
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             href="/registro"
-            className="rounded-sm bg-corte-oro px-6 py-3 font-body font-medium text-corte-fondo transition hover:bg-corte-oro/90"
+            className="boton boton-primario"
           >
             Únete a la entrega mensual
           </Link>
           <a
             href="#como-funciona"
-            className="rounded-sm border border-corte-pergamino/30 px-6 py-3 font-body text-corte-pergamino transition hover:border-corte-pergamino/60"
+            className="boton boton-secundario"
           >
             Cómo funciona
+          </a>
+          <a
+            href="#como-funciona"
+            className="boton boton-secundario"
+          >
+            Catálogo de capítulos
           </a>
         </div>
       </section>
@@ -99,8 +105,7 @@ export default function Home() {
           Elige cómo leer
         </h2>
         <p className="mt-3 texto">
-          Suscríbete para recibir cada mes un capítulo nuevo con sus goodies,
-          o llévate solo el envío que te interese.
+          Suscríbete para recibir cada mes un capítulo nuevo con sus goodies, o llévate solo el envío que te interese.
         </p>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -138,7 +143,9 @@ export default function Home() {
               Pago único, sin suscripción
             </p>
             <p className="mt-4 flex-1 text-corte-pergamino/75">
-              Un único envío con su capítulo, sin compromiso de continuidad.
+              Envío con su capítulo y su papelería temática, sin compromiso de continuidad. 
+              <br></br>
+              Si has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante <b>Bizum</b> esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado.
             </p>
             <div className="mt-6">
               <BotonPago
@@ -153,8 +160,12 @@ export default function Home() {
         </div>
 
         <p className="mt-6 texto-suave">
-          Necesitas una cuenta para comprar. Si aún no la tienes, te llevamos
-          al registro.
+          Necesitas una cuenta para comprar. Si aún no la tienes  <Link
+            href="/registro"
+            className="underline underline-offset-4 hover:text-corte-pergamino"
+          >
+            crea tu cuenta aquí
+          </Link>.
         </p>
       </section>
 
