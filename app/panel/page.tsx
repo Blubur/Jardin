@@ -168,9 +168,8 @@ export default function PanelPage() {
       </section>
 
       <div className="mt-8 flex flex-wrap items-start gap-4">
-        {!suscripcionActiva && (
-          
-            href="/#planes"
+         {!suscripcionActiva && (
+          <a href="/#planes"
             className="inline-block rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90"
           >
             Elegir un plan
