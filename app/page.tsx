@@ -34,19 +34,19 @@ export default function Home() {
               className="boton boton-primario"
             >
               Únete a la entrega mensual
-            </Link>
-            
+                        </Link>
+            <Link
               href="#como-funciona"
               className="boton boton-secundario"
             >
               Cómo funciona
-            </a>
-            
+            </Link>
+            <Link
               href="#como-funciona"
               className="boton boton-secundario"
             >
               Catálogo de capítulos
-            </a>
+            </Link>
           </div>
         </section>
 
