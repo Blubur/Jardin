@@ -23,6 +23,8 @@ export type Suscripcion = {
 // opcionales (teléfono) que la usuaria completa tras registrarse.
 export type Perfil = {
   user_id: string;
-  direccion_postal: string;
+  nick: string | null;
+  nombre_completo: string | null;
+  direccion_postal: string | null;
   telefono: string | null;
 };
