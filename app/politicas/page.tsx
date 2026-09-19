@@ -25,9 +25,8 @@ export default function PoliticasPage() {
         <section id="aviso-legal" className="mt-12">
           <h2 className="titulo-3">Aviso legal</h2>
           <div className="mt-3 space-y-2 texto">
-            <p>Titular del sitio: Pilar Higuera (nombre artístico: Blu).</p>
-            <p>NIF: [tu NIF]</p>
-            <p>Domicilio: [tu dirección postal completa]</p>
+            <p>Titular del sitio: Pilar Pérez (nombre artístico: María Gayarre).</p>
+       
             <p>Correo de contacto: [tu-correo@dominio.com]</p>
             <p>
               Los textos, la historia, los personajes, las ilustraciones y el
@@ -43,7 +42,7 @@ export default function PoliticasPage() {
           <h2 className="titulo-3">Política de privacidad</h2>
           <div className="mt-3 space-y-2 texto">
             <p>
-              <b>Responsable:</b> Pilar Higuera, con los datos de contacto
+              <b>Responsable:</b> Pilar Pérez, con los datos de contacto
               indicados en el aviso legal.
             </p>
             <p>
@@ -64,16 +63,14 @@ export default function PoliticasPage() {
             <p>
               <b>Destinatarios:</b> Stripe (pagos), Supabase (base de datos y
               autenticación), Vercel (alojamiento web) y el servicio de
-              mensajería que realice tu envío. [Añade o quita según los
-              servicios que uses].
+              mensajería de Correos.
             </p>
             <p>
               <b>Conservación:</b> mientras mantengas tu cuenta y, después,
               durante los plazos que exija la normativa fiscal y contable.
             </p>
             <p>
-              <b>Tus derechos:</b> puedes solicitar acceso, rectificación,
-              supresión, oposición, limitación y portabilidad escribiendo a
+              <b>Tus derechos:</b> puedes solicitar acceso, rectificación y eliminación escribiendo a
               [tu-correo@dominio.com]. Si consideras que no hemos tratado tus
               datos correctamente, puedes reclamar ante la Agencia Española de
               Protección de Datos (aepd.es).
@@ -106,7 +103,7 @@ export default function PoliticasPage() {
               <b>Precios:</b> los precios se muestran en euros. El precio de
               preventa de la suscripción mensual es de 9 € al mes y el precio
               habitual de 11 € al mes. El capítulo suelto cuesta 11 €.
-              [Indica si incluyen impuestos y gastos de envío].
+              [Se incluyen impuestos y gastos de envío].
             </p>
             <p>
               <b>Pago:</b> con tarjeta a través de Stripe. También se admite
@@ -120,7 +117,7 @@ export default function PoliticasPage() {
               efecto al final del periodo ya pagado.
             </p>
             <p>
-              <b>Envíos:</b> [indica plazos, zonas de envío y costes]. Si tu
+              <b>Envíos:</b> Cada sobre se envía la última semana del mes anterior para que llegue durante el mes vigente. Si tu
               paquete llega dañado o no llega, escríbenos y lo resolveremos.
             </p>
             <p>
