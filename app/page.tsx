@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BotonPago from "@/components/BotonPago";
 
 export default function Home() {
   return (
@@ -88,6 +89,80 @@ export default function Home() {
           </li>
         </ol>
       </section>
+
+
+
+      {/* Planes */}
+      <section id="planes" className="border-t border-corte-oro/20 py-16">
+        <h2 className="font-display text-3xl font-semibold text-corte-pergamino">
+          Elige cómo leer
+        </h2>
+        <p className="mt-3 max-w-xl text-corte-pergamino/75">
+          Suscríbete para recibir cada mes un capítulo nuevo con sus goodies,
+          o llévate solo el envío que te interese.
+        </p>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
+            <h3 className="font-display text-xl text-corte-pergamino">
+              Suscripción mensual
+            </h3>
+            <p className="mt-2 font-display text-3xl text-corte-oro">
+              9 €{" "}
+              <span className="text-base text-corte-pergamino/60">/ mes</span>
+            </p>
+            <p className="mt-1 text-sm text-corte-pergamino/60">
+              Precio de preventa · precio habitual 11 €/mes
+            </p>
+            <p className="mt-4 flex-1 text-corte-pergamino/75">
+              Cada mes, un capítulo nuevo de El Fuego de las Herederas con sus
+              goodies temáticos.
+            </p>
+            <div className="mt-6">
+              <BotonPago
+                tipo="suscripcion"
+                className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
+              >
+                Suscribirme
+              </BotonPago>
+            </div>
+          </div>
+
+          <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
+            <h3 className="font-display text-xl text-corte-pergamino">
+              Capítulo suelto
+            </h3>
+            <p className="mt-2 font-display text-3xl text-corte-oro">11 €</p>
+            <p className="mt-1 text-sm text-corte-pergamino/60">
+              Pago único, sin suscripción
+            </p>
+            <p className="mt-4 flex-1 text-corte-pergamino/75">
+              Un único envío con su capítulo, sin compromiso de continuidad.
+            </p>
+            <div className="mt-6">
+              <BotonPago
+                tipo="capitulo"
+                capitulo={1}
+                className="w-full rounded-sm border border-corte-pergamino/30 px-6 py-3 text-corte-pergamino transition hover:border-corte-pergamino/60 disabled:opacity-60"
+              >
+                Comprar capítulo 1
+              </BotonPago>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-6 text-sm text-corte-pergamino/60">
+          Necesitas una cuenta para comprar. Si aún no la tienes, te llevamos
+          al registro.
+        </p>
+      </section>
+
+
+
+
+
+
+
     </main>
   );
 }
