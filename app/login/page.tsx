@@ -95,4 +95,29 @@ export default function LoginPage() {
         </div>
 
         {error && <p role="alert" className="aviso-error">{error}</p>}
-        {aviso && <p role="status"
+        {aviso && <p role="status" className="aviso-ok">{aviso}</p>}
+
+        <button type="submit" disabled={cargando} className="boton boton-primario">
+          {cargando ? "Entrando..." : "Entrar"}
+        </button>
+      </form>
+
+      <p className="mt-6 texto-suave">
+        <button
+          type="button"
+          onClick={recuperarContrasena}
+          className="underline underline-offset-4 hover:text-corte-pergamino"
+        >
+          He olvidado mi contraseña
+        </button>
+      </p>
+
+      <p className="mt-2 texto-suave">
+        ¿Aún no tienes cuenta?{" "}
+        <Link href="/registro" className="underline underline-offset-4 hover:text-corte-pergamino">
+          Crea tu cuenta aquí
+        </Link>
+      </p>
+    </main>
+  );
+}
