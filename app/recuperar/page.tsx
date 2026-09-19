@@ -31,7 +31,7 @@ export default function RecuperarPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <h1 className="font-display text-3xl font-semibold text-corte-pergamino">
+      <h1 className="titulo-2">
         Recupera tu contraseña
       </h1>
       <p className="mt-2 text-corte-pergamino/70">

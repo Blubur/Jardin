@@ -3,16 +3,16 @@ import BotonPago from "@/components/BotonPago";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16 sm:py-24">
+    <main className="contenedor">
       {/* Hero */}
       <section className="border-b border-corte-oro/20 pb-16">
-        <p className="mb-4 font-display text-lg italic text-corte-lavanda">
+        <p className="mb-4 kicker">
           El Jardín de las Herederas
         </p>
-        <h1 className="max-w-2xl font-display text-5xl font-semibold leading-tight text-corte-pergamino sm:text-6xl">
+        <h1 className="titulo-1">
           El Jardín de las Herederas
         </h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-corte-pergamino/85">
+        <p className="mt-6 destacado">
           En este mundo, nadie construye un trono, se lo tiene que ganar.
           <br></br> 
           Cada Estación, la
@@ -20,7 +20,7 @@ export default function Home() {
           consiga demostrar ante una Reina que jamás ha mostrado su favor
           que merece sostener la Corte bajo su propio techo y así obtener todas sus grandes ventajas.
         </p>
-        <p className="mt-4 max-w-xl text-lg leading-relaxed text-corte-pergamino/85">
+        <p className="mt-4 destacado">
           Aquí, cada pincelada guarda un secreto. Y cada secreto, tarde o
           temprano, se filtra en la piel de alguien.
         </p>
@@ -42,10 +42,10 @@ export default function Home() {
 
       {/* Cómo funciona */}
       <section id="como-funciona" className="py-16">
-        <h2 className="font-display text-3xl font-semibold text-corte-pergamino">
+        <h2 className="titulo-2">
           Cada mes, un nuevo capítulo
         </h2>
-        <p className="mt-3 max-w-xl text-corte-pergamino/75">
+        <p className="mt-3 texto">
           No es solo un libro: es una entrega mensual con su propio capítulo
           y papelería temática para que la lectura sea más inmversiva.
         </p>
@@ -54,7 +54,7 @@ export default function Home() {
           <li className="flex gap-6">
             <span className="font-display text-2xl text-corte-oro">I.</span>
             <div>
-              <h3 className="font-display text-xl text-corte-pergamino">
+              <h3 className="titulo-3">
                 Te suscribes
               </h3>
               <p className="mt-1 text-corte-pergamino/75">
@@ -66,7 +66,7 @@ export default function Home() {
           <li className="flex gap-6">
             <span className="font-display text-2xl text-corte-oro">II.</span>
             <div>
-              <h3 className="font-display text-xl text-corte-pergamino">
+              <h3 className="titulo-3">
                 Recibes tu entrega
               </h3>
               <p className="mt-1 text-corte-pergamino/75">
@@ -79,7 +79,7 @@ export default function Home() {
           <li className="flex gap-6">
             <span className="font-display text-2xl text-corte-oro">III.</span>
             <div>
-              <h3 className="font-display text-xl text-corte-pergamino">
+              <h3 className="titulo-3">
                 Sigues tu progreso
               </h3>
               <p className="mt-1 text-corte-pergamino/75">
@@ -94,25 +94,25 @@ export default function Home() {
 
 
       {/* Planes */}
-      <section id="planes" className="border-t border-corte-oro/20 py-16">
-        <h2 className="font-display text-3xl font-semibold text-corte-pergamino">
+      <section id="planes" className="seccion">
+        <h2 className="titulo-2">
           Elige cómo leer
         </h2>
-        <p className="mt-3 max-w-xl text-corte-pergamino/75">
+        <p className="mt-3 texto">
           Suscríbete para recibir cada mes un capítulo nuevo con sus goodies,
           o llévate solo el envío que te interese.
         </p>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
           <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
-            <h3 className="font-display text-xl text-corte-pergamino">
+            <h3 className="titulo-3">
               Suscripción mensual
             </h3>
-            <p className="mt-2 font-display text-3xl text-corte-oro">
+            <p className="mt-2 precio">
               9 €{" "}
               <span className="text-base text-corte-pergamino/60">/ mes</span>
             </p>
-            <p className="mt-1 text-sm text-corte-pergamino/60">
+            <p className="mt-1 texto-suave">
               Precio de preventa del primer correo 9€ · precio habitual <b>11€ al mes.</b>
             </p>
             <p className="mt-4 flex-1 text-corte-pergamino/75">
@@ -130,11 +130,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
-            <h3 className="font-display text-xl text-corte-pergamino">
+            <h3 className="titulo-3">
               Capítulo suelto
             </h3>
-            <p className="mt-2 font-display text-3xl text-corte-oro">11 €</p>
-            <p className="mt-1 text-sm text-corte-pergamino/60">
+            <p className="mt-2 precio">11 €</p>
+            <p className="mt-1 texto-suave">
               Pago único, sin suscripción
             </p>
             <p className="mt-4 flex-1 text-corte-pergamino/75">
@@ -152,7 +152,7 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="mt-6 text-sm text-corte-pergamino/60">
+        <p className="mt-6 texto-suave">
           Necesitas una cuenta para comprar. Si aún no la tienes, te llevamos
           al registro.
         </p>

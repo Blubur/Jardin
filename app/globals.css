@@ -2,14 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Paleta (canales RGB, para poder usar opacidades: bg-marfil-antiguo/50) */
+  --peonia-nocturna: 48 33 58; /* #30213A */
+  --ciruela-profunda: 73 48 79; /* #49304F */
+  --granate-savia: 107 48 71; /* #6B3047 */
+  --rosa-peonia: 168 95 121; /* #A85F79 */
+  --rosa-empolvado: 201 149 167; /* #C995A7 */
+  --rosa-palido: 226 192 200; /* #E2C0C8 */
+  --rosa-petalo: 234 214 216; /* #EAD6D8 */
+
+  --verde-nocheli: 82 104 92; /* #52685C */
+  --verde-salvia: 130 148 134; /* #829486 */
+  --verde-eucalipto: 168 183 165; /* #A8B7A5 */
+  --verde-musgo: 98 109 81; /* #626D51 */
+  --verde-grisaceo: 120 135 122; /* #78877A */
+
+  --azul-cielo: 158 186 195; /* #9EBAC3 */
+  --azul-niebla: 195 210 213; /* #C3D2D5 */
+
+  --negro-tinta: 37 36 41; /* #252429 */
+  --marron-caoba: 101 69 61; /* #65453D */
+  --terracota: 166 109 91; /* #A66D5B */
+  --marfil-antiguo: 233 223 206; /* #E9DFCE */
+  --dorado-apagado: 181 154 104; /* #B59A68 */
+  --humo-lavanda: 154 140 158; /* #9A8C9E */
+
+  /* Nombres de uso: lo que ya emplean tus páginas (corte-*).
+     Para cambiar el aspecto de toda la web, cambia a qué color apunta cada uno. */
+  --corte-fondo: var(--peonia-nocturna);
+  --corte-fondo2: var(--ciruela-profunda);
+  --corte-oro: var(--dorado-apagado);
+  --corte-pergamino: var(--marfil-antiguo);
+  --corte-granate: var(--granate-savia);
+  --corte-lavanda: var(--humo-lavanda);
+}
+
 ::selection {
-  background-color: #C9A227;
-  color: #1B1023;
+  background-color: rgb(var(--dorado-apagado));
+  color: rgb(var(--peonia-nocturna));
 }
 
 body {
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(122, 46, 59, 0.25), transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(185, 166, 217, 0.15), transparent 45%);
+    radial-gradient(circle at 15% 20%, rgb(var(--granate-savia) / 0.25), transparent 40%),
+    radial-gradient(circle at 85% 75%, rgb(var(--humo-lavanda) / 0.15), transparent 45%);
   background-attachment: fixed;
+}
+
+@layer components {
+  /* Contenedores de página */
+  .contenedor {
+    @apply contenedor;
+  }
+  .contenedor-estrecho {
+    @apply contenedor-estrecho;
+  }
+  .seccion {
+    @apply seccion;
+  }
+
+  /* Tipografía */
+  .kicker {
+    @apply kicker;
+  }
+  .titulo-1 {
+    @apply titulo-1;
+  }
+  .titulo-2 {
+    @apply titulo-2;
+  }
+  .titulo-3 {
+    @apply titulo-3;
+  }
+  .texto-destacado {
+    @apply max-w-xl text-lg leading-relaxed text-corte-pergamino/[.85];
+  }
+  .texto {
+    @apply texto;
+  }
+  .texto-suave {
+    @apply texto-suave;
+  }
+  .precio {
+    @apply precio;
+  }
+
+  /* Botones: se usan juntos, p. ej. class="boton boton-primario" */
+  .boton {
+    @apply inline-block rounded-sm px-6 py-3 font-body transition disabled:opacity-60;
+  }
+  .boton-primario {
+    @apply bg-corte-oro font-medium text-corte-fondo hover:bg-corte-oro/90;
+  }
+  .boton-secundario {
+    @apply border border-corte-pergamino/30 text-corte-pergamino hover:border-corte-pergamino/60;
+  }
+
+  /* Tarjeta */
+  .tarjeta {
+    @apply flex flex-col rounded-sm border border-corte-oro/30 p-6;
+  }
 }

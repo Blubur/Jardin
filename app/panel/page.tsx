@@ -113,19 +113,19 @@ export default function PanelPage() {
   const tieneHistorialDePago = !!suscripcion || capitulosComprados.length > 0;
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
+    <main className="contenedor-estrecho">
       <div className="flex items-start justify-between">
         <div>
-          <p className="font-display text-lg italic text-corte-lavanda">
+          <p className="kicker">
             Tu Corte
           </p>
-          <h1 className="font-display text-3xl font-semibold text-corte-pergamino">
+          <h1 className="titulo-2">
             {email}
           </h1>
         </div>
         <button
           onClick={cerrarSesion}
-          className="text-sm text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
+          className="texto-suave underline underline-offset-4 hover:text-corte-pergamino"
         >
           Cerrar sesión
         </button>
