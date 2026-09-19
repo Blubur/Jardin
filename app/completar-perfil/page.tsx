@@ -7,10 +7,13 @@ import { supabase } from "@/lib/supabaseClient";
 export default function CompletarPerfilPage() {
   const router = useRouter();
   const [cargando, setCargando] = useState(true);
-  const [guardando, setGuardando] = useState(false);
-  const [direccionPostal, setDireccionPostal] = useState("");
+  const [userId, setUserId] = useState("");
+  const [nick, setNick] = useState("");
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function cargar() {
@@ -19,40 +22,79 @@ export default function CompletarPerfilPage() {
       } = await supabase.auth.getSession();
 
       if (!session) {
-        router.push("/registro");
+        router.push("/login");
+        return;
+      }
+      setUserId(session.user.id);
+
+      // Si ya tiene el perfil completo, no hace falta estar aquí.
+      const { data: perfil } = await supabase
+        .from("perfiles")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+      if (perfil?.direccion_postal) {
+        router.push("/panel");
         return;
       }
 
+      // Rellena lo que ya exista (por ejemplo, un nick puesto al registrarse).
+      setNick(perfil?.nick ?? "");
+      setNombreCompleto(perfil?.nombre_completo ?? "");
+      setDireccion(perfil?.direccion_postal ?? "");
+      setTelefono(perfil?.telefono ?? "");
       setCargando(false);
     }
-
     cargar();
   }, [router]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function guardar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setMensaje(null);
-    setGuardando(true);
+    setError(null);
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const nickLimpio = nick.trim();
+    const nombreLimpio = nombreCompleto.trim();
+    const direccionLimpia = direccion.trim();
+    const telefonoLimpio = telefono.trim();
 
-    if (!session) {
-      router.push("/registro");
+    if (nickLimpio.length < 3 || nickLimpio.length > 30) {
+      setError("El nick debe tener entre 3 y 30 caracteres.");
+      return;
+    }
+    if (nombreLimpio.length < 2) {
+      setError("Escribe tu nombre completo.");
+      return;
+    }
+    if (direccionLimpia.length < 10) {
+      setError("Escribe tu dirección postal completa (calle, número, código postal, ciudad y país).");
+      return;
+    }
+    if (telefonoLimpio && !/^[+\d][\d\s().-]{6,19}$/.test(telefonoLimpio)) {
+      setError("El teléfono no parece válido.");
       return;
     }
 
-    const { error } = await supabase.from("perfiles").upsert({
-      user_id: session.user.id,
-      direccion_postal: direccionPostal,
-      telefono: telefono || null,
-    });
-
+    setGuardando(true);
+    // upsert: crea la fila si no existe y la actualiza si ya existe.
+    const { error } = await supabase.from("perfiles").upsert(
+      {
+        user_id: userId,
+        nick: nickLimpio,
+        nombre_completo: nombreLimpio,
+        direccion_postal: direccionLimpia,
+        telefono: telefonoLimpio || null,
+      },
+      { onConflict: "user_id" }
+    );
     setGuardando(false);
 
     if (error) {
-      setMensaje(error.message);
+      setError(
+        error.code === "23505"
+          ? "Ese nick ya está en uso. Prueba con otro."
+          : "No se pudo guardar tu perfil. Inténtalo de nuevo."
+      );
       return;
     }
 
@@ -68,50 +110,42 @@ export default function CompletarPerfilPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <h1 className="titulo-2">
-        Completa tu perfil
-      </h1>
-      <p className="mt-2 text-corte-pergamino/70">
-        Necesitamos tu dirección postal para poder enviarte los goodies de
-        cada entrega. El teléfono es opcional, solo para incidencias de
-        envío.
+    <main className="contenedor-estrecho">
+      <p className="kicker">Casi listo</p>
+      <h1 className="titulo-2">Completa tu perfil</h1>
+      <p className="texto-suave mt-2">
+        Necesitamos tu dirección para enviarte los goodies de cada entrega.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <form onSubmit={guardar} className="mt-8 space-y-5">
         <div>
-          <label className="block text-sm text-corte-pergamino/70">
-            Dirección postal <span className="text-corte-oro">*</span>
-          </label>
-          <textarea
-            required
-            rows={3}
-            value={direccionPostal}
-            onChange={(e) => setDireccionPostal(e.target.value)}
-            placeholder="Calle, número, piso, código postal, ciudad, provincia, país"
-            className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-corte-pergamino/70">
-            Teléfono (opcional)
-          </label>
-          <input
-            type="tel"
-            value={telefono}
-            onChange={(e) => setTelefono(e.target.value)}
-            className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
-          />
+          <label htmlFor="nick" className="etiqueta">Nick</label>
+          <input id="nick" type="text" value={nick} maxLength={30}
+            onChange={(e) => setNick(e.target.value)} autoComplete="nickname" className="campo" />
         </div>
 
-        {mensaje && <p className="text-sm text-corte-lavanda">{mensaje}</p>}
+        <div>
+          <label htmlFor="nombre" className="etiqueta">Nombre completo</label>
+          <input id="nombre" type="text" value={nombreCompleto}
+            onChange={(e) => setNombreCompleto(e.target.value)} autoComplete="name" className="campo" />
+        </div>
 
-        <button
-          type="submit"
-          disabled={guardando}
-          className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
-        >
-          {guardando ? "Guardando..." : "Guardar y continuar"}
+        <div>
+          <label htmlFor="direccion" className="etiqueta">Dirección postal</label>
+          <textarea id="direccion" rows={3} value={direccion}
+            onChange={(e) => setDireccion(e.target.value)} autoComplete="street-address" className="campo" />
+        </div>
+
+        <div>
+          <label htmlFor="telefono" className="etiqueta">Teléfono (opcional)</label>
+          <input id="telefono" type="tel" value={telefono}
+            onChange={(e) => setTelefono(e.target.value)} autoComplete="tel" className="campo" />
+        </div>
+
+        {error && <p role="alert" className="aviso-error">{error}</p>}
+
+        <button type="submit" disabled={guardando} className="boton boton-primario">
+          {guardando ? "Guardando..." : "Guardar y entrar"}
         </button>
       </form>
     </main>

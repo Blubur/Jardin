@@ -41,7 +41,7 @@ export default function PanelPage() {
       } = await supabase.auth.getSession();
 
       if (!session) {
-        router.push("/registro");
+        router.push("/login");
         return;
       }
 
@@ -89,7 +89,7 @@ export default function PanelPage() {
 
   async function cerrarSesion() {
     await supabase.auth.signOut();
-    router.push("/registro");
+    router.push("/login");
   }
 
   if (cargando) {
