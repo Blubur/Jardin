@@ -10,6 +10,9 @@ export default function Navbar() {
 
         <ul className="flex items-center gap-6 text-sm text-corte-pergamino/80">
           <li>
+            <Link href="/login" className="transition hover:text-corte-oro">
+              Conectate
+            </Link>
             <Link href="/perfil" className="transition hover:text-corte-oro">
               Perfil
             </Link>
