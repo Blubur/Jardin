@@ -7,16 +7,18 @@ export default function Home() {
       {/* Hero */}
       <section className="border-b border-corte-oro/20 pb-16">
         <p className="mb-4 font-display text-lg italic text-corte-lavanda">
-          La Corte Errante
+          El Jardín de las Herederas
         </p>
         <h1 className="max-w-2xl font-display text-5xl font-semibold leading-tight text-corte-pergamino sm:text-6xl">
           El Jardín de las Herederas
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-corte-pergamino/85">
-          En este mundo, nadie construye un trono: lo gana. Cada Estación, la
-          alta sociedad feérica entera se muda a la casa de la familia que
-          consiga demostrar, ante una Reina que jamás ha mostrado su favor,
-          que merece sostener la Corte bajo su propio techo.
+          En este mundo, nadie construye un trono, se lo tiene que ganar.
+          <br></br> 
+          Cada Estación, la
+          alta sociedad feérica se muda a la casa de la familia que
+          consiga demostrar ante una Reina que jamás ha mostrado su favor
+          que merece sostener la Corte bajo su propio techo y así obtener todas sus grandes ventajas.
         </p>
         <p className="mt-4 max-w-xl text-lg leading-relaxed text-corte-pergamino/85">
           Aquí, cada pincelada guarda un secreto. Y cada secreto, tarde o
@@ -70,7 +72,7 @@ export default function Home() {
               </h3>
               <p className="mt-1 text-corte-pergamino/75">
                 Cada mes, un nuevo capítulo de El Jardín de las Herederas
-                acompañado de goodies temáticos relacionados con lo que
+                acompañado de tesoros temáticos relacionados con lo que
                 acabas de leer.
               </p>
             </div>
@@ -112,11 +114,11 @@ export default function Home() {
               <span className="text-base text-corte-pergamino/60">/ mes</span>
             </p>
             <p className="mt-1 text-sm text-corte-pergamino/60">
-              Precio de preventa · precio habitual 11 €/mes
+              Precio de preventa del primer correo 9€ · precio habitual 11 €/mes
             </p>
             <p className="mt-4 flex-1 text-corte-pergamino/75">
               Cada mes, un capítulo nuevo de El Fuego de las Herederas con sus
-              goodies temáticos.
+              papelería temática para hacer una lectura más inmersiva.
             </p>
             <div className="mt-6">
               <BotonPago
