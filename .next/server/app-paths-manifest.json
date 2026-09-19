@@ -1,12 +1,13 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/actualizar-contrasena/page": "app/actualizar-contrasena/page.js",
   "/completar-perfil/page": "app/completar-perfil/page.js",
+  "/actualizar-contrasena/page": "app/actualizar-contrasena/page.js",
   "/page": "app/page.js",
   "/panel/page": "app/panel/page.js",
+  "/perfil/page": "app/perfil/page.js",
   "/registro/page": "app/registro/page.js",
   "/recuperar/page": "app/recuperar/page.js",
-  "/api/checkout/route": "app/api/checkout/route.js",
   "/api/webhook/route": "app/api/webhook/route.js",
-  "/api/portal/route": "app/api/portal/route.js"
+  "/api/portal/route": "app/api/portal/route.js",
+  "/api/checkout/route": "app/api/checkout/route.js"
 }
