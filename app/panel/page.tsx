@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase, Suscripcion } from "@/lib/supabaseClient";
+import { supabase, Suscripcion, Perfil } from "@/lib/supabaseClient";
 
 export default function PanelPage() {
   const router = useRouter();
@@ -22,6 +22,20 @@ export default function PanelPage() {
       }
 
       setEmail(session.user.email ?? null);
+
+      // El perfil (dirección postal obligatoria) se comprueba antes de
+      // dejar entrar al panel. Si no existe fila o falta la dirección,
+      // se manda a la usuaria a completarlo primero.
+      const { data: perfil } = await supabase
+        .from("perfiles")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .maybeSingle<Perfil>();
+
+      if (!perfil || !perfil.direccion_postal) {
+        router.push("/completar-perfil");
+        return;
+      }
 
       // Esta consulta asume una tabla "suscripciones" con una fila por
       // usuaria (user_id = session.user.id), que el webhook de Stripe

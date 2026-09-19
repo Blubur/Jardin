@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function RegistroPage() {
   const router = useRouter();
   const [modo, setModo] = useState<"registro" | "login">("registro");
+  const [nick, setNick] = useState("");
+  const [nombreCompleto, setNombreCompleto] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
@@ -17,10 +20,37 @@ export default function RegistroPage() {
     setCargando(true);
     setMensaje(null);
 
-    const { error } =
-      modo === "registro"
-        ? await supabase.auth.signUp({ email, password })
-        : await supabase.auth.signInWithPassword({ email, password });
+    if (modo === "registro") {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          // El nick y el nombre completo se guardan como metadatos del
+          // usuario en Supabase Auth (no requieren tabla propia).
+          data: {
+            nick,
+            nombre_completo: nombreCompleto,
+          },
+        },
+      });
+
+      setCargando(false);
+
+      if (error) {
+        setMensaje(error.message);
+        return;
+      }
+
+      setMensaje(
+        "Cuenta creada. Revisa tu correo para confirmar el registro."
+      );
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     setCargando(false);
 
@@ -29,13 +59,7 @@ export default function RegistroPage() {
       return;
     }
 
-    if (modo === "registro") {
-      setMensaje(
-        "Cuenta creada. Revisa tu correo para confirmar el registro."
-      );
-    } else {
-      router.push("/panel");
-    }
+    router.push("/panel");
   }
 
   return (
@@ -50,9 +74,38 @@ export default function RegistroPage() {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        {modo === "registro" && (
+          <>
+            <div>
+              <label className="block text-sm text-corte-pergamino/70">
+                Nick
+              </label>
+              <input
+                type="text"
+                required
+                value={nick}
+                onChange={(e) => setNick(e.target.value)}
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-corte-pergamino/70">
+                Nombre completo
+              </label>
+              <input
+                type="text"
+                required
+                value={nombreCompleto}
+                onChange={(e) => setNombreCompleto(e.target.value)}
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              />
+            </div>
+          </>
+        )}
+
         <div>
           <label className="block text-sm text-corte-pergamino/70">
-            Correo
+            Correo electrónico
           </label>
           <input
             type="email"
@@ -76,9 +129,7 @@ export default function RegistroPage() {
           />
         </div>
 
-        {mensaje && (
-          <p className="text-sm text-corte-lavanda">{mensaje}</p>
-        )}
+        {mensaje && <p className="text-sm text-corte-lavanda">{mensaje}</p>}
 
         <button
           type="submit"
@@ -93,14 +144,25 @@ export default function RegistroPage() {
         </button>
       </form>
 
-      <button
-        onClick={() => setModo(modo === "registro" ? "login" : "registro")}
-        className="mt-6 text-sm text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
-      >
-        {modo === "registro"
-          ? "¿Ya tienes cuenta? Inicia sesión"
-          : "¿Aún no tienes cuenta? Regístrate"}
-      </button>
+      <div className="mt-6 flex flex-col gap-2 text-sm">
+        <button
+          onClick={() => setModo(modo === "registro" ? "login" : "registro")}
+          className="text-left text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
+        >
+          {modo === "registro"
+            ? "¿Ya tienes cuenta? Inicia sesión"
+            : "¿Aún no tienes cuenta? Regístrate"}
+        </button>
+
+        {modo === "login" && (
+          <Link
+            href="/recuperar"
+            className="text-left text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
+          >
+            He olvidado mi contraseña
+          </Link>
+        )}
+      </div>
     </main>
   );
 }

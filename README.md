@@ -30,7 +30,27 @@ Escaparate + registro + panel de usuario para la entrega mensual de
      on suscripciones for select
      using (auth.uid() = user_id);
    ```
-5. Arranca en local:
+5. En el mismo SQL Editor, crea también la tabla de perfiles (dirección
+   postal obligatoria, teléfono opcional):
+   ```sql
+   create table perfiles (
+     user_id uuid primary key references auth.users(id),
+     direccion_postal text not null,
+     telefono text
+   );
+
+   alter table perfiles enable row level security;
+
+   create policy "Cada usuaria ve y edita solo su perfil"
+     on perfiles for all
+     using (auth.uid() = user_id)
+     with check (auth.uid() = user_id);
+   ```
+6. En Authentication → URL Configuration, añade la URL de tu web
+   (en local: `http://localhost:3000`, en producción la de Vercel) tanto
+   en "Site URL" como en "Redirect URLs" — si no, el enlace de "he
+   olvidado mi contraseña" no funcionará.
+7. Arranca en local:
    ```
    npm run dev
    ```
@@ -39,7 +59,13 @@ Escaparate + registro + panel de usuario para la entrega mensual de
 ## Páginas incluidas
 
 - `/` — escaparate del proyecto
-- `/registro` — alta e inicio de sesión (Supabase Auth)
+- `/registro` — alta (nick, nombre completo, correo, contraseña) e inicio
+  de sesión, con enlace a recuperación de contraseña
+- `/recuperar` — solicitar el correo de restablecimiento de contraseña
+- `/actualizar-contrasena` — página a la que llega el enlace del correo
+  para elegir la nueva contraseña
+- `/completar-perfil` — dirección postal (obligatoria) y teléfono
+  (opcional); el panel redirige aquí si falta
 - `/panel` — plan, estado y capítulo actual de la usuaria (protegido)
 
 ## Pendiente (siguiente fase, con Stripe)

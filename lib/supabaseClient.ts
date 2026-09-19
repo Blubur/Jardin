@@ -18,3 +18,11 @@ export type Suscripcion = {
   estado: "activa" | "pausada" | "cancelada" | null;
   capitulo_actual: number | null;
 };
+
+// Fila de la tabla "perfiles": datos obligatorios (dirección postal) y
+// opcionales (teléfono) que la usuaria completa tras registrarse.
+export type Perfil = {
+  user_id: string;
+  direccion_postal: string;
+  telefono: string | null;
+};
