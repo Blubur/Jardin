@@ -13,6 +13,8 @@ export default function Navbar() {
             <Link href="/login" className="transition hover:text-corte-oro">
               Conectate
             </Link>
+            </li>
+            <li>
             <Link href="/perfil" className="transition hover:text-corte-oro">
               Perfil
             </Link>
