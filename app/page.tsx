@@ -62,7 +62,7 @@ export default function Home() {
 
           <ol className="mt-10 space-y-8">
             <li className="flex gap-6">
-              <span className="font-display text-2xl text-corte-oro">I.</span>
+              <span className="font-display text-2xl text-corte-oro">1.</span>
               <div>
                 <h3 className="titulo-3">
                   Te suscribes
@@ -74,7 +74,7 @@ export default function Home() {
               </div>
             </li>
             <li className="flex gap-6">
-              <span className="font-display text-2xl text-corte-oro">II.</span>
+              <span className="font-display text-2xl text-corte-oro">2.</span>
               <div>
                 <h3 className="titulo-3">
                   Recibes tu entrega
@@ -87,7 +87,7 @@ export default function Home() {
               </div>
             </li>
             <li className="flex gap-6">
-              <span className="font-display text-2xl text-corte-oro">III.</span>
+              <span className="font-display text-2xl text-corte-oro">3.</span>
               <div>
                 <h3 className="titulo-3">
                   Sigues tu progreso
@@ -116,11 +116,11 @@ export default function Home() {
                 Suscripción mensual
               </h3>
               <p className="mt-2 precio">
-                9 €{" "}
+                11,50 €{" "}
                 <span className="text-base text-corte-pergamino/60">/ mes</span>
               </p>
               <p className="mt-1 texto-suave">
-                Precio de preventa del primer correo 9€ · precio habitual <b>11€ al mes.</b>
+                <u>Precio de preventa del primer correo </b>9€.</b> </u>
               </p>
               <p className="mt-4 flex-1 text-corte-pergamino/75">
                 Cada mes, un capítulo nuevo de El Fuego de las Herederas con su
