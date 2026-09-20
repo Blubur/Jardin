@@ -7,10 +7,9 @@ export default function Footer() {
         <div>
           <h4 className="font-display text-corte-pergamino">Datos del titular</h4>
           <ul className="mt-3 space-y-1 text-sm text-corte-pergamino/70">
-            <li>Pilar Higuera (Blu)</li>
-            <li>NIF: [tu NIF]</li>
-            <li>[Tu dirección postal]</li>
-            <li>[Ciudad, país]</li>
+            <li>Pilar Higuera </li>
+            <li>veinticuatro0792@gmail.com</li>
+            <li>España</li>
           </ul>
         </div>
 
@@ -50,7 +49,7 @@ export default function Footer() {
           <ul className="mt-3 space-y-1 text-sm text-corte-pergamino/70">
             <li>
               <Link href="mailto:tu-correo@dominio.com" className="hover:text-corte-oro">
-                tu-correo@dominio.com
+                veinticuatro0792@gmail.com
               </Link>
             </li>
             <li>
