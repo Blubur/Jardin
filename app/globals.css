@@ -130,3 +130,22 @@ body {
     @apply flex flex-col rounded-sm border border-corte-oro/30 p-6;
   }
 }
+/* FAQ: flor en lugar del triángulo del desplegable */
+.faq-resumen {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-resumen::-webkit-details-marker {
+  display: none;
+}
+.faq-resumen .flor {
+  font-family: "Ebrima", "Noto Sans Vai", "Segoe UI Symbol", sans-serif;
+  color: rgb(var(--dorado-apagado));
+  transition: color 0.2s ease;
+}
+details[open] > .faq-resumen .flor {
+  color: rgb(var(--rosa-peonia));
+}

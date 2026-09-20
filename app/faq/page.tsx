@@ -56,7 +56,8 @@ export default function FaqPage() {
       <div className="mt-10 divide-y divide-corte-oro/20 border-y border-corte-oro/20">
         {FAQ.map((item) => (
           <details key={item.pregunta} className="py-5">
-            <summary className="cursor-pointer titulo-3">
+            <summary className="faq-resumen titulo-3">
+              <span className="flor" aria-hidden="true">ꕤ</span>
               {item.pregunta}
             </summary>
             <div className="mt-3 space-y-3">
