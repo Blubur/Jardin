@@ -1,36 +1,32 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-corte-oro/20 bg-corte-fondo/90 backdrop-blur">
-      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="font-display text-lg text-corte-oro">
-          El Jardín de las Herederas
-        </Link>
+  const [conectado, setConectado] = useState(false);
 
-        <ul className="flex items-center gap-6 text-sm text-corte-pergamino/80">
-          <li>
-            <Link href="/login" className="transition hover:text-corte-oro">
-              Conectate
-            </Link>
-            </li>
-            <li>
-            <Link href="/perfil" className="transition hover:text-corte-oro">
-              Perfil
-            </Link>
-          </li>
-          <li>
-            <Link href="/carrito" className="transition hover:text-corte-oro">
-              Carrito
-            </Link>
-          </li>
-          <li>
-            <Link href="/contacto" className="transition hover:text-corte-oro">
-              Contacto
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setConectado(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_evento, session) => {
+      setConectado(!!session);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/80 backdrop-blur">
+      <Link href="/" className="corte-oro font-semibold">El Jardín de las Herederas</Link>
+      <div className="flex gap-5 items-center">
+        <Link href="/carrito">Tu pedido</Link>
+        <Link href="/contacto">Contacto</Link>
+        {conectado ? (
+          <Link href="/perfil">Mi perfil</Link>
+        ) : (
+          <Link href="/registro?modo=login">Entrar</Link>
+        )}
+      </div>
+    </nav>
   );
 }

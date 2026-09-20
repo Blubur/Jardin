@@ -39,7 +39,7 @@ export default function CarritoPage() {
 
   return (
     <>
-      <Navbar />
+   
       <main className="contenedor-estrecho pt-24">
         <p className="kicker">Tu pedido</p>
         <h1 className="titulo-2">Carrito</h1>
@@ -128,7 +128,7 @@ export default function CarritoPage() {
           </div>
         )}
       </main>
-      <Footer />
+   
     </>
   );
 }

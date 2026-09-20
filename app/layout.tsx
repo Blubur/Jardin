@@ -1,5 +1,8 @@
 import "./globals.css";
 import { Cormorant_Garamond, Work_Sans } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -26,9 +29,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${display.variable} ${body.variable}`}>
-      <body className="bg-corte-fondo text-corte-pergamino font-body">
-        {children}
-      </body>
+      <body>
+  <Navbar />
+  <div className="pt-24 min-h-screen">{children}</div>
+  <Footer />
+</body>
     </html>
   );
 }

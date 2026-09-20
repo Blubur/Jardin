@@ -8,7 +8,7 @@ export const metadata = {
 export default function PoliticasPage() {
   return (
     <>
-      <Navbar />
+    
       <main className="contenedor-estrecho pt-24">
         <p className="kicker">Información legal</p>
         <h1 className="titulo-2">Políticas</h1>
@@ -134,7 +134,7 @@ export default function PoliticasPage() {
           Última actualización: septiembre de 2026.
         </p>
       </main>
-      <Footer />
+    
     </>
   );
 }

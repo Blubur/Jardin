@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
-      <Navbar />
+      
       <main className="contenedor pt-24">
         {/* Hero */}
         <section className="border-b border-corte-oro/20 pb-16">
@@ -172,7 +172,7 @@ export default function Home() {
           </p>
         </section>
       </main>
-      <Footer />
+      
     </>
   );
 }

@@ -32,7 +32,7 @@ export default function ContactoPage() {
 
   return (
     <>
-      <Navbar />
+   
       <main className="contenedor-estrecho pt-24">
         <p className="kicker">Escríbenos</p>
         <h1 className="titulo-2">Contacto</h1>
@@ -100,7 +100,7 @@ export default function ContactoPage() {
           Si el botón no abre tu correo, escríbenos directamente a {CORREO}.
         </p>
       </main>
-      <Footer />
+      
     </>
   );
 }
