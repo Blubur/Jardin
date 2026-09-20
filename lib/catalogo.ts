@@ -15,10 +15,10 @@ export const CAPITULOS: Capitulo[] = [
     descripcion:
       "Una semana antes del Cortejo del Trono, la Ofrenda de Alondra arde bajo su propio pincel. Capítulo 1 de El Fuego de las Herederas.",
     precio: 11,
-    imagenes: [
-      "/capitulos/capitulo-1/1.jpg",
-      "/capitulos/capitulo-1/2.jpg",
-    ],
+   imagenes: [
+  "/capitulos/capitulo-1/1.png",
+  "/capitulos/capitulo-1/2.png",
+],
     disponible: true,
   },
   {
