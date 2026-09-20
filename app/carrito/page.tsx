@@ -65,6 +65,8 @@ export default function CarritoPage() {
                 Código descuento (todo mayúsculas): PREVENTA
                 También puedes
                 pagar por Bizum: escríbenos desde Contacto. 
+                  <br></br>
+                Preventa disponible hasta el 24 de septiembre a las 12 de la noche.
               </p>
 
               <label htmlFor="capitulo" className="etiqueta mt-4 block">
@@ -107,6 +109,8 @@ export default function CarritoPage() {
               <p className="mt-1 texto-suave">
                 9 € al mes en preventa (precio habitual 11 €). Un capítulo
                 nuevo cada mes con sus goodies. Código descuento (todo mayúsculas): PREVENTA
+                  <br></br>
+                Preventa disponible hasta el 24 de septiembre a las 12 de la noche.
               </p>
               <div className="mt-6">
                 <BotonPago
