@@ -116,7 +116,7 @@ export default function Home() {
                 Suscripción mensual
               </h3>
               <p className="mt-2 precio">
-                11,50 €{" "}
+                11,00 €{" "}
                 <span className="text-base text-corte-pergamino/60">/ mes</span>
               </p>
               <p className="mt-1 texto-suave">
