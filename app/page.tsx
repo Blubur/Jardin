@@ -19,7 +19,7 @@ export default function Home() {
             <br></br>
             Cada Estación, la
             alta sociedad feérica se muda a la casa de la familia que
-            consiga demostrar ante una Reina que jamás ha mostrado su favor
+            consiga demostrar ante la Reina y su Corte
             que merece sostener la Corte bajo su propio techo y así obtener todas sus grandes ventajas.
           </p>
           <p className="mt-4 destacado">
@@ -60,7 +60,7 @@ export default function Home() {
             Cada mes, un nuevo capítulo
           </h2>
           <p className="mt-3 texto">
-            No es solo un libro: es una entrega mensual con su propio capítulo
+            Se trata de una entrega mensual que contiene un nuevo capítulo de la historia
             y papelería temática para que la lectura sea más inmersiva.
           </p>
 
@@ -84,7 +84,7 @@ export default function Home() {
                   Recibes tu entrega
                 </h3>
                 <p className="mt-1 text-corte-pergamino/75">
-                  Cada mes, un nuevo capítulo de El Jardín de las Herederas
+                  Cada mes, un nuevo capítulo de El Fuego de las Herederas
                   acompañado de tesoros temáticos relacionados con lo que
                   acabas de leer.
                 </p>
@@ -159,7 +159,7 @@ export default function Home() {
                   capitulo={1}
                   className="w-full rounded-sm border border-corte-pergamino/30 px-6 py-3 text-corte-pergamino transition hover:border-corte-pergamino/60 disabled:opacity-60"
                 >
-                  Comprar capítulo 1
+                  Comprar Capítulo 1, La Ofrenda.
                 </BotonPago>
               </div>
             </div>
