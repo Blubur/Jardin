@@ -21,12 +21,12 @@ export const CAPITULOS: Capitulo[] = [
 ],
     disponible: true,
   },
-  {
-    numero: 2,
-    titulo: "El nombre",
-    descripcion: "Próximamente.",
-    precio: 11,
-    imagenes: ["/capitulos/capitulo-2/1.jpg"],
-    disponible: false,
-  },
+ {
+  numero: 2,
+  titulo: "El nombre",
+  descripcion: "Próximamente.",
+  precio: 11,
+  imagenes: ["https://dummyimage.com/1280x720/fff/aaa"],
+  disponible: false,
+},
 ];
