@@ -154,6 +154,9 @@ export default function Home() {
                 Envío con su capítulo y su papelería temática, sin compromiso de continuidad.
                 <br></br>
                 Si has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante <b>Bizum</b> esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado.
+                
+                  <br></br>
+                Preventa disponible hasta el 24 de septiembre a las 12 de la noche.
               </p>
               <div className="mt-6">
                 <BotonPago
