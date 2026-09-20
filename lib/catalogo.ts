@@ -17,7 +17,7 @@ export const CAPITULOS: Capitulo[] = [
     precio: 11,
    imagenes: [
   "/capitulos/capitulo-1/1.png",
-  "/capitulos/capitulo-1/2.png",
+  "/capitulos/capitulo-1/2.jpg",
 ],
     disponible: true,
   },
