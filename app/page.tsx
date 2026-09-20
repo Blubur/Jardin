@@ -14,7 +14,7 @@ export default function Home() {
             El Jardín de las Herederas
           </p>
           <h1 className="titulo-1">
-            El Jardín de las Herederas
+            El Fuego de las Herederas
           </h1>
           <p className="mt-6 destacado">
             En este mundo, nadie construye un trono, se lo tiene que ganar.
