@@ -180,6 +180,9 @@ export default function PanelPage() {
         <Link href="/perfil" className="boton boton-secundario">
           Mi perfil
         </Link>
+        <Link href="/completar-perfil" className="boton boton-secundario">
+  Editar mis datos
+</Link>
         {suscripcionActiva && (
           <BotonPago
             tipo="cancelar"

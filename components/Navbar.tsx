@@ -52,7 +52,7 @@ export default function Navbar() {
           <span className="hidden sm:inline">Contacto</span>
         </Link>
         {conectado ? (
-          <Link href="/perfil" className={enlace} aria-label="Mi perfil">
+          <Link href="/panel" className={enlace} aria-label="Mi perfil">
             <UserCircleIcon className={icono} />
             <span className="hidden sm:inline">Mi perfil</span>
           </Link>

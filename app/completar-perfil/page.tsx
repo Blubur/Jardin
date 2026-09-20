@@ -34,10 +34,7 @@ export default function CompletarPerfilPage() {
         .eq("user_id", session.user.id)
         .maybeSingle();
 
-      if (perfil?.direccion_postal) {
-        router.push("/panel");
-        return;
-      }
+      
 
       // Rellena lo que ya exista (por ejemplo, un nick puesto al registrarse).
       setNick(perfil?.nick ?? "");
