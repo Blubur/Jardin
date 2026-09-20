@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${display.variable} ${body.variable}`}>
-      <body>
+      <body className="bg-corte-fondo text-corte-pergamino">
   <Navbar />
   <div className="pt-24 min-h-screen">{children}</div>
   <Footer />

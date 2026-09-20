@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       
-      <main className="contenedor pt-24">
+      <main className="contenedor">
         {/* Hero */}
         <section className="border-b border-corte-oro/20 pb-16">
           <p className="mb-4 kicker">
