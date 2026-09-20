@@ -27,7 +27,7 @@ export default function PoliticasPage() {
           <div className="mt-3 space-y-2 texto">
             <p>Titular del sitio: Pilar Pérez (nombre artístico: María Gayarre).</p>
        
-            <p>Correo de contacto: [tu-correo@dominio.com]</p>
+            <p>Correo de contacto: veinticuatro0792@gmail.com</p>
             <p>
               Los textos, la historia, los personajes, las ilustraciones y el
               resto de contenidos de El Jardín de las Herederas son obra de su
@@ -71,7 +71,7 @@ export default function PoliticasPage() {
             </p>
             <p>
               <b>Tus derechos:</b> puedes solicitar acceso, rectificación y eliminación escribiendo a
-              [tu-correo@dominio.com]. Si consideras que no hemos tratado tus
+              veinticuatro0792@gmail.com. Si consideras que no hemos tratado tus
               datos correctamente, puedes reclamar ante la Agencia Española de
               Protección de Datos (aepd.es).
             </p>
@@ -84,9 +84,7 @@ export default function PoliticasPage() {
             <p>
               Este sitio usa únicamente almacenamiento técnico necesario para
               mantener tu sesión iniciada y para que funcione el pago. No
-              utilizamos cookies de publicidad ni de analítica. [Si añades
-              herramientas de estadísticas o publicidad, tendrás que actualizar
-              esta sección e incluir un aviso de consentimiento].
+              utilizamos cookies de publicidad ni de analítica.
             </p>
           </div>
         </section>
@@ -103,7 +101,7 @@ export default function PoliticasPage() {
               <b>Precios:</b> los precios se muestran en euros. El precio de
               preventa de la suscripción mensual es de 9 € al mes y el precio
               habitual de 11 € al mes. El capítulo suelto cuesta 11 €.
-              [Se incluyen impuestos y gastos de envío].
+              Se incluyen impuestos y gastos de envío.
             </p>
             <p>
               <b>Pago:</b> con tarjeta a través de Stripe. También se admite
@@ -121,11 +119,12 @@ export default function PoliticasPage() {
               paquete llega dañado o no llega, escríbenos y lo resolveremos.
             </p>
             <p>
-              <b>Desistimiento:</b> como consumidora tienes, con carácter
+              <b>Desistimiento:</b> como consumidor tienes, con carácter
               general, un plazo de 14 días naturales desde la recepción del
               pedido para desistir sin dar explicaciones, salvo las
-              excepciones previstas por la ley. [Detalla el procedimiento y
-              quién asume los costes de devolución].
+              excepciones previstas por la ley. Yo me encargo de la devolución total del dinero pagado por el producto en un plazo máximo de 14 días naturales. 
+              Tú también tienes un plazo de 14 días naturales desde que notificas el desistimiento para enviar o entregar de vuelta el producto asumiendo los gastos de envío que correspondan.
+
             </p>
           </div>
         </section>
