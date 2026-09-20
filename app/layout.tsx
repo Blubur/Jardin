@@ -1,19 +1,31 @@
 import "./globals.css";
-import { Cormorant_Garamond, Work_Sans } from "next/font/google";
+import { Lora, Barlow } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-
-const display = Cormorant_Garamond({
+const lora = Lora({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-body",
 });
 
-const body = Work_Sans({
+// Sustituta de Bahnschrift para quien no la tenga instalada
+const barlow = Barlow({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-body",
+  variable: "--font-barlow",
+});
+
+const soligant = localFont({
+  src: "./fonts/Soligant.woff2",
+  variable: "--font-titulo",
+});
+
+const cascadia = localFont({
+  src: "./fonts/CascadiaCode.woff2",
+  variable: "--font-mono",
 });
 
 export const metadata = {
@@ -28,12 +40,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${display.variable} ${body.variable}`}>
-      <body className="bg-corte-fondo text-corte-pergamino">
-  <Navbar />
-  <div className="pt-24 min-h-screen">{children}</div>
-  <Footer />
-</body>
+    <html
+      lang="es"
+      className={`${lora.variable} ${barlow.variable} ${soligant.variable} ${cascadia.variable}`}
+    >
+      <body className="bg-corte-fondo text-corte-pergamino font-body">
+        <Navbar />
+        <div className="pt-24 min-h-screen">{children}</div>
+        <Footer />
+      </body>
     </html>
   );
 }

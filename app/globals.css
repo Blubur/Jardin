@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 :root {
+
+
+  :root {
+  --font-display: "Bahnschrift", var(--font-barlow), sans-serif;
+}
+
+h1,
+.titulo-1 {
+  font-family: var(--font-titulo), var(--font-display), serif;
+}
+
+
+
   /* Paleta (canales RGB, para poder usar opacidades: bg-marfil-antiguo/50) */
   --peonia-nocturna: 48 33 58; /* #30213A */
   --ciruela-profunda: 73 48 79; /* #49304F */
