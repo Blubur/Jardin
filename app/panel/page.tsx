@@ -180,6 +180,14 @@ export default function PanelPage() {
         <Link href="/perfil" className="boton boton-secundario">
           Mi perfil
         </Link>
+        {suscripcionActiva && (
+          <BotonPago
+            tipo="cancelar"
+            className="inline-block rounded-sm border border-corte-pergamino/30 px-6 py-3 text-corte-pergamino/70 transition hover:border-corte-pergamino/60"
+          >
+            Cancelar mi suscripción
+          </BotonPago>
+        )}
         {tieneHistorialDePago && (
           <BotonPago
             tipo="portal"

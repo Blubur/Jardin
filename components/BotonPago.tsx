@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
 type Props = {
-  tipo: "suscripcion" | "capitulo" | "portal";
+  tipo: "suscripcion" | "capitulo" | "portal" | "cancelar";
   capitulo?: number;
   className?: string;
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export default function BotonPago({ tipo, capitulo, className, children }: Props
     }
 
     try {
-      const res = await fetch(tipo === "portal" ? "/api/portal" : "/api/checkout", {
+      const res = await fetch(tipo === "portal" || tipo === "cancelar" ? "/api/portal" : "/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
