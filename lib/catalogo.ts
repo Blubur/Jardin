@@ -26,7 +26,7 @@ export const CAPITULOS: Capitulo[] = [
   titulo: "El nombre",
   descripcion: "Próximamente.",
   precio: 11,
-  imagenes: ["https://dummyimage.com/1280x720/fff/aaa"],
+  imagenes: ["/capitulos/capitulo-2/1.png"],
   disponible: false,
 },
 ];
