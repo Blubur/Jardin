@@ -42,7 +42,7 @@ export default function Home() {
               Cómo funciona
             </Link>
             <Link
-              href="#como-funciona"
+              href="/catalogo"
               className="boton boton-secundario"
             >
               Catálogo de capítulos

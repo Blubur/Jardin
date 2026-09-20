@@ -75,6 +75,7 @@ export async function POST(req: Request) {
         customer: customerId,
         line_items: [{ price: process.env.STRIPE_PRICE_CAPITULO as string, quantity: 1 }],
         invoice_creation: { enabled: true },
+        allow_promotion_codes: true,
         client_reference_id: user.id,
         metadata: { user_id: user.id, tipo: "capitulo", capitulo: String(numero) },
         success_url: `${origin}/panel?pago=ok`,

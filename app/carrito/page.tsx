@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import BotonPago from "@/components/BotonPago";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { CAPITULOS } from "@/lib/catalogo";
 
 // Añade aquí los capítulos a medida que estén a la venta.
-const CAPITULOS_DISPONIBLES = [1];
+const CAPITULOS_DISPONIBLES = CAPITULOS.filter((c) => c.disponible).map((c) => c.numero);
 
 export default function CarritoPage() {
   const [cargando, setCargando] = useState(true);
@@ -40,7 +39,7 @@ export default function CarritoPage() {
   return (
     <>
    
-      <main className="contenedor-estrecho pt-24">
+      <main className="contenedor-estrecho">
         <p className="kicker">Tu pedido</p>
         <h1 className="titulo-2">Carrito</h1>
 
@@ -85,8 +84,8 @@ export default function CarritoPage() {
 
               {yaComprado && (
                 <p className="aviso-ok mt-3">
-                  Ya tienes este capítulo. Puedes comprarlo de nuevo si es un
-                  regalo, pero comprueba tu panel antes.
+                  Ya tienes este capítulo. Si quieres regalarlo, escríbenos desde Contacto; es un
+                  regalo especial y lo gestionamos aparte.
                 </p>
               )}
 

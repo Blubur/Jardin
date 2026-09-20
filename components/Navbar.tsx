@@ -19,6 +19,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/80 backdrop-blur">
       <Link href="/" className="corte-oro font-semibold">El Jardín de las Herederas</Link>
       <div className="flex gap-5 items-center">
+        <Link href="/catalogo">Catálogo</Link>
         <Link href="/carrito">Tu pedido</Link>
         <Link href="/contacto">Contacto</Link>
         {conectado ? (
