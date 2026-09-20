@@ -1,7 +1,5 @@
 import Link from "next/link";
 import BotonPago from "@/components/BotonPago";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -40,6 +38,12 @@ export default function Home() {
               className="boton boton-secundario"
             >
               Cómo funciona
+            </Link>
+            <Link
+              href="/faq"
+              className="boton boton-secundario"
+            >
+              Preguntas frecuentes
             </Link>
             <Link
               href="/catalogo"

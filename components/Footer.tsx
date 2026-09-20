@@ -28,6 +28,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/faq" className="hover:text-corte-oro">
+                Preguntas frecuentes
+              </Link>
+            </li>
+            <li>
               <Link href="/panel" className="hover:text-corte-oro">
                 Mi panel
               </Link>

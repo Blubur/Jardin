@@ -21,6 +21,7 @@ export default function Navbar() {
       <div className="flex gap-5 items-center">
         <Link href="/catalogo">Catálogo</Link>
         <Link href="/carrito">Tu pedido</Link>
+        <Link href="/faq">FAQ</Link>
         <Link href="/contacto">Contacto</Link>
         {conectado ? (
           <Link href="/perfil">Mi perfil</Link>
