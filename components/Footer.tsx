@@ -7,7 +7,7 @@ export default function Footer() {
         <div>
           <h4 className="font-display text-corte-pergamino">Datos del titular</h4>
           <ul className="mt-3 space-y-1 text-sm text-corte-pergamino/70">
-            <li>Pilar Higuera </li>
+            <li>María Gayarre </li>
             <li>veinticuatro0792@gmail.com</li>
             <li>España</li>
           </ul>
