@@ -120,7 +120,7 @@ export default function Home() {
                 <span className="text-base text-corte-pergamino/60">/ mes</span>
               </p>
               <p className="mt-1 texto-suave">
-                <u>Precio de preventa del primer correo </b>9€.</b> </u>
+                <u>Precio de preventa del primer correo <b>9€.</b> </u>
               </p>
               <p className="mt-4 flex-1 text-corte-pergamino/75">
                 Cada mes, un capítulo nuevo de El Fuego de las Herederas con su
