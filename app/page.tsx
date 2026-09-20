@@ -125,6 +125,8 @@ export default function Home() {
               </p>
               <p className="mt-1 texto-suave">
                 <u>Precio de preventa del primer correo <b>9€.</b> </u>
+                <br></br>
+                Preventa disponible hasta el 24 de septiembre a las 12 de la noche.
               </p>
               <p className="mt-4 flex-1 text-corte-pergamino/75">
                 Cada mes, un capítulo nuevo de El Fuego de las Herederas con su
