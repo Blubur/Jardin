@@ -16,7 +16,7 @@ h1,
 
 
 
-  /* Paleta (canales RGB, para poder usar opacidades: bg-marfil-antiguo/50) */
+  /* Paleta*/
   --peonia-nocturna: 48 33 58; /* #30213A */
   --ciruela-profunda: 73 48 79; /* #49304F */
   --granate-savia: 107 48 71; /* #6B3047 */
@@ -41,8 +41,7 @@ h1,
   --dorado-apagado: 181 154 104; /* #B59A68 */
   --humo-lavanda: 154 140 158; /* #9A8C9E */
 
-  /* Nombres de uso: lo que ya emplean tus páginas (corte-*).
-     Para cambiar el aspecto de toda la web, cambia a qué color apunta cada uno. */
+  /* Nombres de uso*/
   --corte-fondo: var(--peonia-nocturna);
   --corte-fondo2: var(--ciruela-profunda);
   --corte-oro: var(--dorado-apagado);
