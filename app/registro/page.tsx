@@ -1,3 +1,4 @@
+cat > app/registro/page.tsx <<'EOF'
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,12 +15,25 @@ export default function RegistroPage() {
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
+  const [mostrarAviso, setMostrarAviso] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     if (new URLSearchParams(window.location.search).get("modo") === "login") {
       setModo("login");
+    } else {
+      setMostrarAviso(true);
     }
   }, []);
+
+  // Cerrar el aviso con la tecla Escape
+  useEffect(() => {
+    if (!mostrarAviso) return;
+    function alPulsarTecla(e: KeyboardEvent) {
+      if (e.key === "Escape") setMostrarAviso(false);
+    }
+    window.addEventListener("keydown", alPulsarTecla);
+    return () => window.removeEventListener("keydown", alPulsarTecla);
+  }, [mostrarAviso]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -70,6 +84,60 @@ export default function RegistroPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
+      {mostrarAviso && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6"
+          onClick={() => setMostrarAviso(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="aviso-titulo"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-sm border border-corte-oro bg-corte-fondo2 p-6 text-corte-pergamino shadow-xl"
+          >
+            <button
+              type="button"
+              onClick={() => setMostrarAviso(false)}
+              aria-label="Cerrar aviso"
+              className="absolute right-3 top-3 text-2xl leading-none text-corte-pergamino/60 transition hover:text-corte-pergamino"
+            >
+              ×
+            </button>
+
+            <h2 id="aviso-titulo" className="pr-6 text-xl text-corte-oro">
+              Antes de registrarte
+            </h2>
+
+            <p className="mt-3 text-sm leading-relaxed text-corte-pergamino/90">
+              Al crear tu cuenta te llegará un correo de confirmación enviado
+              por <strong>Supabase</strong>. Supabase es el servicio que
+              guarda de forma segura las cuentas de esta web y envía ese
+              mensaje automático para comprobar que el correo es tuyo. Pulsa
+              el botón del correo para activar tu cuenta.
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-corte-pergamino/90">
+              Si no lo ves, mira también la carpeta de spam o correo no
+              deseado.
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-corte-pergamino/90">
+              Si te da un error al registrarte, limpia las cookies de tu
+              navegador y vuelve a intentarlo.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setMostrarAviso(false)}
+              className="mt-6 w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
       <h1 className="titulo-2">
         {modo === "registro" ? "Entra en la Corte" : "Bienvenida de nuevo"}
       </h1>
@@ -172,3 +240,4 @@ export default function RegistroPage() {
     </main>
   );
 }
+EOF
