@@ -16,15 +16,12 @@ export default function Home() {
           </h1>
           <p className="mt-6 destacado">
             En este mundo, nadie construye un trono, se lo tiene que ganar.
-            <br></br>
+            <br></br><br></br>
             Cada nueva Estación, la alta sociedad feérica busca un nuevo hogar y se traslada a la casa de aquella familia que logre demostrarle a la Reina y a toda su Corte que puede acogerlos con calidez bajo su propio techo, abriéndole las puertas a los más hermosos privilegios.
- <br></br>
+ <br></br><br></br>
 Aquí, cada tierna pincelada guarda un secreto que espera ser descubierto. Y cada uno de esos secretos, tarde o temprano, encuentra la forma de acariciar la piel y quedarse muy cerca de ti.
           </p>
-          <p className="mt-4 destacado">
-            Aquí, cada pincelada guarda un secreto. Y cada secreto, tarde o
-            temprano, se filtra en la piel de alguien.
-          </p>
+         
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="/registro"
