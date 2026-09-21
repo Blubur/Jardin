@@ -17,10 +17,9 @@ export default function Home() {
           <p className="mt-6 destacado">
             En este mundo, nadie construye un trono, se lo tiene que ganar.
             <br></br>
-            Cada Estación, la
-            alta sociedad feérica se muda a la casa de la familia que
-            consiga demostrar ante la Reina y su Corte
-            que merece sostener la Corte bajo su propio techo y así obtener todas sus grandes ventajas.
+            Cada nueva Estación, la alta sociedad feérica busca un nuevo hogar y se traslada a la casa de aquella familia que logre demostrarle a la Reina y a toda su Corte que puede acogerlos con calidez bajo su propio techo, abriéndole las puertas a los más hermosos privilegios.
+ <br></br>
+Aquí, cada tierna pincelada guarda un secreto que espera ser descubierto. Y cada uno de esos secretos, tarde o temprano, encuentra la forma de acariciar la piel y quedarse muy cerca de ti.
           </p>
           <p className="mt-4 destacado">
             Aquí, cada pincelada guarda un secreto. Y cada secreto, tarde o
