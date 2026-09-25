@@ -173,7 +173,7 @@ export default function RegistroPage() {
           <>
             <div>
               <label className="block text-sm text-corte-pergamino/70">
-                Nick
+                Nick (Se usará para dirigirme a ti si es necesario, puedes usar tu nombre si lo prefieres)
               </label>
               <input
                 type="text"
@@ -197,7 +197,7 @@ export default function RegistroPage() {
             </div>
             <div>
               <label className="block text-sm text-corte-pergamino/70">
-                Dirección postal
+                Dirección postal completa (incluye número, letra si la tiene, código postal y región)
               </label>
               <textarea
                 required
@@ -210,7 +210,7 @@ export default function RegistroPage() {
             </div>
             <div>
               <label className="block text-sm text-corte-pergamino/70">
-                Teléfono (opcional)
+                Teléfono (opcional pero indispensable si tengo que contactar contigo)
               </label>
               <input
                 type="tel"
