@@ -64,13 +64,13 @@ export default function Footer() {
           <h4 className="font-display text-lg text-corte-pergamino">Métodos de pago</h4>
           <ul className="mt-3 flex flex-wrap gap-2 text-sm text-corte-pergamino/80">
             <li className="rounded-sm border border-corte-pergamino/30 px-2 py-1">Tarjeta</li>
-            <li className="rounded-sm border border-corte-pergamino/30 px-2 py-1">Bizum</li>
             <li className="rounded-sm border border-corte-pergamino/30 px-2 py-1">Stripe</li>
+            <li className="rounded-sm border border-corte-pergamino/30 px-2 py-1">Bizum (no incluído en suscripción)</li>
           </ul>
 
           <h4 className="mt-6 font-display text-lg text-corte-pergamino">Sígueme</h4>
           <Link
-            href="https://www.tiktok.com/@tu_usuario"
+            href="https://www.tiktok.com/@lilimuun"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="TikTok"
