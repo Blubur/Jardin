@@ -1,10 +1,10 @@
 import "./globals.css";
-import { Lora, Barlow } from "next/font/google";
+import { EB_Garamond, Barlow } from "next/font/google";
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const lora = Lora({
+const ebGaramond = EB_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${lora.variable} ${barlow.variable} ${soligant.variable} ${cascadia.variable}`}
+      className={`${ebGaramond.variable} ${barlow.variable} ${soligant.variable} ${cascadia.variable}`}
     >
       <body className="bg-corte-fondo text-corte-pergamino font-body">
         <Navbar />
