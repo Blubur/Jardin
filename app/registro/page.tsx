@@ -10,12 +10,13 @@ export default function RegistroPage() {
   const [modo, setModo] = useState<"registro" | "login">("registro");
   const [nick, setNick] = useState("");
   const [nombreCompleto, setNombreCompleto] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [mostrarAviso, setMostrarAviso] = useState(false);
-
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("modo") === "login") {
@@ -41,16 +42,35 @@ export default function RegistroPage() {
     setMensaje(null);
 
     if (modo === "registro") {
+      const direccionLimpia = direccion.trim();
+      const telefonoLimpio = telefono.trim();
+
+      if (direccionLimpia.length < 10) {
+        setCargando(false);
+        setMensaje("Escribe tu dirección postal completa (calle, número, código postal, ciudad y país).");
+        return;
+      }
+      if (telefonoLimpio && !/^[+\d][\d\s().-]{6,19}$/.test(telefonoLimpio)) {
+        setCargando(false);
+        setMensaje("El teléfono no parece válido.");
+        return;
+      }
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/panel`,
-          // El nick y el nombre completo se guardan como metadatos del
-          // usuario en Supabase Auth (no requieren tabla propia).
+          // El nick, nombre completo, dirección y teléfono se guardan como
+          // metadatos del usuario en Supabase Auth. El trigger
+          // handle_new_user() los copia a la tabla perfiles al crearse la
+          // cuenta (hay que actualizarlo para que también copie estos dos
+          // campos nuevos).
           data: {
             nick,
             nombre_completo: nombreCompleto,
+            direccion_postal: direccionLimpia,
+            telefono: telefonoLimpio || null,
           },
         },
       });
@@ -144,12 +164,7 @@ export default function RegistroPage() {
       </h1>
       <p className="mt-2 text-corte-pergamino/70">
         {modo === "registro"
-          ? "Crea tu cuenta para gestionar tu suscripción mensual.
-          Es importante que una vez sigas todos los pasos vayas a "Completar perfil" y guardes tu dirección y tu numero de teléfono para confirmar que todos tus datos estén bien.
-    
-          
-          
-          "
+          ? "Crea tu cuenta para gestionar tu suscripción mensual. Necesitamos tu dirección y tu teléfono para poder enviarte los goodies de cada entrega."
           : "Accede a tu panel para ver tu entrega y tu factura."}
       </p>
 
@@ -177,6 +192,31 @@ export default function RegistroPage() {
                 required
                 value={nombreCompleto}
                 onChange={(e) => setNombreCompleto(e.target.value)}
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-corte-pergamino/70">
+                Dirección postal
+              </label>
+              <textarea
+                required
+                rows={3}
+                value={direccion}
+                onChange={(e) => setDireccion(e.target.value)}
+                autoComplete="street-address"
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-corte-pergamino/70">
+                Teléfono (opcional)
+              </label>
+              <input
+                type="tel"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+                autoComplete="tel"
                 className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
               />
             </div>
