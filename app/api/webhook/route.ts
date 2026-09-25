@@ -47,8 +47,15 @@ async function guardarDatosEnvio(session: Stripe.Checkout.Session) {
   const userId = session.client_reference_id;
   if (!userId) return;
 
+  // Se castea porque la versión de tipos de Stripe instalada no declara
+  // shipping_details en Checkout.Session, aunque el campo sí existe en la
+  // respuesta real de la API.
+  const sessionConEnvio = session as Stripe.Checkout.Session & {
+    shipping_details?: { address?: Stripe.Address | null } | null;
+  };
+
   const direccion =
-    session.shipping_details?.address ?? session.customer_details?.address;
+    sessionConEnvio.shipping_details?.address ?? session.customer_details?.address;
   const telefono = session.customer_details?.phone;
 
   if (!direccion && !telefono) return;
