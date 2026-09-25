@@ -172,7 +172,7 @@ export default function RegistroPage() {
         {modo === "registro" && (
           <>
             <div>
-              <label className="block text-sm text-corte-pergamino/70">
+              <label className="block text-base font-mono text-corte-pergamino/70">
                 Nick{" "}
                 <span className="font-display text-corte-lavanda">
                   (Se usará para dirigirme a ti si es necesario, puedes usar tu nombre si lo prefieres)
@@ -187,7 +187,7 @@ export default function RegistroPage() {
               />
             </div>
             <div>
-              <label className="block text-sm text-corte-pergamino/70">
+              <label className="block text-base font-mono text-corte-pergamino/70">
                 Nombre completo
               </label>
               <input
@@ -199,7 +199,7 @@ export default function RegistroPage() {
               />
             </div>
             <div>
-              <label className="block text-sm text-corte-pergamino/70">
+              <label className="block text-base font-mono text-corte-pergamino/70">
                 Dirección postal completa{" "}
                 <span className="font-display text-corte-lavanda">
                   (incluye número, letra si la tiene, código postal y región)
@@ -215,7 +215,7 @@ export default function RegistroPage() {
               />
             </div>
             <div>
-              <label className="block text-sm text-corte-pergamino/70">
+              <label className="block text-base font-mono text-corte-pergamino/70">
                 Teléfono{" "}
                 <span className="font-display text-corte-lavanda">
                   (indispensable si tengo que contactar contigo)
@@ -233,7 +233,7 @@ export default function RegistroPage() {
         )}
 
         <div>
-          <label className="block text-sm text-corte-pergamino/70">
+          <label className="block text-base font-mono text-corte-pergamino/70">
             Correo electrónico
           </label>
           <input
@@ -245,7 +245,7 @@ export default function RegistroPage() {
           />
         </div>
         <div>
-          <label className="block text-sm text-corte-pergamino/70">
+          <label className="block text-base font-mono text-corte-pergamino/70">
             Contraseña
           </label>
           <input
