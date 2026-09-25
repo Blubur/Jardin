@@ -174,7 +174,7 @@ export default function RegistroPage() {
             <div>
               <label className="block text-sm text-corte-pergamino/70">
                 Nick{" "}
-                <span className="font-display italic text-corte-lavanda">
+                <span className="font-display text-corte-lavanda">
                   (Se usará para dirigirme a ti si es necesario, puedes usar tu nombre si lo prefieres)
                 </span>
               </label>
@@ -201,7 +201,7 @@ export default function RegistroPage() {
             <div>
               <label className="block text-sm text-corte-pergamino/70">
                 Dirección postal completa{" "}
-                <span className="font-display italic text-corte-lavanda">
+                <span className="font-display text-corte-lavanda">
                   (incluye número, letra si la tiene, código postal y región)
                 </span>
               </label>
@@ -217,7 +217,7 @@ export default function RegistroPage() {
             <div>
               <label className="block text-sm text-corte-pergamino/70">
                 Teléfono{" "}
-                <span className="font-display italic text-corte-lavanda">
+                <span className="font-display text-corte-lavanda">
                   (indispensable si tengo que contactar contigo)
                 </span>
               </label>
