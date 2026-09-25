@@ -16,6 +16,7 @@ export default function RegistroPage() {
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [mostrarAviso, setMostrarAviso] = useState(false);
 
+
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("modo") === "login") {
       setModo("login");
@@ -44,6 +45,7 @@ export default function RegistroPage() {
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/panel`,
           // El nick y el nombre completo se guardan como metadatos del
           // usuario en Supabase Auth (no requieren tabla propia).
           data: {
@@ -142,7 +144,12 @@ export default function RegistroPage() {
       </h1>
       <p className="mt-2 text-corte-pergamino/70">
         {modo === "registro"
-          ? "Crea tu cuenta para gestionar tu suscripción mensual."
+          ? "Crea tu cuenta para gestionar tu suscripción mensual.
+          Es importante que una vez sigas todos los pasos vayas a "Completar perfil" y guardes tu dirección y tu numero de teléfono para confirmar que todos tus datos estén bien.
+    
+          
+          
+          "
           : "Accede a tu panel para ver tu entrega y tu factura."}
       </p>
 
