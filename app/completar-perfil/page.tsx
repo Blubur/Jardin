@@ -1,8 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+
+const OPCIONES_CONOCISTE = [
+  "TikTok",
+  "Instagram",
+  "Me lo recomendó alguien",
+  "Búsqueda en Google",
+  "Otro",
+];
+
+// Opciones que despliegan un campo extra, con su pregunta
+const PREGUNTA_DETALLE: Record<string, string> = {
+  "Me lo recomendó alguien": "¿Quién?",
+  "Otro": "¿Dónde?",
+};
 
 export default function CompletarPerfilPage() {
   const router = useRouter();
@@ -12,6 +27,11 @@ export default function CompletarPerfilPage() {
   const [nombreCompleto, setNombreCompleto] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [instrucciones, setInstrucciones] = useState("");
+  const [comoNosConociste, setComoNosConociste] = useState("");
+  const [comoDetalle, setComoDetalle] = useState("");
+  const [yaAceptoPrivacidad, setYaAceptoPrivacidad] = useState(false);
+  const [aceptaPrivacidad, setAceptaPrivacidad] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,6 +61,10 @@ export default function CompletarPerfilPage() {
       setNombreCompleto(perfil?.nombre_completo ?? "");
       setDireccion(perfil?.direccion_postal ?? "");
       setTelefono(perfil?.telefono ?? "");
+      setInstrucciones(perfil?.instrucciones_entrega ?? "");
+      setComoNosConociste(perfil?.como_nos_conociste ?? "");
+      setComoDetalle(perfil?.como_nos_conociste_detalle ?? "");
+      setYaAceptoPrivacidad(perfil?.acepta_privacidad === true);
       setCargando(false);
     }
     cargar();
@@ -54,6 +78,10 @@ export default function CompletarPerfilPage() {
     const nombreLimpio = nombreCompleto.trim();
     const direccionLimpia = direccion.trim();
     const telefonoLimpio = telefono.trim();
+    const instruccionesLimpias = instrucciones.trim();
+    const detalleLimpio = PREGUNTA_DETALLE[comoNosConociste]
+      ? comoDetalle.trim()
+      : "";
 
     if (nickLimpio.length < 3 || nickLimpio.length > 30) {
       setError("El nick debe tener entre 3 y 30 caracteres.");
@@ -71,19 +99,35 @@ export default function CompletarPerfilPage() {
       setError("El teléfono no parece válido.");
       return;
     }
+    if (!yaAceptoPrivacidad && !aceptaPrivacidad) {
+      setError("Debes aceptar la política de privacidad para continuar.");
+      return;
+    }
 
     setGuardando(true);
+
+    const datos: Record<string, unknown> = {
+      user_id: userId,
+      nick: nickLimpio,
+      nombre_completo: nombreLimpio,
+      direccion_postal: direccionLimpia,
+      telefono: telefonoLimpio || null,
+      instrucciones_entrega: instruccionesLimpias || null,
+      como_nos_conociste: comoNosConociste || null,
+      como_nos_conociste_detalle: detalleLimpio || null,
+    };
+
+    // Solo se registra la aceptación si es nueva, para no pisar la fecha
+    // de una aceptación anterior.
+    if (!yaAceptoPrivacidad && aceptaPrivacidad) {
+      datos.acepta_privacidad = true;
+      datos.acepta_privacidad_en = new Date().toISOString();
+    }
+
     // upsert: crea la fila si no existe y la actualiza si ya existe.
-    const { error } = await supabase.from("perfiles").upsert(
-      {
-        user_id: userId,
-        nick: nickLimpio,
-        nombre_completo: nombreLimpio,
-        direccion_postal: direccionLimpia,
-        telefono: telefonoLimpio || null,
-      },
-      { onConflict: "user_id" }
-    );
+    const { error } = await supabase
+      .from("perfiles")
+      .upsert(datos, { onConflict: "user_id" });
     setGuardando(false);
 
     if (error) {
@@ -134,10 +178,71 @@ export default function CompletarPerfilPage() {
         </div>
 
         <div>
+          <label htmlFor="instrucciones" className="etiqueta">
+            Instrucciones de entrega (opcional)
+          </label>
+          <textarea id="instrucciones" rows={2} value={instrucciones}
+            placeholder="Por ejemplo: dejar en portería, llamar al timbre B..."
+            onChange={(e) => setInstrucciones(e.target.value)} className="campo" />
+        </div>
+
+        <div>
           <label htmlFor="telefono" className="etiqueta">Teléfono (opcional)</label>
           <input id="telefono" type="tel" value={telefono}
             onChange={(e) => setTelefono(e.target.value)} autoComplete="tel" className="campo" />
         </div>
+
+        <div>
+          <label htmlFor="conociste" className="etiqueta">
+            ¿Cómo nos conociste? (opcional)
+          </label>
+          <select id="conociste" value={comoNosConociste}
+            onChange={(e) => {
+              setComoNosConociste(e.target.value);
+              setComoDetalle("");
+            }} className="campo">
+            <option value="">Elige una opción</option>
+            {OPCIONES_CONOCISTE.map((opcion) => (
+              <option key={opcion} value={opcion}>
+                {opcion}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {PREGUNTA_DETALLE[comoNosConociste] && (
+          <div>
+            <label htmlFor="conociste-detalle" className="etiqueta">
+              {PREGUNTA_DETALLE[comoNosConociste]} (opcional)
+            </label>
+            <input id="conociste-detalle" type="text" maxLength={100}
+              value={comoDetalle}
+              onChange={(e) => setComoDetalle(e.target.value)} className="campo" />
+          </div>
+        )}
+
+        {!yaAceptoPrivacidad && (
+          <label className="flex items-start gap-3 text-sm text-corte-pergamino/80">
+            <input
+              type="checkbox"
+              checked={aceptaPrivacidad}
+              onChange={(e) => setAceptaPrivacidad(e.target.checked)}
+              className="mt-1 h-4 w-4 shrink-0 accent-corte-oro"
+            />
+            <span>
+              He leído y acepto la{" "}
+              <Link
+                href="/politicas"
+                target="_blank"
+                className="underline underline-offset-4 hover:text-corte-pergamino"
+              >
+                política de privacidad
+              </Link>{" "}
+              y el tratamiento de mis datos para gestionar mi suscripción y los
+              envíos.
+            </span>
+          </label>
+        )}
 
         {error && <p role="alert" className="aviso-error">{error}</p>}
 

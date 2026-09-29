@@ -13,6 +13,12 @@ const OPCIONES_CONOCISTE = [
   "Otro",
 ];
 
+// Opciones que despliegan un campo extra, con su pregunta
+const PREGUNTA_DETALLE: Record<string, string> = {
+  "Me lo recomendó alguien": "¿Quién?",
+  "Otro": "¿Dónde?",
+};
+
 export default function RegistroPage() {
   const router = useRouter();
   const [modo, setModo] = useState<"registro" | "login">("registro");
@@ -22,6 +28,7 @@ export default function RegistroPage() {
   const [telefono, setTelefono] = useState("");
   const [instrucciones, setInstrucciones] = useState("");
   const [comoNosConociste, setComoNosConociste] = useState("");
+  const [comoDetalle, setComoDetalle] = useState("");
   const [aceptaPrivacidad, setAceptaPrivacidad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,6 +63,9 @@ export default function RegistroPage() {
       const direccionLimpia = direccion.trim();
       const telefonoLimpio = telefono.trim();
       const instruccionesLimpias = instrucciones.trim();
+      const detalleLimpio = PREGUNTA_DETALLE[comoNosConociste]
+        ? comoDetalle.trim()
+        : "";
 
       if (direccionLimpia.length < 10) {
         setCargando(false);
@@ -88,6 +98,7 @@ export default function RegistroPage() {
             telefono: telefonoLimpio || null,
             instrucciones_entrega: instruccionesLimpias || null,
             como_nos_conociste: comoNosConociste || null,
+            como_nos_conociste_detalle: detalleLimpio || null,
             acepta_privacidad: aceptaPrivacidad,
           },
         },
@@ -270,7 +281,10 @@ export default function RegistroPage() {
               </label>
               <select
                 value={comoNosConociste}
-                onChange={(e) => setComoNosConociste(e.target.value)}
+                onChange={(e) => {
+                  setComoNosConociste(e.target.value);
+                  setComoDetalle("");
+                }}
                 className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
               >
                 <option value="">Elige una opción</option>
@@ -281,6 +295,23 @@ export default function RegistroPage() {
                 ))}
               </select>
             </div>
+            {PREGUNTA_DETALLE[comoNosConociste] && (
+              <div>
+                <label className="block text-base font-mono text-corte-pergamino/70">
+                  {PREGUNTA_DETALLE[comoNosConociste]}{" "}
+                  <span className="font-display text-corte-lavanda">
+                    (opcional)
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  maxLength={100}
+                  value={comoDetalle}
+                  onChange={(e) => setComoDetalle(e.target.value)}
+                  className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+                />
+              </div>
+            )}
           </>
         )}
 
