@@ -7,9 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 const OPCIONES_CONOCISTE = [
   "TikTok",
-  "Instagram",
   "Me lo recomendó alguien",
-  "Búsqueda en Google",
   "Otro",
 ];
 
