@@ -9,6 +9,7 @@ import {
   EnvelopeIcon,
   UserIcon,
   UserCircleIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -57,14 +58,16 @@ export default function Navbar() {
             <span className="hidden sm:inline">Mi perfil</span>
           </Link>
         ) : (
-          <Link href="/registro?modo=login" className={enlace} aria-label="Registro">
-            <UserIcon className={icono} />
-            <span className="hidden sm:inline">Registro</span>
-          </Link>
-          <Link href="/login" className={enlace} aria-label="Entrar">
-            <UserIcon className={icono} />
-            <span className="hidden sm:inline">Entrar</span>
-          </Link>
+          <>
+            <Link href="/registro" className={enlace} aria-label="Registro">
+              <UserPlusIcon className={icono} />
+              <span className="hidden sm:inline">Registro</span>
+            </Link>
+            <Link href="/login" className={enlace} aria-label="Entrar">
+              <UserIcon className={icono} />
+              <span className="hidden sm:inline">Entrar</span>
+            </Link>
+          </>
         )}
       </div>
     </nav>
