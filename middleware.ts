@@ -1,4 +1,3 @@
-cat > middleware.ts <<'EOF'
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
@@ -7,7 +6,7 @@ const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil"
 
 // Páginas informativas visibles para todo el mundo, con o sin sesión,
 // y sin exigir perfil completo
-const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas", "/catalogo"];
+const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas"];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -72,4 +71,3 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|api/webhooks|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
-EOF
