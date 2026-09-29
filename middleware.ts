@@ -1,7 +1,13 @@
+cat > middleware.ts <<'EOF'
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
+// Rutas de acceso (login, registro...) que no requieren sesión
 const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil", "/actualizar-contrasena"];
+
+// Páginas informativas visibles para todo el mundo, con o sin sesión,
+// y sin exigir perfil completo
+const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas", "/catalogo"];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -33,18 +39,20 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const esRutaPublica = RUTAS_PUBLICAS.some((r) => pathname.startsWith(r));
+  const esRutaAbierta = RUTAS_ABIERTAS.some(
+    (r) => pathname === r || pathname.startsWith(r + "/")
+  );
 
-  // Sin sesión: solo dejar pasar por rutas públicas (login, registro, etc.)
+  // Sin sesión: dejar pasar rutas públicas, abiertas y la home
   if (!session) {
-    if (!esRutaPublica && pathname !== "/") {
+    if (!esRutaPublica && !esRutaAbierta && pathname !== "/") {
       return NextResponse.redirect(new URL("/login", request.url));
     }
     return response;
   }
 
-  // Con sesión: comprobar si el perfil está completo, salvo en rutas ya
-  // pensadas para completarlo o cerrar sesión.
-  if (!esRutaPublica) {
+  // Con sesión: comprobar perfil completo, salvo en rutas públicas y abiertas
+  if (!esRutaPublica && !esRutaAbierta) {
     const { data: perfil } = await supabase
       .from("perfiles")
       .select("direccion_postal")
@@ -61,6 +69,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/webhooks).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/webhooks|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
+EOF
