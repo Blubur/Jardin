@@ -1,11 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 // Estas dos variables se rellenan en .env.local con los datos
 // reales de tu proyecto de Supabase (Project Settings > API).
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// createBrowserClient guarda la sesión en cookies (no solo en localStorage),
+// que es lo que lee middleware.ts para saber si hay sesión iniciada.
+export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
 // Forma de la fila de la tabla "suscripciones" que crearemos en Supabase.
 // La usaremos en el panel de usuario y, más adelante, la rellenará
