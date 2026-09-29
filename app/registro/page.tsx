@@ -57,6 +57,9 @@ export default function RegistroPage() {
     setCargando(true);
     setMensaje(null);
 
+    // El teclado del móvil suele meter mayúsculas o espacios de más
+    const emailLimpio = email.trim().toLowerCase();
+
     if (modo === "registro") {
       const direccionLimpia = direccion.trim();
       const telefonoLimpio = telefono.trim();
@@ -82,7 +85,7 @@ export default function RegistroPage() {
       }
 
       const { error } = await supabase.auth.signUp({
-        email,
+        email: emailLimpio,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/panel`,
@@ -116,14 +119,20 @@ export default function RegistroPage() {
     }
 
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: emailLimpio,
       password,
     });
 
     setCargando(false);
 
     if (error) {
-      setMensaje(error.message);
+      if (error.message.includes("Email not confirmed")) {
+        setMensaje("Todavía no has confirmado tu correo. Revisa tu bandeja de entrada y el spam.");
+      } else if (error.message.includes("Invalid login credentials")) {
+        setMensaje("Correo o contraseña incorrectos. Comprueba que no haya espacios ni mayúsculas de más.");
+      } else {
+        setMensaje(error.message);
+      }
       return;
     }
 
@@ -320,6 +329,9 @@ export default function RegistroPage() {
           <input
             type="email"
             required
+            autoCapitalize="none"
+            autoCorrect="off"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
@@ -333,6 +345,7 @@ export default function RegistroPage() {
             type="password"
             required
             minLength={6}
+            autoComplete={modo === "registro" ? "new-password" : "current-password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
