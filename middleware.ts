@@ -6,7 +6,7 @@ const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil"
 
 // Páginas informativas visibles para todo el mundo, con o sin sesión,
 // y sin exigir perfil completo
-const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas"];
+const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas", "/catalogo"];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });

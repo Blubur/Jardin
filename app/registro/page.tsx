@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
+const OPCIONES_CONOCISTE = [
+  "TikTok",
+  "Instagram",
+  "Me lo recomendó alguien",
+  "Búsqueda en Google",
+  "Otro",
+];
+
 export default function RegistroPage() {
   const router = useRouter();
   const [modo, setModo] = useState<"registro" | "login">("registro");
@@ -12,6 +20,9 @@ export default function RegistroPage() {
   const [nombreCompleto, setNombreCompleto] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [instrucciones, setInstrucciones] = useState("");
+  const [comoNosConociste, setComoNosConociste] = useState("");
+  const [aceptaPrivacidad, setAceptaPrivacidad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
@@ -44,6 +55,7 @@ export default function RegistroPage() {
     if (modo === "registro") {
       const direccionLimpia = direccion.trim();
       const telefonoLimpio = telefono.trim();
+      const instruccionesLimpias = instrucciones.trim();
 
       if (direccionLimpia.length < 10) {
         setCargando(false);
@@ -55,22 +67,28 @@ export default function RegistroPage() {
         setMensaje("El teléfono no parece válido.");
         return;
       }
+      if (!aceptaPrivacidad) {
+        setCargando(false);
+        setMensaje("Debes aceptar la política de privacidad para crear tu cuenta.");
+        return;
+      }
 
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/panel`,
-          // El nick, nombre completo, dirección y teléfono se guardan como
-          // metadatos del usuario en Supabase Auth. El trigger
-          // handle_new_user() los copia a la tabla perfiles al crearse la
-          // cuenta (hay que actualizarlo para que también copie estos dos
-          // campos nuevos).
+          // Estos datos se guardan como metadatos del usuario en Supabase
+          // Auth. El trigger handle_new_user() los copia a la tabla
+          // perfiles al crearse la cuenta.
           data: {
             nick,
             nombre_completo: nombreCompleto,
             direccion_postal: direccionLimpia,
             telefono: telefonoLimpio || null,
+            instrucciones_entrega: instruccionesLimpias || null,
+            como_nos_conociste: comoNosConociste || null,
+            acepta_privacidad: aceptaPrivacidad,
           },
         },
       });
@@ -173,9 +191,9 @@ export default function RegistroPage() {
           <>
             <div>
               <label className="block text-base font-mono text-corte-pergamino/70">
-                Nick{" "}
+                ¿A quién me dirijo?{" "}
                 <span className="font-display text-corte-lavanda">
-                  (Se usará para dirigirme a ti si es necesario, puedes usar tu nombre si lo prefieres)
+                  (Pon aquí el nombre/nick que quieres que use para referirme a ti en la carta, puedes poner dos si lo lees junto a un mutual. En la dirección usaré tu nombre completo)
                 </span>
               </label>
               <input
@@ -216,6 +234,20 @@ export default function RegistroPage() {
             </div>
             <div>
               <label className="block text-base font-mono text-corte-pergamino/70">
+                Instrucciones de entrega{" "}
+                <span className="font-display text-corte-lavanda">
+                  (opcional: por ejemplo, &quot;dejar en portería&quot; o &quot;llamar al timbre B&quot;)
+                </span>
+              </label>
+              <textarea
+                rows={2}
+                value={instrucciones}
+                onChange={(e) => setInstrucciones(e.target.value)}
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              />
+            </div>
+            <div>
+              <label className="block text-base font-mono text-corte-pergamino/70">
                 Teléfono{" "}
                 <span className="font-display text-corte-lavanda">
                   (indispensable si tengo que contactar contigo)
@@ -228,6 +260,26 @@ export default function RegistroPage() {
                 autoComplete="tel"
                 className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
               />
+            </div>
+            <div>
+              <label className="block text-base font-mono text-corte-pergamino/70">
+                ¿Cómo nos conociste?{" "}
+                <span className="font-display text-corte-lavanda">
+                  (opcional)
+                </span>
+              </label>
+              <select
+                value={comoNosConociste}
+                onChange={(e) => setComoNosConociste(e.target.value)}
+                className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
+              >
+                <option value="">Elige una opción</option>
+                {OPCIONES_CONOCISTE.map((opcion) => (
+                  <option key={opcion} value={opcion}>
+                    {opcion}
+                  </option>
+                ))}
+              </select>
             </div>
           </>
         )}
@@ -257,6 +309,30 @@ export default function RegistroPage() {
             className="mt-1 w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-3 py-2 text-corte-pergamino outline-none focus:border-corte-oro"
           />
         </div>
+
+        {modo === "registro" && (
+          <label className="flex items-start gap-3 text-sm text-corte-pergamino/80">
+            <input
+              type="checkbox"
+              required
+              checked={aceptaPrivacidad}
+              onChange={(e) => setAceptaPrivacidad(e.target.checked)}
+              className="mt-1 h-4 w-4 shrink-0 accent-corte-oro"
+            />
+            <span>
+              He leído y acepto la{" "}
+              <Link
+                href="/politicas"
+                target="_blank"
+                className="underline underline-offset-4 hover:text-corte-pergamino"
+              >
+                política de privacidad
+              </Link>{" "}
+              y el tratamiento de mis datos para gestionar mi suscripción y los
+              envíos.
+            </span>
+          </label>
+        )}
 
         {mensaje && <p className="text-sm text-corte-lavanda">{mensaje}</p>}
 
