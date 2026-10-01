@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 // Rutas de acceso (login, registro...) que no requieren sesión
-const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil", "/actualizar-contrasena"];
+const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil", "/actualizar-contrasena", "/auth"];
 
 // Páginas informativas visibles para todo el mundo, con o sin sesión,
 // y sin exigir perfil completo
@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
           response = NextResponse.next({ request });
@@ -32,18 +32,22 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  // getUser() valida el token con el servidor de Auth; getSession() en el
+  // servidor solo lee la cookie y no es de fiar para decidir accesos.
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const esRutaPublica = RUTAS_PUBLICAS.some((r) => pathname.startsWith(r));
+  const esRutaPublica = RUTAS_PUBLICAS.some(
+    (r) => pathname === r || pathname.startsWith(r + "/")
+  );
   const esRutaAbierta = RUTAS_ABIERTAS.some(
     (r) => pathname === r || pathname.startsWith(r + "/")
   );
 
   // Sin sesión: dejar pasar rutas públicas, abiertas y la home
-  if (!session) {
+  if (!user) {
     if (!esRutaPublica && !esRutaAbierta && pathname !== "/") {
       return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -55,7 +59,7 @@ export async function middleware(request: NextRequest) {
     const { data: perfil } = await supabase
       .from("perfiles")
       .select("direccion_postal")
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .maybeSingle();
 
     if (!perfil || !perfil.direccion_postal) {
@@ -68,6 +72,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/webhooks|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/webhook|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

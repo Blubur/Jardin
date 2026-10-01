@@ -1,0 +1,40 @@
+ARCHIVOS CORREGIDOS - El Jardin de las Herederas
+=================================================
+
+Este zip tiene la misma estructura que el que me pasaste: carpeta/archivo.
+Las carpetas de paginas (registro, recuperar...) corresponden a tu carpeta app/.
+Si tu proyecto usa src/, todo va dentro de src/.
+
+DONDE VA CADA ARCHIVO
+---------------------------------------------------------------------------
+En el zip                            En tu proyecto                       Accion
+---------------------------------------------------------------------------
+registro/page.tsx                    app/registro/page.tsx                REEMPLAZA
+recuperar/page.tsx                   app/recuperar/page.tsx               REEMPLAZA
+actualizar-contrasena/page.tsx       app/actualizar-contrasena/page.tsx   REEMPLAZA
+api/webhook/route.ts                 app/api/webhook/route.ts             REEMPLAZA (tu webhook de Stripe)
+middleware.ts                        middleware.ts  (raiz del proyecto)   REEMPLAZA
+auth/callback/route.ts               app/auth/callback/route.ts           NUEVO (crea las carpetas)
+lib/urlSitio.ts                      lib/urlSitio.ts  (junto a supabaseClient.ts)   NUEVO
+lib/erroresAuth.ts                   lib/erroresAuth.ts  (junto a supabaseClient.ts) NUEVO
+
+IMPORTANTE: la carpeta lib/ NO va dentro de app/. Va en la raiz, al lado de
+lib/supabaseClient.ts y lib/stripe.ts.
+
+ANTES DE DESPLEGAR
+---------------------------------------------------------------------------
+1. En Vercel (Settings > Environment Variables, solo Production) anade:
+     NEXT_PUBLIC_SITE_URL = https://secretosdelasherederas.vercel.app
+   y vuelve a desplegar.
+
+2. En Supabase > Authentication > URL Configuration:
+     Site URL:      https://secretosdelasherederas.vercel.app
+     Redirect URLs: https://secretosdelasherederas.vercel.app/**
+                    http://localhost:3000/**
+
+NO INCLUIDO
+---------------------------------------------------------------------------
+- El checkout (probablemente app/api/checkout/route.ts): sus dos cambios
+  pequenos (origin con NEXT_PUBLIC_SITE_URL y comprobar el error de "compras")
+  se aplican a mano; estan en el chat.
+- Ningun otro archivo de tu zip original ha cambiado.
