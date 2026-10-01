@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import { urlSitio } from "@/lib/urlSitio";
+import { traducirErrorAuth } from "@/lib/erroresAuth";
 
 const OPCIONES_CONOCISTE = [
   "TikTok",
@@ -33,6 +35,7 @@ export default function RegistroPage() {
   const [cargando, setCargando] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [correoYaRegistrado, setCorreoYaRegistrado] = useState(false);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("modo") === "login") {
@@ -56,6 +59,7 @@ export default function RegistroPage() {
     e.preventDefault();
     setCargando(true);
     setMensaje(null);
+    setCorreoYaRegistrado(false);
 
     // El teclado del móvil suele meter mayúsculas o espacios de más
     const emailLimpio = email.trim().toLowerCase();
@@ -64,10 +68,27 @@ export default function RegistroPage() {
       const direccionLimpia = direccion.trim();
       const telefonoLimpio = telefono.trim();
       const instruccionesLimpias = instrucciones.trim();
+      const nickLimpio = nick.trim();
+      const nombreLimpio = nombreCompleto.trim();
       const detalleLimpio = PREGUNTA_DETALLE[comoNosConociste]
         ? comoDetalle.trim()
         : "";
 
+      if (nickLimpio.length < 3 || nickLimpio.length > 30) {
+        setCargando(false);
+        setMensaje("El nick debe tener entre 3 y 30 caracteres.");
+        return;
+      }
+      if (nombreLimpio.length < 2) {
+        setCargando(false);
+        setMensaje("Escribe tu nombre completo.");
+        return;
+      }
+      if (password.length < 8) {
+        setCargando(false);
+        setMensaje("La contraseña debe tener al menos 8 caracteres.");
+        return;
+      }
       if (direccionLimpia.length < 10) {
         setCargando(false);
         setMensaje("Escribe tu dirección postal completa (calle, número, código postal, ciudad y país).");
@@ -84,17 +105,17 @@ export default function RegistroPage() {
         return;
       }
 
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: emailLimpio,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/panel`,
+          emailRedirectTo: `${urlSitio()}/auth/callback?next=/panel`,
           // Estos datos se guardan como metadatos del usuario en Supabase
           // Auth. El trigger handle_new_user() los copia a la tabla
           // perfiles al crearse la cuenta.
           data: {
-            nick,
-            nombre_completo: nombreCompleto,
+            nick: nickLimpio,
+            nombre_completo: nombreLimpio,
             direccion_postal: direccionLimpia,
             telefono: telefonoLimpio || null,
             instrucciones_entrega: instruccionesLimpias || null,
@@ -108,12 +129,29 @@ export default function RegistroPage() {
       setCargando(false);
 
       if (error) {
-        setMensaje(error.message);
+        setMensaje(traducirErrorAuth(error));
         return;
       }
 
+      // Caso 1: "Confirm email" desactivado en Supabase -> ya hay sesión.
+      if (data.session) {
+        router.push("/panel");
+        return;
+      }
+
+      // Caso 2: el correo ya estaba registrado. Supabase responde 200 con un
+      // usuario "falso" sin identidades y NO envía ningún correo.
+      if (data.user?.identities?.length === 0) {
+        setCorreoYaRegistrado(true);
+        setMensaje(
+          "Ya existe una cuenta con ese correo, así que no te hemos enviado ningún correo nuevo. Inicia sesión o, si no recuerdas la contraseña, recupérala."
+        );
+        return;
+      }
+
+      // Caso 3: cuenta nueva pendiente de confirmar.
       setMensaje(
-        "Cuenta creada. Revisa tu correo para confirmar el registro."
+        "Cuenta creada. Te hemos enviado un correo para confirmarla. Si no lo ves en unos minutos, mira el spam."
       );
       return;
     }
@@ -126,13 +164,7 @@ export default function RegistroPage() {
     setCargando(false);
 
     if (error) {
-      if (error.message.includes("Email not confirmed")) {
-        setMensaje("Todavía no has confirmado tu correo. Revisa tu bandeja de entrada y el spam.");
-      } else if (error.message.includes("Invalid login credentials")) {
-        setMensaje("Correo o contraseña incorrectos. Comprueba que no haya espacios ni mayúsculas de más.");
-      } else {
-        setMensaje(error.message);
-      }
+      setMensaje(traducirErrorAuth(error));
       return;
     }
 
@@ -378,6 +410,28 @@ export default function RegistroPage() {
 
         {mensaje && <p className="text-sm text-corte-lavanda">{mensaje}</p>}
 
+        {correoYaRegistrado && (
+          <div className="flex flex-col gap-2 text-sm">
+            <button
+              type="button"
+              onClick={() => {
+                setModo("login");
+                setMensaje(null);
+                setCorreoYaRegistrado(false);
+              }}
+              className="text-left text-corte-oro underline underline-offset-4"
+            >
+              Iniciar sesión con este correo
+            </button>
+            <Link
+              href="/recuperar"
+              className="text-left text-corte-oro underline underline-offset-4"
+            >
+              He olvidado mi contraseña
+            </Link>
+          </div>
+        )}
+
         <button
           type="submit"
           disabled={cargando}
@@ -393,7 +447,11 @@ export default function RegistroPage() {
 
       <div className="mt-6 flex flex-col gap-2 text-sm">
         <button
-          onClick={() => setModo(modo === "registro" ? "login" : "registro")}
+          onClick={() => {
+            setModo(modo === "registro" ? "login" : "registro");
+            setMensaje(null);
+            setCorreoYaRegistrado(false);
+          }}
           className="text-left text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
         >
           {modo === "registro"
