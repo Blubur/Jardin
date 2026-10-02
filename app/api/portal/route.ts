@@ -20,37 +20,66 @@ export async function POST(req: Request) {
 
     const { tipo } = await req.json().catch(() => ({ tipo: undefined }));
 
-    const clientes = await stripe.customers.list({ email: user.email, limit: 1 });
-    if (!clientes.data[0]) {
+    // 1) Cliente de Stripe guardado por el webhook (es el fiable: el enlace de
+    //    pago no prellena el correo y la clienta puede haber escrito otro).
+    const { data: fila } = await supabaseAdmin
+      .from("suscripciones")
+      .select("stripe_customer_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    let customerId: string | undefined = fila?.stripe_customer_id ?? undefined;
+
+    // 2) Respaldo: buscar por el correo de la cuenta (p. ej. quien solo compró
+    //    capítulos sueltos y no tiene fila en "suscripciones").
+    if (!customerId) {
+      const clientes = await stripe.customers.list({ email: user.email, limit: 1 });
+      customerId = clientes.data[0]?.id;
+    }
+
+    if (!customerId) {
       return NextResponse.json({ error: "Todavía no tienes compras" }, { status: 404 });
     }
 
     const origin = new URL(req.url).origin;
     const params: Stripe.BillingPortal.SessionCreateParams = {
-      customer: clientes.data[0].id,
+      customer: customerId,
       return_url: `${origin}/panel`,
     };
 
     // Si pide cancelar, se abre directamente la pantalla de cancelación
     if (tipo === "cancelar") {
       const subs = await stripe.subscriptions.list({
-        customer: clientes.data[0].id,
+        customer: customerId,
         status: "all",
         limit: 10,
       });
       const activa = subs.data.find((s) =>
         ["active", "trialing", "past_due"].includes(s.status)
       );
-      if (activa) {
-        params.flow_data = {
-          type: "subscription_cancel",
-          subscription_cancel: { subscription: activa.id },
-          after_completion: {
-            type: "redirect",
-            redirect: { return_url: `${origin}/panel` },
-          },
-        };
+
+      if (!activa) {
+        return NextResponse.json(
+          { error: "No tienes ninguna suscripción activa" },
+          { status: 404 }
+        );
       }
+
+      if (activa.cancel_at_period_end) {
+        return NextResponse.json(
+          { error: "Tu suscripción ya está cancelada y terminará al final del periodo pagado" },
+          { status: 409 }
+        );
+      }
+
+      params.flow_data = {
+        type: "subscription_cancel",
+        subscription_cancel: { subscription: activa.id },
+        after_completion: {
+          type: "redirect",
+          redirect: { return_url: `${origin}/panel` },
+        },
+      };
     }
 
     const portal = await stripe.billingPortal.sessions.create(params);

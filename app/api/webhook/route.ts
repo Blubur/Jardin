@@ -13,10 +13,18 @@ function idUsuaria(session: Stripe.Checkout.Session): string | null {
 
 async function guardarSuscripcion(sub: Stripe.Subscription) {
   const userId = sub.metadata?.user_id;
+
   if (!userId) {
-    // Antes se ignoraba en silencio. Si ves este aviso en los logs de Vercel,
-    // el checkout no está enviando subscription_data.metadata.user_id.
-    console.warn("Suscripción sin metadata.user_id, no se guarda:", sub.id);
+    // Con los enlaces de pago (buy.stripe.com) la suscripción nace sin
+    // metadata.user_id: se añade después, en vincularSuscripcion().
+    // Mientras tanto, si ya existe una fila con esta suscripción (por ejemplo
+    // de antes de este arreglo), solo se actualiza su estado.
+    const { error } = await supabaseAdmin
+      .from("suscripciones")
+      .update({ estado: sub.status })
+      .eq("stripe_subscription_id", sub.id);
+    if (error) throw error;
+    console.log("Suscripción sin metadata.user_id, solo se actualiza el estado si existe:", sub.id);
     return;
   }
 
@@ -31,6 +39,28 @@ async function guardarSuscripcion(sub: Stripe.Subscription) {
     { onConflict: "user_id" }
   );
   if (error) throw error;
+}
+
+// Los enlaces de pago solo envían client_reference_id a la sesión de checkout,
+// no a la suscripción. Aquí se copia el user_id a la suscripción para que los
+// eventos posteriores (actualización, cancelación) también lo traigan, y se
+// guarda la fila en "suscripciones".
+async function vincularSuscripcion(session: Stripe.Checkout.Session) {
+  if (session.mode !== "subscription" || !session.subscription) return;
+
+  const userId = idUsuaria(session);
+  if (!userId) {
+    console.warn("Checkout de suscripción sin client_reference_id:", session.id);
+    return;
+  }
+
+  const subId =
+    typeof session.subscription === "string" ? session.subscription : session.subscription.id;
+
+  const sub = await stripe.subscriptions.update(subId, {
+    metadata: { user_id: userId },
+  });
+  await guardarSuscripcion(sub);
 }
 
 async function guardarCompra(session: Stripe.Checkout.Session) {
@@ -141,6 +171,7 @@ export async function POST(req: Request) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         // Lo importante primero: registrar lo que se ha pagado.
+        await vincularSuscripcion(session);
         await guardarCompra(session);
         // Copiar la dirección es secundario: si falla, se registra pero no
         // devuelve 500, para que Stripe no reintente y no bloquee la compra.
