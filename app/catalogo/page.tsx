@@ -7,12 +7,39 @@ import BotonPago from "@/components/BotonPago";
 import Galeria from "@/components/Galeria";
 import { CAPITULOS } from "@/lib/catalogo";
 
+type Capitulo = {
+  numero: number;
+  titulo: string;
+  descripcion: string;
+  precio: string;
+  imagenes: string[];
+  disponible: boolean;
+};
+
+const CAPITULOS_RESPALDO: Capitulo[] = CAPITULOS.map((c) => ({
+  numero: c.numero,
+  titulo: c.titulo,
+  descripcion: c.descripcion,
+  precio: `${c.precio} €`,
+  imagenes: c.imagenes,
+  disponible: c.disponible,
+}));
+
 export default function CatalogoPage() {
   const [haySesion, setHaySesion] = useState(false);
   const [comprados, setComprados] = useState<number[]>([]);
+  const [capitulos, setCapitulos] = useState<Capitulo[]>(CAPITULOS_RESPALDO);
 
   useEffect(() => {
     async function cargar() {
+      const { data: filas, error } = await supabase
+        .from("catalogo")
+        .select("numero, titulo, descripcion, precio, imagenes, disponible")
+        .order("numero", { ascending: true });
+      if (!error && filas && filas.length > 0) {
+        setCapitulos(filas as Capitulo[]);
+      }
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -67,7 +94,7 @@ export default function CatalogoPage() {
       <section className="seccion">
         <h2 className="titulo-2 mb-8">Capítulos sueltos</h2>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {CAPITULOS.map((c) => {
+          {capitulos.map((c) => {
             const yaComprado = comprados.includes(c.numero);
             return (
               <article
@@ -77,8 +104,8 @@ export default function CatalogoPage() {
                 <Galeria imagenes={c.imagenes} alt={`Capítulo ${c.numero}: ${c.titulo}`} />
                 <p className="kicker mt-4">Capítulo {c.numero}</p>
                 <h3 className="titulo-3">{c.titulo}</h3>
-                <p className="mt-2 flex-1 texto-suave">{c.descripcion}</p>
-                <p className="precio mt-4">{c.precio} €</p>
+                <p className="mt-2 flex-1 texto-suave whitespace-pre-line">{c.descripcion}</p>
+                <p className="precio mt-4">{c.precio}</p>
 
                 <div className="mt-4">
                   {!c.disponible ? (
@@ -102,7 +129,7 @@ export default function CatalogoPage() {
                         capitulo={c.numero}
                         className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
                       >
-                        Comprar capítulo {c.numero} · {c.precio} €
+                        Comprar capítulo {c.numero} · {c.precio}
                       </BotonPago>
                     </>
                   )}

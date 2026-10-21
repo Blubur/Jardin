@@ -122,7 +122,11 @@ export default function AdminPage() {
           ← Volver al panel
         </Link>
       </p>
-
+      <p className="mt-2">
+        <Link href="/admin/catalogo" className="text-sm underline underline-offset-4">
+          Gestionar catálogo de capítulos →
+        </Link>
+      </p>
       {mensaje && (
         <p
           role={mensaje.tipo === "error" ? "alert" : "status"}
