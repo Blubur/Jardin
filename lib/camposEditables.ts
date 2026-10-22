@@ -30,7 +30,7 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: plan suscripción", clave: "sub.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Suscripción mensual" },
   { grupo: "Home: plan suscripción", clave: "sub.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "11,00 €" },
   { grupo: "Home: plan suscripción", clave: "sub.periodo", etiqueta: "Periodo (junto al precio)", tipo: "texto", porDefecto: "/ mes" },
-  { grupo: "Home: plan suscripción", clave: "sub.nota", etiqueta: "Nota bajo el precio (preventa, avisos)", tipo: "largo", porDefecto: "Precio de preventa del primer correo 9€.\nPreventa disponible hasta el 24 de septiembre a las 12 de la noche." },
+  { grupo: "Home: plan suscripción", clave: "sub.nota", etiqueta: "Nota bajo el precio (preventa, avisos)", tipo: "largo", porDefecto: "" },
   { grupo: "Home: plan suscripción", clave: "sub.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Cada mes, un capítulo nuevo de El Fuego de las Herederas con su papelería temática para hacer una lectura más inmersiva." },
   { grupo: "Home: plan suscripción", clave: "sub.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Suscribirme" },
 
