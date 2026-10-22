@@ -1,757 +1,120 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import { CAMPOS, Campo } from "@/lib/camposEditables";
+import BotonPago from "@/components/BotonPago";
+import { cargarContenido } from "@/lib/contenido";
+import { defecto } from "@/lib/camposEditables";
 
-type Mensaje = { tipo: "ok" | "error"; texto: string } | null;
+export const revalidate = 0;
 
-export default function AdminPage() {
-  const router = useRouter();
-  const [cargando, setCargando] = useState(true);
-  const [esAdmin, setEsAdmin] = useState(false);
-  const [valores, setValores] = useState<Record<string, string>>({});
-  const [guardados, setGuardados] = useState<Record<string, string>>({});
-  const [ocupado, setOcupado] = useState("");
-  const [mensaje, setMensaje] = useState<Mensaje>(null);
-
-  useEffect(() => {
-    async function cargar() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        router.push("/registro");
-        return;
-      }
-
-      const { data: admin } = await supabase
-        .from("admins")
-        .select("user_id")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (!admin) {
-        setCargando(false);
-        return;
-      }
-      setEsAdmin(true);
-
-      const { data } = await supabase.from("contenido").select("clave, valor");
-      const mapa: Record<string, string> = {};
-      CAMPOS.forEach((c) => (mapa[c.clave] = c.porDefecto));
-      (data ?? []).forEach((f) => (mapa[f.clave] = f.valor));
-      setValores(mapa);
-      setGuardados(mapa);
-      setCargando(false);
-    }
-    cargar();
-  }, [router]);
-
-  // El aviso se cierra solo a los pocos segundos
-  useEffect(() => {
-    if (!mensaje) return;
-    const t = setTimeout(() => setMensaje(null), 4500);
-    return () => clearTimeout(t);
-  }, [mensaje]);
-
-  const grupos = useMemo(() => Array.from(new Set(CAMPOS.map((c) => c.grupo))), []);
-
-  const sinGuardar = useMemo(
-    () =>
-      CAMPOS.filter(
-        (c) => c.tipo !== "imagen" && (valores[c.clave] ?? "") !== (guardados[c.clave] ?? "")
-      ).length,
-    [valores, guardados]
-  );
-
-  function estaModificado(campo: Campo) {
-    return (valores[campo.clave] ?? "") !== (guardados[campo.clave] ?? "");
-  }
-
-  async function guardarValor(campo: Campo, valor: string) {
-    const { data, error } = await supabase
-      .from("contenido")
-      .upsert({
-        clave: campo.clave,
-        valor,
-        tipo: campo.tipo,
-        updated_at: new Date().toISOString(),
-      })
-      .select("clave");
-    if (error || !data || data.length === 0) {
-      throw new Error("No se pudo guardar.");
-    }
-  }
-
-  async function guardarTexto(campo: Campo) {
-    setMensaje(null);
-    setOcupado(campo.clave);
-    try {
-      const valor = valores[campo.clave] ?? "";
-      await guardarValor(campo, valor);
-      setGuardados((g) => ({ ...g, [campo.clave]: valor }));
-      setMensaje({ tipo: "ok", texto: `Guardado: ${campo.etiqueta}.` });
-    } catch {
-      setMensaje({ tipo: "error", texto: `No se pudo guardar: ${campo.etiqueta}.` });
-    }
-    setOcupado("");
-  }
-
-  function descartar(campo: Campo) {
-    setValores((v) => ({ ...v, [campo.clave]: guardados[campo.clave] ?? "" }));
-  }
-
-  async function subirImagen(campo: Campo, archivo: File | undefined) {
-    if (!archivo) return;
-    setMensaje(null);
-    setOcupado(campo.clave);
-    try {
-      const ext = archivo.name.split(".").pop()?.toLowerCase() ?? "jpg";
-      const ruta = `${campo.clave}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("web").upload(ruta, archivo);
-      if (error) throw error;
-      const { data } = supabase.storage.from("web").getPublicUrl(ruta);
-      await guardarValor(campo, data.publicUrl);
-      setValores((v) => ({ ...v, [campo.clave]: data.publicUrl }));
-      setGuardados((g) => ({ ...g, [campo.clave]: data.publicUrl }));
-      setMensaje({ tipo: "ok", texto: `Imagen actualizada: ${campo.etiqueta}.` });
-    } catch {
-      setMensaje({ tipo: "error", texto: `No se pudo subir la imagen: ${campo.etiqueta}.` });
-    }
-    setOcupado("");
-  }
-
-  if (cargando) {
-    return (
-      <main className="flex min-h-screen w-full items-center justify-center">
-        <p className="text-corte-pergamino/60">Cargando...</p>
-      </main>
-    );
-  }
-
-  if (!esAdmin) {
-    return (
-      <main className="flex min-h-screen w-full items-center justify-center px-6">
-        <div className="max-w-md rounded-sm border border-corte-oro/30 p-8 text-center">
-          <h1 className="titulo-2">Acceso restringido</h1>
-          <p className="texto-suave mt-4">Esta página es solo para administración.</p>
-          <Link href="/panel" className="boton boton-secundario mt-6">
-            Volver al panel
-          </Link>
-        </div>
-      </main>
-    );
-  }
+export default async function Home() {
+  const c = await cargarContenido();
+  const t = (clave: string) => c[clave] || defecto(clave);
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      {/* Barra superior */}
-      <header className="sticky top-0 z-30 border-b border-corte-oro/20 bg-corte-fondo/90 backdrop-blur">
-        <div className="flex w-full flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-10">
-          <div className="flex items-center gap-4">
-            <div>
-              <p className="text-xs text-corte-lavanda">Administración</p>
-              <h1 className="font-display text-xl font-semibold text-corte-pergamino">
-                Contenido de la web
-              </h1>
-            </div>
-            {sinGuardar > 0 && (
-              <span className="rounded-full border border-corte-oro/50 px-3 py-1 text-xs text-corte-oro">
-                {sinGuardar} {sinGuardar === 1 ? "cambio sin guardar" : "cambios sin guardar"}
-              </span>
-            )}
-          </div>
+    <>
+      <main className="contenedor">
+        {/* Hero */}
+        <section className="border-b border-corte-oro/20 pb-16">
+          <p className="mb-4 kicker">{t("home.kicker")}</p>
+          <h1 className="titulo-1">{t("home.titulo")}</h1>
 
-          <nav className="flex items-center gap-3 text-sm">
-            <Link
-              href="/admin/catalogo"
-              className="rounded-sm border border-corte-pergamino/30 px-4 py-2 text-corte-pergamino hover:border-corte-pergamino/60"
-            >
+      
+
+          <p className="mt-6 destacado whitespace-pre-line">{t("home.intro")}</p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link href="/registro" className="boton boton-primario">
+              Únete a la entrega mensual
+            </Link>
+            <Link href="#como-funciona" className="boton boton-secundario">
+              Cómo funciona
+            </Link>
+            <Link href="/faq" className="boton boton-secundario">
+              Preguntas frecuentes
+            </Link>
+            <Link href="/catalogo" className="boton boton-secundario">
               Catálogo de capítulos
             </Link>
-            <Link
-              href="/panel"
-              className="rounded-sm border border-corte-pergamino/30 px-4 py-2 text-corte-pergamino hover:border-corte-pergamino/60"
-            >
-              Volver al panel
-            </Link>
-          </nav>
-        </div>
-      </header>
+          </div>
+        </section>
 
-      {/* Aviso flotante */}
-      {mensaje && (
-        <div className="pointer-events-none fixed right-6 top-20 z-40">
-          <p
-            role={mensaje.tipo === "error" ? "alert" : "status"}
-            className={`pointer-events-auto max-w-sm bg-corte-fondo shadow-lg ${
-              mensaje.tipo === "ok" ? "aviso-ok" : "aviso-error"
-            }`}
-          >
-            {mensaje.texto}
-          </p>
-        </div>
-      )}
+        {/* Cómo funciona */}
+        <section id="como-funciona" className="py-16">
+          <h2 className="titulo-2">{t("como.titulo")}</h2>
+          <p className="mt-3 texto whitespace-pre-line">{t("como.intro")}</p>
 
-      <div className="flex w-full flex-1 flex-col lg:flex-row">
-        {/* Navegación por grupos */}
-        <aside className="border-b border-corte-oro/20 lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)] lg:w-64 lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
-          <nav
-            aria-label="Secciones"
-            className="flex gap-1 overflow-x-auto px-6 py-3 lg:flex-col lg:gap-0 lg:px-4 lg:py-6"
-          >
-            <p className="mb-2 hidden px-3 text-xs text-corte-pergamino/50 lg:block">
-              Secciones
-            </p>
-            {grupos.map((grupo, i) => (
-              <a
-                key={grupo}
-                href={`#grupo-${i}`}
-                className="whitespace-nowrap rounded-sm px-3 py-2 text-sm text-corte-pergamino/75 hover:bg-corte-pergamino/5 hover:text-corte-pergamino"
-              >
-                {grupo}
-              </a>
+          <ol className="mt-10 space-y-8">
+            {[1, 2, 3].map((n) => (
+              <li key={n} className="flex gap-6">
+                <span className="font-display text-2xl text-corte-oro">{n}.</span>
+                <div>
+                  <h3 className="titulo-3">{t(`como.paso${n}.titulo`)}</h3>
+                  <p className="mt-1 text-corte-pergamino/75 whitespace-pre-line">
+                    {t(`como.paso${n}.texto`)}
+                  </p>
+                </div>
+              </li>
             ))}
-          </nav>
-        </aside>
+          </ol>
+        </section>
 
-        {/* Contenido */}
-        <main className="min-w-0 flex-1 px-6 py-8 lg:px-10">
-          {grupos.map((grupo, i) => {
-            const campos = CAMPOS.filter((c) => c.grupo === grupo);
-            return (
-              <section
-                key={grupo}
-                id={`grupo-${i}`}
-                className={`scroll-mt-24 ${i > 0 ? "mt-12" : ""}`}
-              >
-                <div className="mb-5 flex items-baseline justify-between border-b border-corte-oro/20 pb-3">
-                  <h2 className="titulo-3">{grupo}</h2>
-                  <span className="text-xs text-corte-pergamino/50">
-                    {campos.length} {campos.length === 1 ? "campo" : "campos"}
-                  </span>
-                </div>
+        {/* Planes */}
+        <section id="planes" className="seccion">
+          <h2 className="titulo-2">{t("planes.titulo")}</h2>
+          <p className="mt-3 texto whitespace-pre-line">{t("planes.intro")}</p>
 
-                <div className="grid grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
-                  {campos.map((campo) => {
-                    const modificado = estaModificado(campo);
-                    const enCurso = ocupado === campo.clave;
-                    const ancho = campo.tipo === "largo" ? "xl:col-span-2 2xl:col-span-2" : "";
-
-                    return (
-                      <div
-                        key={campo.clave}
-                        className={`flex flex-col rounded-sm border bg-corte-fondo2/30 p-5 transition-colors ${
-                          modificado ? "border-corte-oro/60" : "border-corte-oro/20"
-                        } ${ancho}`}
-                      >
-                        <div className="mb-3 flex items-center justify-between gap-3">
-                          <label
-                            className="text-sm font-medium text-corte-pergamino"
-                            htmlFor={campo.clave}
-                          >
-                            {campo.etiqueta}
-                          </label>
-                          {modificado && (
-                            <span className="text-xs text-corte-oro">Sin guardar</span>
-                          )}
-                        </div>
-
-                        {campo.tipo === "imagen" ? (
-                          <div className="flex flex-1 flex-col gap-4">
-                            <div className="flex h-44 items-center justify-center overflow-hidden rounded-sm border border-dashed border-corte-pergamino/25 bg-black/10">
-                              {valores[campo.clave] ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                  src={valores[campo.clave]}
-                                  alt=""
-                                  className="h-full w-full object-contain"
-                                />
-                              ) : (
-                                <span className="text-sm text-corte-pergamino/40">
-                                  Sin imagen
-                                </span>
-                              )}
-                            </div>
-                            <div>
-                              <input
-                                id={campo.clave}
-                                type="file"
-                                accept="image/*"
-                                className="sr-only"
-                                disabled={enCurso}
-                                onChange={(e) => subirImagen(campo, e.target.files?.[0])}
-                              />
-                              <label
-                                htmlFor={campo.clave}
-                                className={`boton boton-secundario cursor-pointer text-sm ${
-                                  enCurso ? "opacity-60" : ""
-                                }`}
-                              >
-                                {enCurso ? "Subiendo..." : "Cambiar imagen"}
-                              </label>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex flex-1 flex-col">
-                            {campo.tipo === "largo" ? (
-                              <textarea
-                                id={campo.clave}
-                                rows={6}
-                                className="campo flex-1 resize-y"
-                                value={valores[campo.clave] ?? ""}
-                                onChange={(e) =>
-                                  setValores((v) => ({ ...v, [campo.clave]: e.target.value }))
-                                }
-                              />
-                            ) : (
-                              <input
-                                id={campo.clave}
-                                type="text"
-                                className="campo"
-                                value={valores[campo.clave] ?? ""}
-                                onChange={(e) =>
-                                  setValores((v) => ({ ...v, [campo.clave]: e.target.value }))
-                                }
-                              />
-                            )}
-
-                            <div className="mt-4 flex items-center gap-3">
-                              <button
-                                onClick={() => guardarTexto(campo)}
-                                disabled={enCurso || !modificado}
-                                className="boton boton-primario text-sm"
-                              >
-                                {enCurso ? "Guardando..." : "Guardar cambios"}
-                              </button>
-                              {modificado && !enCurso && (
-                                <button
-                                  onClick={() => descartar(campo)}
-                                  className="text-sm text-corte-pergamino/60 underline underline-offset-4 hover:text-corte-pergamino"
-                                >
-                                  Descartar
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            );
-          })}
-        </main>
-      </div>
-    </div>
-  );
-}"use client";
-
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import { CAMPOS, Campo } from "@/lib/camposEditables";
-
-type Mensaje = { tipo: "ok" | "error"; texto: string } | null;
-
-// Estilos propios del panel (independientes del resto de la web)
-const FUENTE =
-  'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const INPUT =
-  "w-full rounded-md border border-[#d5d8df] bg-white px-3 py-2 text-sm text-[#1f2430] placeholder:text-[#9aa1ad] focus:border-[#49304F] focus:outline-none focus:ring-2 focus:ring-[#49304F]/20 disabled:opacity-60";
-const BTN_PRIMARIO =
-  "inline-flex items-center justify-center rounded-md bg-[#49304F] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#5b3d63] disabled:cursor-not-allowed disabled:opacity-40";
-const BTN_SECUNDARIO =
-  "inline-flex items-center justify-center rounded-md border border-[#d5d8df] bg-white px-4 py-2 text-sm font-medium text-[#1f2430] transition hover:bg-[#f4f5f7] disabled:cursor-not-allowed disabled:opacity-40";
-
-export default function AdminPage() {
-  const router = useRouter();
-  const [cargando, setCargando] = useState(true);
-  const [esAdmin, setEsAdmin] = useState(false);
-  const [valores, setValores] = useState<Record<string, string>>({});
-  const [guardados, setGuardados] = useState<Record<string, string>>({});
-  const [ocupado, setOcupado] = useState("");
-  const [mensaje, setMensaje] = useState<Mensaje>(null);
-  const [activo, setActivo] = useState(0);
-
-  useEffect(() => {
-    async function cargar() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        router.push("/registro");
-        return;
-      }
-
-      const { data: admin } = await supabase
-        .from("admins")
-        .select("user_id")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (!admin) {
-        setCargando(false);
-        return;
-      }
-      setEsAdmin(true);
-
-      const { data } = await supabase.from("contenido").select("clave, valor");
-      const mapa: Record<string, string> = {};
-      CAMPOS.forEach((c) => (mapa[c.clave] = c.porDefecto));
-      (data ?? []).forEach((f) => (mapa[f.clave] = f.valor));
-      setValores(mapa);
-      setGuardados(mapa);
-      setCargando(false);
-    }
-    cargar();
-  }, [router]);
-
-  useEffect(() => {
-    if (!mensaje) return;
-    const t = setTimeout(() => setMensaje(null), 4500);
-    return () => clearTimeout(t);
-  }, [mensaje]);
-
-  const grupos = useMemo(() => Array.from(new Set(CAMPOS.map((c) => c.grupo))), []);
-
-  function modificado(campo: Campo) {
-    return campo.tipo !== "imagen" && (valores[campo.clave] ?? "") !== (guardados[campo.clave] ?? "");
-  }
-
-  const pendientes = CAMPOS.filter(modificado);
-  const pendientesPorGrupo = (g: string) => pendientes.filter((c) => c.grupo === g).length;
-
-  async function guardarValor(campo: Campo, valor: string) {
-    const { data, error } = await supabase
-      .from("contenido")
-      .upsert({
-        clave: campo.clave,
-        valor,
-        tipo: campo.tipo,
-        updated_at: new Date().toISOString(),
-      })
-      .select("clave");
-    if (error || !data || data.length === 0) {
-      throw new Error("No se pudo guardar.");
-    }
-  }
-
-  async function guardarTexto(campo: Campo) {
-    setMensaje(null);
-    setOcupado(campo.clave);
-    try {
-      const valor = valores[campo.clave] ?? "";
-      await guardarValor(campo, valor);
-      setGuardados((g) => ({ ...g, [campo.clave]: valor }));
-      setMensaje({ tipo: "ok", texto: `Guardado: ${campo.etiqueta}.` });
-    } catch {
-      setMensaje({ tipo: "error", texto: `No se pudo guardar: ${campo.etiqueta}.` });
-    }
-    setOcupado("");
-  }
-
-  async function guardarTodo() {
-    if (pendientes.length === 0) return;
-    setMensaje(null);
-    setOcupado("__todo");
-    const hechos: Record<string, string> = {};
-    try {
-      for (const campo of pendientes) {
-        const valor = valores[campo.clave] ?? "";
-        await guardarValor(campo, valor);
-        hechos[campo.clave] = valor;
-      }
-      setMensaje({
-        tipo: "ok",
-        texto: `Se guardaron ${pendientes.length} ${pendientes.length === 1 ? "cambio" : "cambios"}.`,
-      });
-    } catch {
-      setMensaje({ tipo: "error", texto: "No se pudieron guardar todos los cambios." });
-    }
-    setGuardados((g) => ({ ...g, ...hechos }));
-    setOcupado("");
-  }
-
-  function descartar(campo: Campo) {
-    setValores((v) => ({ ...v, [campo.clave]: guardados[campo.clave] ?? "" }));
-  }
-
-  async function subirImagen(campo: Campo, archivo: File | undefined) {
-    if (!archivo) return;
-    setMensaje(null);
-    setOcupado(campo.clave);
-    try {
-      const ext = archivo.name.split(".").pop()?.toLowerCase() ?? "jpg";
-      const ruta = `${campo.clave}-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("web").upload(ruta, archivo);
-      if (error) throw error;
-      const { data } = supabase.storage.from("web").getPublicUrl(ruta);
-      await guardarValor(campo, data.publicUrl);
-      setValores((v) => ({ ...v, [campo.clave]: data.publicUrl }));
-      setGuardados((g) => ({ ...g, [campo.clave]: data.publicUrl }));
-      setMensaje({ tipo: "ok", texto: `Imagen actualizada: ${campo.etiqueta}.` });
-    } catch {
-      setMensaje({ tipo: "error", texto: `No se pudo subir la imagen: ${campo.etiqueta}.` });
-    }
-    setOcupado("");
-  }
-
-  // Capa a pantalla completa, independiente del layout de la web
-  const capa = "fixed inset-0 z-[100] flex bg-[#f4f5f7] text-[#1f2430]";
-
-  if (cargando) {
-    return (
-      <div className={`${capa} items-center justify-center`} style={{ fontFamily: FUENTE }}>
-        <p className="text-sm text-[#6b7280]">Cargando panel...</p>
-      </div>
-    );
-  }
-
-  if (!esAdmin) {
-    return (
-      <div className={`${capa} items-center justify-center px-6`} style={{ fontFamily: FUENTE }}>
-        <div className="w-full max-w-sm rounded-lg border border-[#e3e5ea] bg-white p-8 text-center shadow-sm">
-          <h1 className="text-lg font-semibold [font-family:inherit]">Acceso restringido</h1>
-          <p className="mt-2 text-sm text-[#6b7280]">Esta página es solo para administración.</p>
-          <Link href="/panel" className={`${BTN_PRIMARIO} mt-6`}>
-            Volver al panel
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const grupoActivo = grupos[activo] ?? grupos[0];
-  const camposGrupo = CAMPOS.filter((c) => c.grupo === grupoActivo);
-
-  return (
-    <div className={capa} style={{ fontFamily: FUENTE }}>
-      {/* Barra lateral */}
-      <aside className="hidden w-64 shrink-0 flex-col bg-[#30213A] text-white md:flex">
-        <div className="border-b border-white/10 px-5 py-5">
-          <p className="text-sm font-semibold leading-tight">El Jardín de las Herederas</p>
-          <p className="mt-0.5 text-xs text-white/55">Panel de administración</p>
-        </div>
-
-        <nav aria-label="Secciones" className="flex-1 overflow-y-auto px-3 py-4">
-          <p className="px-3 pb-2 text-xs font-medium text-white/45">Contenido de la web</p>
-          <ul className="space-y-0.5">
-            {grupos.map((g, i) => {
-              const n = pendientesPorGrupo(g);
-              const sel = i === activo;
-              return (
-                <li key={g}>
-                  <button
-                    onClick={() => setActivo(i)}
-                    aria-current={sel ? "page" : undefined}
-                    className={`flex w-full items-center justify-between rounded-md border-l-2 px-3 py-2 text-left text-sm transition ${
-                      sel
-                        ? "border-[#B59A68] bg-white/10 text-white"
-                        : "border-transparent text-white/70 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <span className="truncate">{g}</span>
-                    {n > 0 && (
-                      <span className="ml-2 rounded-full bg-[#B59A68] px-1.5 text-xs font-medium text-[#30213A]">
-                        {n}
-                      </span>
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-
-          <p className="mt-6 px-3 pb-2 text-xs font-medium text-white/45">Gestión</p>
-          <Link
-            href="/admin/catalogo"
-            className="block rounded-md border-l-2 border-transparent px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-white"
-          >
-            Catálogo de capítulos
-          </Link>
-        </nav>
-
-        <div className="border-t border-white/10 p-3">
-          <Link
-            href="/panel"
-            className="block rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-white"
-          >
-            Volver al panel
-          </Link>
-        </div>
-      </aside>
-
-      {/* Zona principal */}
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-[#e3e5ea] bg-white px-6 py-3 md:h-16 md:flex-nowrap md:px-8 md:py-0">
-          <div className="min-w-0">
-            <h1 className="truncate text-lg font-semibold [font-family:inherit]">
-              {grupoActivo}
-            </h1>
-            <p className="text-xs text-[#6b7280]">
-              {camposGrupo.length} {camposGrupo.length === 1 ? "campo editable" : "campos editables"}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Selector de sección en móvil */}
-            <select
-              aria-label="Sección"
-              value={activo}
-              onChange={(e) => setActivo(Number(e.target.value))}
-              className={`${INPUT} w-auto md:hidden`}
-            >
-              {grupos.map((g, i) => (
-                <option key={g} value={i}>
-                  {g}
-                </option>
-              ))}
-            </select>
-
-            {pendientes.length > 0 && (
-              <span className="hidden rounded-full bg-[#fef3c7] px-3 py-1 text-xs font-medium text-[#92400e] sm:inline">
-                {pendientes.length} {pendientes.length === 1 ? "cambio sin guardar" : "cambios sin guardar"}
-              </span>
-            )}
-            <button
-              onClick={guardarTodo}
-              disabled={pendientes.length === 0 || ocupado !== ""}
-              className={BTN_PRIMARIO}
-            >
-              {ocupado === "__todo" ? "Guardando..." : "Guardar todo"}
-            </button>
-          </div>
-        </header>
-
-        <main className="flex-1 overflow-y-auto px-6 py-6 md:px-8">
-          <div className="w-full overflow-hidden rounded-lg border border-[#e3e5ea] bg-white shadow-sm">
-            {camposGrupo.map((campo, idx) => {
-              const mod = modificado(campo);
-              const enCurso = ocupado === campo.clave;
-              const bloqueado = ocupado !== "";
-
-              return (
-                <div
-                  key={campo.clave}
-                  className={`grid gap-4 px-6 py-5 md:grid-cols-[260px_1fr] md:gap-8 ${
-                    idx > 0 ? "border-t border-[#eceef2]" : ""
-                  } ${mod ? "bg-[#fffbeb]" : ""}`}
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
+              <h3 className="titulo-3">{t("sub.nombre")}</h3>
+              <p className="mt-2 precio">
+                {t("sub.precio")}{" "}
+                <span className="text-base text-corte-pergamino/60">
+                  {t("sub.periodo")}
+                </span>
+              </p>
+              <p className="mt-1 texto-suave whitespace-pre-line">{t("sub.nota")}</p>
+              <p className="mt-4 flex-1 text-corte-pergamino/75 whitespace-pre-line">
+                {t("sub.descripcion")}
+              </p>
+              <div className="mt-6">
+                <BotonPago
+                  tipo="suscripcion"
+                  className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
                 >
-                  <div>
-                    <label htmlFor={campo.clave} className="text-sm font-medium">
-                      {campo.etiqueta}
-                    </label>
-                    <p className="mt-1 break-all text-xs text-[#9aa1ad]">{campo.clave}</p>
-                    {mod && (
-                      <p className="mt-2 text-xs font-medium text-[#92400e]">Sin guardar</p>
-                    )}
-                  </div>
+                  {t("sub.boton")}
+                </BotonPago>
+              </div>
+            </div>
 
-                  {campo.tipo === "imagen" ? (
-                    <div className="flex flex-wrap items-center gap-5">
-                      <div className="flex h-28 w-48 items-center justify-center overflow-hidden rounded-md border border-dashed border-[#d5d8df] bg-[#f4f5f7]">
-                        {valores[campo.clave] ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={valores[campo.clave]}
-                            alt=""
-                            className="h-full w-full object-contain"
-                          />
-                        ) : (
-                          <span className="text-xs text-[#9aa1ad]">Sin imagen</span>
-                        )}
-                      </div>
-                      <div>
-                        <input
-                          id={campo.clave}
-                          type="file"
-                          accept="image/*"
-                          className="sr-only"
-                          disabled={bloqueado}
-                          onChange={(e) => subirImagen(campo, e.target.files?.[0])}
-                        />
-                        <label
-                          htmlFor={campo.clave}
-                          className={`${BTN_SECUNDARIO} cursor-pointer ${
-                            bloqueado ? "pointer-events-none opacity-40" : ""
-                          }`}
-                        >
-                          {enCurso ? "Subiendo..." : "Cambiar imagen"}
-                        </label>
-                        <p className="mt-2 text-xs text-[#9aa1ad]">
-                          La imagen se publica en cuanto termina de subirse.
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      {campo.tipo === "largo" ? (
-                        <textarea
-                          id={campo.clave}
-                          rows={6}
-                          className={`${INPUT} resize-y`}
-                          value={valores[campo.clave] ?? ""}
-                          onChange={(e) =>
-                            setValores((v) => ({ ...v, [campo.clave]: e.target.value }))
-                          }
-                        />
-                      ) : (
-                        <input
-                          id={campo.clave}
-                          type="text"
-                          className={INPUT}
-                          value={valores[campo.clave] ?? ""}
-                          onChange={(e) =>
-                            setValores((v) => ({ ...v, [campo.clave]: e.target.value }))
-                          }
-                        />
-                      )}
-                      {mod && (
-                        <div className="mt-3 flex items-center gap-2">
-                          <button
-                            onClick={() => guardarTexto(campo)}
-                            disabled={bloqueado}
-                            className={BTN_PRIMARIO}
-                          >
-                            {enCurso ? "Guardando..." : "Guardar cambios"}
-                          </button>
-                          <button
-                            onClick={() => descartar(campo)}
-                            disabled={bloqueado}
-                            className={BTN_SECUNDARIO}
-                          >
-                            Descartar
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            <div className="flex flex-col rounded-sm border border-corte-oro/30 p-6">
+              <h3 className="titulo-3">{t("cap.nombre")}</h3>
+              <p className="mt-2 precio">{t("cap.precio")}</p>
+              <p className="mt-1 texto-suave whitespace-pre-line">{t("cap.nota")}</p>
+              <p className="mt-4 flex-1 text-corte-pergamino/75 whitespace-pre-line">
+                {t("cap.descripcion")}
+              </p>
+              <div className="mt-6">
+                <BotonPago
+                  tipo="capitulo"
+                  capitulo={1}
+                  className="w-full rounded-sm border border-corte-pergamino/30 px-6 py-3 text-corte-pergamino transition hover:border-corte-pergamino/60 disabled:opacity-60"
+                >
+                  {t("cap.boton")}
+                </BotonPago>
+              </div>
+            </div>
           </div>
-        </main>
-      </div>
 
-      {/* Aviso */}
-      {mensaje && (
-        <div className="pointer-events-none fixed bottom-6 right-6 z-[110]">
-          <p
-            role={mensaje.tipo === "error" ? "alert" : "status"}
-            className={`pointer-events-auto max-w-sm rounded-md px-4 py-3 text-sm font-medium text-white shadow-lg ${
-              mensaje.tipo === "ok" ? "bg-[#2f6f4f]" : "bg-[#b42318]"
-            }`}
-          >
-            {mensaje.texto}
+          <p className="mt-6 texto-suave">
+            Necesitas una cuenta para comprar. Si aún no la tienes{" "}
+            <Link
+              href="/registro"
+              className="underline underline-offset-4 hover:text-corte-pergamino"
+            >
+              crea tu cuenta aquí
+            </Link>.
           </p>
-        </div>
-      )}
-    </div>
+        </section>
+      </main>
+    </>
   );
 }
