@@ -5,6 +5,11 @@ export const metadata = {
 };
 
 const FAQ = [
+    {
+    pregunta: "¿Puedo unirme ahora mismo? ¿Aunque ya haya empezado el proyecto,?",
+    respuesta:
+      "¡Claro que sí! Si te suscribes ahora empiezas con el capítulo uno y cada mes vas recibiendo el capítulo que te toca sin pérdida. No temas por los spoilers, la comunidad es pequeña y en mis videos no revelo nada importante de la historia.",
+  },
   {
     pregunta: "¿Cuál es la fecha límite para conseguir la edición de este mes?",
     respuesta:

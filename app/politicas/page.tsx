@@ -98,9 +98,7 @@ export default function PoliticasPage() {
               perfil.
             </p>
             <p>
-              <b>Precios:</b> los precios se muestran en euros. El precio de
-              preventa de la suscripción mensual es de 9 € al mes y el precio
-              habitual de 11 € al mes. El capítulo suelto cuesta 11 €.
+              <b>Precios:</b> los precios se muestran en euros. El precio de 11 € al mes. El capítulo suelto cuesta 11 €.
               Se incluyen impuestos y gastos de envío.
             </p>
             <p>

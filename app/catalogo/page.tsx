@@ -68,7 +68,7 @@ export default function CatalogoPage() {
         <div className="tarjeta max-w-xl">
           <h2 className="titulo-3">Suscripción mensual</h2>
           <p className="mt-1 texto-suave">
-            9 € al mes en preventa (precio habitual 11 €). Un capítulo nuevo
+            11€ almes. Un capítulo nuevo
             cada mes con sus goodies.
           </p>
           <div className="mt-6">
