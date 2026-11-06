@@ -12,10 +12,10 @@ type Props = {
 };
 
 const ENLACES: Record<string, string> = {
-  suscripcion: "https://buy.stripe.com/5kQ6oG77e3Yl1jnah414401",
+  suscripcion: "https://buy.stripe.com/7sY9AS3V29iFaTXdtg14403",
   // Pega aquí el Payment Link de Stripe de la suscripción internacional (21 €/mes)
   "suscripcion-internacional": "",
-  "capitulo-1": "https://buy.stripe.com/8x2fZgdvC52pe693SG14402",
+  "capitulo-individual": "https://buy.stripe.com/bJeaEWcry7ax2nrdtg14404",
 };
 
 export default function BotonPago({ tipo, capitulo, className, children }: Props) {
