@@ -10,10 +10,11 @@ export type Capitulo = {
 // Para añadir un capítulo nuevo, copia un bloque y cambia los datos.
 export const CAPITULOS: Capitulo[] = [
   {
-    numero: 1,
-    titulo: "La Ofrenda",
+    numero: Individual,
+    titulo: "Capítulo",
     descripcion:
-      "Una semana antes del Cortejo del Trono, la Ofrenda de Alondra arde bajo su propio pincel. Capítulo 1 de El Fuego de las Herederas.",
+      "Esta opcción permite comprar los capítulos de forma individual sin función de suscripción. Quizás resulte tedioso venir a pedir tu sobre cada mes, pero es la única forma de pagar con Bizum que existe actualmente.
+      Puedes elegir más de un solo capítulo en la misma compra añadiendo tantos productos como quieras y indicando el número en el campo Otros DatabaseIcon.",
     precio: 18.50,
    imagenes: [
   "/capitulos/capitulo-1/1.jpeg",
@@ -21,12 +22,5 @@ export const CAPITULOS: Capitulo[] = [
 ],
     disponible: true,
   },
- {
-  numero: 2,
-  titulo: "El nombre",
-  descripcion: "Próximamente.",
-  precio: 18.50,
-  imagenes: ["/capitulos/capitulo-2/1.png"],
-  disponible: false,
-},
+
 ];
