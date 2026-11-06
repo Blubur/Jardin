@@ -14,7 +14,7 @@ export const CAPITULOS: Capitulo[] = [
     titulo: "La Ofrenda",
     descripcion:
       "Una semana antes del Cortejo del Trono, la Ofrenda de Alondra arde bajo su propio pincel. Capítulo 1 de El Fuego de las Herederas.",
-    precio: 11,
+    precio: 18.50,
    imagenes: [
   "/capitulos/capitulo-1/1.jpeg",
   "/capitulos/capitulo-1/2.jpeg",
@@ -25,7 +25,7 @@ export const CAPITULOS: Capitulo[] = [
   numero: 2,
   titulo: "El nombre",
   descripcion: "Próximamente.",
-  precio: 11,
+  precio: 18.50,
   imagenes: ["/capitulos/capitulo-2/1.png"],
   disponible: false,
 },
