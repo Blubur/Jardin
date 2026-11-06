@@ -3,20 +3,9 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
 
-
-  :root {
-  --font-display: "Bahnschrift", var(--font-barlow), sans-serif;
-}
-
-h1,
-.titulo-1 {
-  font-family: var(--font-titulo), var(--font-display), serif;
-}
-
-
-
-  /* Paleta*/
+  /* Paleta base (se conserva entera por si alguna clase antigua la usa) */
   --peonia-nocturna: 48 33 58; /* #30213A */
   --ciruela-profunda: 73 48 79; /* #49304F */
   --granate-savia: 107 48 71; /* #6B3047 */
@@ -41,40 +30,57 @@ h1,
   --dorado-apagado: 181 154 104; /* #B59A68 */
   --humo-lavanda: 154 140 158; /* #9A8C9E */
 
-  /* Nombres de uso*/
-  --corte-fondo: var(--peonia-nocturna);
-  --corte-fondo2: var(--ciruela-profunda);
-  --corte-oro: var(--dorado-apagado);
-  --corte-pergamino: var(--marfil-antiguo);
-  --corte-granate: var(--granate-savia);
-  --corte-lavanda: var(--humo-lavanda);
+  /* Nueva paleta clara */
+  --beige-claro: 250 247 242; /* #FAF7F2 */
+  --blanco: 255 255 255; /* #FFFFFF */
+  --tinta-ciruela: 43 30 37; /* #2B1E25 texto */
+  --acento-granate: 107 48 71; /* #6B3047 */
+  --acento-salvia: 168 183 165; /* #A8B7A5 */
+  --salvia-texto: 86 105 90; /* #56695A: la salvia oscurecida, para texto */
+
+  /* Nombres de uso (los que usa el resto de la web) */
+  --corte-fondo: var(--beige-claro); /* fondo de página */
+  --corte-fondo2: var(--blanco); /* campos, ventanas, tarjetas */
+  --corte-oro: var(--acento-granate); /* acento principal: botones, enlaces, líneas */
+  --corte-pergamino: var(--tinta-ciruela); /* texto */
+  --corte-granate: var(--acento-granate);
+  --corte-lavanda: var(--salvia-texto); /* acento secundario en texto (kickers) */
+  --corte-salvia: var(--acento-salvia); /* acento secundario decorativo */
+
+  --font-display: "Bahnschrift", var(--font-barlow), sans-serif;
+}
+
+h1,
+.titulo-1 {
+  font-family: var(--font-titulo), var(--font-display), serif;
 }
 
 ::selection {
-  background-color: rgb(var(--dorado-apagado));
-  color: rgb(var(--peonia-nocturna));
+  background-color: rgb(var(--acento-granate));
+  color: rgb(var(--beige-claro));
 }
 
 body {
   background-image:
-    radial-gradient(circle at 15% 20%, rgb(var(--granate-savia) / 0.25), transparent 40%),
-    radial-gradient(circle at 85% 75%, rgb(var(--humo-lavanda) / 0.15), transparent 45%);
+    radial-gradient(circle at 15% 20%, rgb(var(--acento-salvia) / 0.35), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgb(var(--acento-granate) / 0.06), transparent 45%);
   background-attachment: fixed;
   font-size: 20px;
 }
+
 @layer components {
   /* Formularios y avisos */
   .etiqueta {
     @apply mb-1 block text-sm text-corte-pergamino/70;
   }
   .campo {
-    @apply w-full rounded-sm border border-corte-pergamino/30 bg-transparent px-4 py-3 text-corte-pergamino placeholder:text-corte-pergamino/40 focus:border-corte-oro focus:outline-none disabled:opacity-60;
+    @apply w-full rounded-sm border border-corte-pergamino/30 bg-corte-fondo2 px-4 py-3 text-corte-pergamino placeholder:text-corte-pergamino/40 focus:border-corte-oro focus:outline-none disabled:opacity-60;
   }
   .aviso-ok {
     @apply border border-corte-oro/40 px-4 py-3 text-corte-pergamino/85;
   }
   .aviso-error {
-    @apply border border-rosa-peonia px-4 py-3 text-rosa-palido;
+    @apply border border-[#b42318] px-4 py-3 text-[#b42318];
   }
 }
 @layer components {
@@ -86,7 +92,8 @@ body {
     @apply mx-auto max-w-2xl px-6 py-16;
   }
   .seccion {
-    @apply border-t border-corte-oro/20 py-16;
+    @apply py-16;
+    border-top: 1px solid rgb(var(--corte-salvia));
   }
 
   /* Tipografía */
@@ -125,12 +132,23 @@ body {
   .boton-secundario {
     @apply border border-corte-pergamino/30 text-corte-pergamino hover:border-corte-pergamino/60;
   }
+  .boton-secundario:hover {
+    background-color: rgb(var(--corte-salvia) / 0.3);
+  }
 
   /* Tarjeta */
   .tarjeta {
-    @apply flex flex-col rounded-sm border border-corte-oro/30 p-6;
+    @apply flex flex-col rounded-sm bg-corte-fondo2 p-6;
+    border: 1px solid rgb(var(--corte-salvia));
+  }
+
+  /* Pie de página: franja de salvia suave */
+  .pie-web {
+    background-color: rgb(var(--corte-salvia) / 0.25);
+    border-top: 1px solid rgb(var(--corte-salvia));
   }
 }
+
 /* FAQ: flor en lugar del triángulo del desplegable */
 .faq-resumen {
   display: flex;
@@ -144,9 +162,9 @@ body {
 }
 .faq-resumen .flor {
   font-family: "Ebrima", "Noto Sans Vai", "Segoe UI Symbol", sans-serif;
-  color: rgb(var(--dorado-apagado));
+  color: rgb(var(--acento-granate));
   transition: color 0.2s ease;
 }
 details[open] > .faq-resumen .flor {
-  color: rgb(var(--rosa-peonia));
+  color: rgb(var(--salvia-texto));
 }

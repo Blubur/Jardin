@@ -29,7 +29,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between bg-black/80 px-3 py-3 backdrop-blur sm:px-6 sm:py-4">
+    <nav className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-corte-oro/20 bg-corte-fondo/90 px-3 py-3 backdrop-blur sm:px-6 sm:py-4">
       <Link href="/" className="corte-oro font-semibold">
         <span className="hidden sm:inline">El Jardín de las Herederas</span>
         <span className="sm:hidden">El Jardín</span>

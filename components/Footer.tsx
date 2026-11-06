@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeartIcon } from "@heroicons/react/24/outline";
 
 const enlace = "hover:text-corte-oro";
 const titulo = "font-display text-lg text-corte-pergamino";
@@ -6,12 +7,12 @@ const lista = "mt-3 space-y-1 text-base text-corte-pergamino/70";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t text-base border-corte-oro/20">
+    <footer className="pie-web mt-24 text-base">
       <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <h4 className={titulo}>El Jardín de las Herederas</h4>
           <p className="mt-3 text-base text-corte-pergamino/70">
-            Una entrega mensual del Jardín de las Herederas: un capítulo nuevo y su
+            Una entrega mensual de La Corte Errante: un capítulo nuevo y su
             papelería temática, escritos y preparados por una sola persona.
           </p>
           <ul className={lista}>
@@ -63,7 +64,9 @@ export default function Footer() {
               title="TikTok"
               className="transition hover:text-corte-oro"
             >
-              <i className="fa-brands fa-tiktok" aria-hidden="true" />
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7" aria-hidden="true">
+                <path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.4a2.9 2.9 0 1 1-2-2.8V9.1a6.3 6.3 0 1 0 5.4 6.3V8.9a8.2 8.2 0 0 0 4.8 1.5V7a4.8 4.8 0 0 1-1-.3z" />
+              </svg>
             </a>
             <a
               href="https://ko-fi.com/bluuri"
@@ -73,7 +76,7 @@ export default function Footer() {
               title="Invítame a un café en Ko-fi"
               className="transition hover:text-corte-oro"
             >
-              <i className="fa-brands fa-ko-fi" aria-hidden="true" />
+              <HeartIcon className="h-7 w-7" aria-hidden="true" />
             </a>
           </div>
         </div>
