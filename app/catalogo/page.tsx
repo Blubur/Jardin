@@ -65,28 +65,47 @@ export default function CatalogoPage() {
       </p>
 
       <section className="seccion mt-10">
-        <div className="tarjeta max-w-xl">
-          <h2 className="titulo-3">Suscripción mensual</h2>
-          <p className="mt-1 texto-suave">
-            11€ almes. Un capítulo nuevo
-            cada mes con sus goodies.
-          </p>
-          <div className="mt-6">
-            {haySesion ? (
-              <BotonPago
-                tipo="suscripcion"
-                className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
-              >
-                Suscribirme
-              </BotonPago>
-            ) : (
-              <Link
-                href="/registro?modo=login"
-                className="boton boton-primario w-full text-center"
-              >
-                Entra para suscribirte
-              </Link>
-            )}
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="tarjeta">
+            <h2 className="titulo-3">Suscripción mensual · España</h2>
+            <p className="mt-1 texto-suave">
+              18,50 € al mes. Un capítulo nuevo cada mes con sus goodies.
+            </p>
+            <div className="mt-6">
+              {haySesion ? (
+                <BotonPago
+                  tipo="suscripcion"
+                  className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
+                >
+                  Suscribirme
+                </BotonPago>
+              ) : (
+                <Link href="/registro?modo=login" className="boton boton-primario w-full text-center">
+                  Entra para suscribirte
+                </Link>
+              )}
+            </div>
+          </div>
+
+          <div className="tarjeta">
+            <h2 className="titulo-3">Suscripción mensual · Internacional</h2>
+            <p className="mt-1 texto-suave">
+              21 € al mes. Lo mismo, con envío a direcciones fuera de España.
+            </p>
+            <div className="mt-6">
+              {haySesion ? (
+                <BotonPago
+                  tipo="suscripcion-internacional"
+                  className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
+                >
+                  Suscribirme (internacional)
+                </BotonPago>
+              ) : (
+                <Link href="/registro?modo=login" className="boton boton-primario w-full text-center">
+                  Entra para suscribirte
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>

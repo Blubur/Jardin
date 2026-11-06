@@ -28,11 +28,18 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: planes", clave: "planes.intro", etiqueta: "Introducción", tipo: "largo", porDefecto: "Suscríbete para recibir cada mes un capítulo nuevo con sus goodies, o llévate solo el envío que te interese." },
 
   { grupo: "Home: plan suscripción", clave: "sub.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Suscripción mensual" },
-  { grupo: "Home: plan suscripción", clave: "sub.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "11,00 €" },
+  { grupo: "Home: plan suscripción", clave: "sub.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18,50 €" },
   { grupo: "Home: plan suscripción", clave: "sub.periodo", etiqueta: "Periodo (junto al precio)", tipo: "texto", porDefecto: "/ mes" },
   { grupo: "Home: plan suscripción", clave: "sub.nota", etiqueta: "Nota bajo el precio (preventa, avisos)", tipo: "largo", porDefecto: "" },
   { grupo: "Home: plan suscripción", clave: "sub.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Cada mes, un capítulo nuevo de El Fuego de las Herederas con su papelería temática para hacer una lectura más inmersiva." },
   { grupo: "Home: plan suscripción", clave: "sub.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Suscribirme" },
+
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Suscripción mensual internacional" },
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "21,00 €" },
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.periodo", etiqueta: "Periodo (junto al precio)", tipo: "texto", porDefecto: "/ mes" },
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.nota", etiqueta: "Nota bajo el precio", tipo: "largo", porDefecto: "Para direcciones fuera de España." },
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Lo mismo que la suscripción mensual, enviado a cualquier país al que llegue Correos: un capítulo nuevo cada mes con su papelería temática." },
+  { grupo: "Home: plan suscripción internacional", clave: "sub2.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Suscribirme (internacional)" },
 
   { grupo: "Home: capítulo suelto", clave: "cap.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Capítulo suelto" },
   { grupo: "Home: capítulo suelto", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "11 €" },

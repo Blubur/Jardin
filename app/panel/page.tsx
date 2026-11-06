@@ -20,6 +20,7 @@ const ESTADOS: Record<string, string> = {
 
 const PLANES: Record<string, string> = {
   mensual: "Suscripción mensual",
+  internacional: "Suscripción mensual internacional",
 };
 
 export default function PanelPage() {

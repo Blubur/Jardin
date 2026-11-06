@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
 type Props = {
-  tipo: "suscripcion" | "capitulo" | "portal" | "cancelar";
+  tipo: "suscripcion" | "suscripcion-internacional" | "capitulo" | "portal" | "cancelar";
   capitulo?: number;
   className?: string;
   children: React.ReactNode;
@@ -13,6 +13,8 @@ type Props = {
 
 const ENLACES: Record<string, string> = {
   suscripcion: "https://buy.stripe.com/5kQ6oG77e3Yl1jnah414401",
+  // Pega aquí el Payment Link de Stripe de la suscripción internacional (21 €/mes)
+  "suscripcion-internacional": "",
   "capitulo-1": "https://buy.stripe.com/8x2fZgdvC52pe693SG14402",
 };
 
@@ -36,10 +38,10 @@ export default function BotonPago({ tipo, capitulo, className, children }: Props
 
     try {
       // Pagos: enlace directo de Stripe, sin correo prellenado
-      if (tipo === "suscripcion" || tipo === "capitulo") {
-        const clave = tipo === "suscripcion" ? "suscripcion" : `capitulo-${capitulo}`;
+      if (tipo === "suscripcion" || tipo === "suscripcion-internacional" || tipo === "capitulo") {
+        const clave = tipo === "capitulo" ? `capitulo-${capitulo}` : tipo;
         const base = ENLACES[clave];
-        if (!base) throw new Error("Este capítulo aún no está disponible para compra");
+        if (!base) throw new Error("Esta opción aún no está disponible para compra");
 
         const params = new URLSearchParams({
           client_reference_id: session.user.id,

@@ -11,6 +11,14 @@ function idUsuaria(session: Stripe.Checkout.Session): string | null {
   return session.client_reference_id ?? session.metadata?.user_id ?? null;
 }
 
+// Distingue la suscripción nacional de la internacional por el precio de Stripe.
+// Requiere la variable STRIPE_PRICE_INTERNACIONAL (id del precio de 21 €, "price_...").
+function planDe(sub: Stripe.Subscription): string {
+  const internacional = process.env.STRIPE_PRICE_INTERNACIONAL;
+  const precioId = sub.items?.data?.[0]?.price?.id;
+  return internacional && precioId === internacional ? "internacional" : "mensual";
+}
+
 async function guardarSuscripcion(sub: Stripe.Subscription) {
   const userId = sub.metadata?.user_id;
 
@@ -33,7 +41,7 @@ async function guardarSuscripcion(sub: Stripe.Subscription) {
       user_id: userId,
       stripe_customer_id: typeof sub.customer === "string" ? sub.customer : sub.customer.id,
       stripe_subscription_id: sub.id,
-      plan: "mensual",
+      plan: planDe(sub),
       estado: sub.status,
     },
     { onConflict: "user_id" }

@@ -98,7 +98,7 @@ export default function PoliticasPage() {
               perfil.
             </p>
             <p>
-              <b>Precios:</b> los precios se muestran en euros. El precio de 11 € al mes. El capítulo suelto cuesta 11 €.
+              <b>Precios:</b> los precios se muestran en euros. La suscripción cuesta 18,50 € al mes y la suscripción con envío internacional (direcciones fuera de España) cuesta 21 € al mes. El capítulo suelto cuesta 11 €.
               Se incluyen impuestos y gastos de envío.
             </p>
             <p>
