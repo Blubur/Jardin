@@ -32,7 +32,7 @@ const cascadia = localFont({
 export const metadata = {
   title: "El Jardín de las Herederas",
   description:
-    "Una entrega mensual de La Corte Errante: capítulo y goodies temáticos.",
+    "Una entrega mensual de El Jardín de las Herederas: capítulo y goodies temáticos.",
 };
 
 export default function RootLayout({

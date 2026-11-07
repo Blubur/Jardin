@@ -12,7 +12,7 @@ export default function Footer() {
         <div>
           <h4 className={titulo}>El Jardín de las Herederas</h4>
           <p className="mt-3 text-base text-corte-pergamino/70">
-            Una entrega mensual de La Corte Errante: un capítulo nuevo y su
+            Una entrega mensual de El Jardín de las Herederas: un capítulo nuevo y su
             papelería temática, escritos y preparados por una sola persona.
           </p>
           <ul className={lista}>
