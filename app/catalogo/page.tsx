@@ -57,7 +57,7 @@ export default function CatalogoPage() {
 
   return (
     <main className="contenedor">
-      <p className="kicker">La Corte Errante</p>
+      <p className="kicker">El Jardín de las Herederas</p>
       <h1 className="titulo-1">Catálogo de capítulos</h1>
       <p className="texto-destacado mt-4">
         Cada capítulo llega con su papelería temática. También puedes
@@ -111,7 +111,7 @@ export default function CatalogoPage() {
       </section>
 
       <section className="seccion">
-        <h2 className="titulo-2 mb-8">Capítulos sueltos</h2>
+        <h2 className="titulo-2 mb-8">Capítulo Individual</h2>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {capitulos.map((c) => {
             const yaComprado = comprados.includes(c.numero);
@@ -120,8 +120,8 @@ export default function CatalogoPage() {
                 key={c.numero}
                 className={`tarjeta ${c.disponible ? "" : "opacity-60"}`}
               >
-                <Galeria imagenes={c.imagenes} alt={`Capítulo ${c.numero}: ${c.titulo}`} />
-                <p className="kicker mt-4">Capítulo {c.numero}</p>
+                <Galeria imagenes={c.imagenes} alt={`Capítulo ${}: ${c.titulo}`} />
+                <p className="kicker mt-4">Capítulo Individual{}</p>
                 <h3 className="titulo-3">{c.titulo}</h3>
                 <p className="mt-2 flex-1 texto-suave whitespace-pre-line">{c.descripcion}</p>
                 <p className="precio mt-4">{c.precio}</p>
@@ -145,10 +145,10 @@ export default function CatalogoPage() {
                       )}
                       <BotonPago
                         tipo="capitulo"
-                        capitulo={c.numero}
+                        capitulo={}
                         className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
                       >
-                        Comprar capítulo {c.numero} · {c.precio}
+                        Comprar capítulo {} · {c.precio}
                       </BotonPago>
                     </>
                   )}

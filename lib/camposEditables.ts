@@ -44,8 +44,8 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: capítulo suelto", clave: "cap.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Capítulo suelto" },
   { grupo: "Home: capítulo suelto", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18.50 €" },
   { grupo: "Home: capítulo suelto", clave: "cap.nota", etiqueta: "Nota bajo el precio", tipo: "largo", porDefecto: "Pago único, sin suscripción. Bizum sólo está operativo en esta opción." },
-  { grupo: "Home: capítulo suelto", clave: "cap.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Envío con su capítulo y su papelería temática, sin compromiso de continuidad.\nSi has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante Bizum esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado.\nPreventa disponible hasta el 24 de septiembre a las 12 de la noche." },
-  { grupo: "Home: capítulo suelto", clave: "cap.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Comprar Capítulo 1, La Ofrenda." },
+  { grupo: "Home: capítulo suelto", clave: "cap.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Envío con su capítulo y su papelería temática, sin compromiso de continuidad.\nSi has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante Bizum esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado." },
+  { grupo: "Home: capítulo suelto", clave: "cap.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Comprar Capítulo Individual." },
 ];
 
 export function defecto(clave: string): string {
