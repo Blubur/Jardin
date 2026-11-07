@@ -17,11 +17,11 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: cómo funciona", clave: "como.titulo", etiqueta: "Título", tipo: "texto", porDefecto: "Cada mes, un nuevo capítulo" },
   { grupo: "Home: cómo funciona", clave: "como.intro", etiqueta: "Introducción", tipo: "largo", porDefecto: "Se trata de una entrega mensual que contiene un nuevo capítulo de la historia y papelería temática para que la lectura sea más inmersiva." },
   { grupo: "Home: cómo funciona", clave: "como.paso1.titulo", etiqueta: "Paso 1: título", tipo: "texto", porDefecto: "Te suscribes" },
-  { grupo: "Home: cómo funciona", clave: "como.paso1.texto", etiqueta: "Paso 1: texto", tipo: "largo", porDefecto: "Eliges tu plan y quedas registrada en la Corte. Tu suscripción se gestiona de forma segura a través de Stripe." },
+  { grupo: "Home: cómo funciona", clave: "como.paso1.texto", etiqueta: "Paso 1: texto", tipo: "largo", porDefecto: "Eliges tu plan y entras en la Corte. Tu suscripción se gestiona de forma segura a través de Stripe." },
   { grupo: "Home: cómo funciona", clave: "como.paso2.titulo", etiqueta: "Paso 2: título", tipo: "texto", porDefecto: "Recibes tu entrega" },
   { grupo: "Home: cómo funciona", clave: "como.paso2.texto", etiqueta: "Paso 2: texto", tipo: "largo", porDefecto: "Cada mes, un nuevo capítulo de El Fuego de las Herederas acompañado de tesoros temáticos relacionados con lo que acabas de leer." },
-  { grupo: "Home: cómo funciona", clave: "como.paso3.titulo", etiqueta: "Paso 3: título", tipo: "texto", porDefecto: "Sigues tu progreso" },
-  { grupo: "Home: cómo funciona", clave: "como.paso3.texto", etiqueta: "Paso 3: texto", tipo: "largo", porDefecto: "Desde tu panel, ves en qué capítulo vas, el estado de tu suscripción y tus facturas." },
+  { grupo: "Home: cómo funciona", clave: "como.paso3.titulo", etiqueta: "Paso 3: título", tipo: "texto", porDefecto: "Gestionas tu suscripción" },
+  { grupo: "Home: cómo funciona", clave: "como.paso3.texto", etiqueta: "Paso 3: texto", tipo: "largo", porDefecto: "Stripe te envía tus facturas y, desde su portal seguro, puedes cambiar la tarjeta o cancelar cuando quieras." },
 
   // Planes
   { grupo: "Home: planes", clave: "planes.titulo", etiqueta: "Título", tipo: "texto", porDefecto: "Elige cómo leer" },
@@ -42,7 +42,7 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: plan suscripción internacional", clave: "sub2.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Suscribirme (internacional)" },
 
   { grupo: "Home: capítulo suelto", clave: "cap.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Capítulo suelto" },
-  { grupo: "Home: capítulo suelto", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18.50 €" },
+  { grupo: "Home: capítulo suelto", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18,50 €" },
   { grupo: "Home: capítulo suelto", clave: "cap.nota", etiqueta: "Nota bajo el precio", tipo: "largo", porDefecto: "Pago único, sin suscripción. Bizum sólo está operativo en esta opción." },
   { grupo: "Home: capítulo suelto", clave: "cap.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Envío con su capítulo y su papelería temática, sin compromiso de continuidad.\nSi has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante Bizum esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado." },
   { grupo: "Home: capítulo suelto", clave: "cap.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Comprar Capítulo Individual." },

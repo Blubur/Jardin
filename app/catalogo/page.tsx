@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import BotonPago from "@/components/BotonPago";
 import Galeria from "@/components/Galeria";
@@ -20,14 +19,15 @@ const CAPITULOS_RESPALDO: Capitulo[] = CAPITULOS.map((c) => ({
   numero: c.numero,
   titulo: c.titulo,
   descripcion: c.descripcion,
-  precio: `${c.precio} €`,
+  precio: `${c.precio.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`,
   imagenes: c.imagenes,
   disponible: c.disponible,
 }));
 
+const BTN_PRIMARIO =
+  "w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60";
+
 export default function CatalogoPage() {
-  const [haySesion, setHaySesion] = useState(false);
-  const [comprados, setComprados] = useState<number[]>([]);
   const [capitulos, setCapitulos] = useState<Capitulo[]>(CAPITULOS_RESPALDO);
 
   useEffect(() => {
@@ -38,18 +38,6 @@ export default function CatalogoPage() {
         .order("numero", { ascending: true });
       if (!error && filas && filas.length > 0) {
         setCapitulos(filas as Capitulo[]);
-      }
-
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (session) {
-        setHaySesion(true);
-        const { data } = await supabase
-          .from("compras")
-          .select("capitulo")
-          .eq("user_id", session.user.id);
-        setComprados((data ?? []).map((c: { capitulo: number }) => c.capitulo));
       }
     }
     cargar();
@@ -72,18 +60,9 @@ export default function CatalogoPage() {
               18,50 € al mes. Un capítulo nuevo cada mes con sus goodies.
             </p>
             <div className="mt-6">
-              {haySesion ? (
-                <BotonPago
-                  tipo="suscripcion"
-                  className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
-                >
-                  Suscribirme
-                </BotonPago>
-              ) : (
-                <Link href="/registro?modo=login" className="boton boton-primario w-full text-center">
-                  Entra para suscribirte
-                </Link>
-              )}
+              <BotonPago tipo="suscripcion" className={BTN_PRIMARIO}>
+                Suscribirme
+              </BotonPago>
             </div>
           </div>
 
@@ -93,18 +72,9 @@ export default function CatalogoPage() {
               21 € al mes. Lo mismo, con envío a direcciones fuera de España.
             </p>
             <div className="mt-6">
-              {haySesion ? (
-                <BotonPago
-                  tipo="suscripcion-internacional"
-                  className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
-                >
-                  Suscribirme (internacional)
-                </BotonPago>
-              ) : (
-                <Link href="/registro?modo=login" className="boton boton-primario w-full text-center">
-                  Entra para suscribirte
-                </Link>
-              )}
+              <BotonPago tipo="suscripcion-internacional" className={BTN_PRIMARIO}>
+                Suscribirme (internacional)
+              </BotonPago>
             </div>
           </div>
         </div>
@@ -113,49 +83,30 @@ export default function CatalogoPage() {
       <section className="seccion">
         <h2 className="titulo-2 mb-8">Capítulo Individual</h2>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {capitulos.map((c) => {
-            const yaComprado = comprados.includes(c.numero);
-            return (
-              <article
-                key={c.numero}
-                className={`tarjeta ${c.disponible ? "" : "opacity-60"}`}
-              >
-                <Galeria imagenes={c.imagenes} alt={`Capítulo ${c.numero}: ${c.titulo}`} />
-                <p className="kicker mt-4">Capítulo {c.numero}</p>
-                <h3 className="titulo-3">{c.titulo}</h3>
-                <p className="mt-2 flex-1 texto-suave whitespace-pre-line">{c.descripcion}</p>
-                <p className="precio mt-4">{c.precio}</p>
+          {capitulos.map((c) => (
+            <article
+              key={c.numero}
+              className={`tarjeta ${c.disponible ? "" : "opacity-60"}`}
+            >
+              <Galeria imagenes={c.imagenes} alt={`Capítulo ${c.numero}: ${c.titulo}`} />
+              <p className="kicker mt-4">Capítulo {c.numero}</p>
+              <h3 className="titulo-3">{c.titulo}</h3>
+              <p className="mt-2 flex-1 texto-suave whitespace-pre-line">{c.descripcion}</p>
+              <p className="precio mt-4">{c.precio}</p>
 
-                <div className="mt-4">
-                  {!c.disponible ? (
-                    <span className="boton boton-secundario w-full cursor-not-allowed text-center opacity-60">
-                      Próximamente
-                    </span>
-                  ) : !haySesion ? (
-                    <Link
-                      href="/registro?modo=login"
-                      className="boton boton-primario w-full text-center"
-                    >
-                      Entra para comprar
-                    </Link>
-                  ) : (
-                    <>
-                      {yaComprado && (
-                        <Link href="/panel" className="boton boton-secundario w-full text-center">Ya lo tienes · ver en mi panel</Link>
-                      )}
-                      <BotonPago
-                        tipo="capitulo"
-                        capitulo={c.numero}
-                        className="w-full rounded-sm bg-corte-oro px-6 py-3 font-medium text-corte-fondo transition hover:bg-corte-oro/90 disabled:opacity-60"
-                      >
-                        Comprar capítulo {c.numero} · {c.precio}
-                      </BotonPago>
-                    </>
-                  )}
-                </div>
-              </article>
-            );
-          })}
+              <div className="mt-4">
+                {c.disponible ? (
+                  <BotonPago tipo="capitulo" capitulo={c.numero} className={BTN_PRIMARIO}>
+                    Comprar capítulo {c.numero} · {c.precio}
+                  </BotonPago>
+                ) : (
+                  <span className="boton boton-secundario w-full cursor-not-allowed text-center opacity-60">
+                    Próximamente
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </main>

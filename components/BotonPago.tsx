@@ -25,32 +25,31 @@ export default function BotonPago({ tipo, capitulo, className, children }: Props
 
   async function pagar() {
     setError("");
-    setCargando(true);
 
+    // Pagos: directo a Stripe, sin cuenta ni sesión
+    if (tipo === "suscripcion" || tipo === "suscripcion-internacional" || tipo === "capitulo") {
+      const clave = tipo === "capitulo" ? `capitulo-${capitulo}` : tipo;
+      const enlace = ENLACES[clave];
+      if (!enlace) {
+        setError("Esta opción aún no está disponible para compra");
+        return;
+      }
+      setCargando(true);
+      window.location.href = enlace;
+      return;
+    }
+
+    // Portal y cancelación (solo las usa el antiguo /panel)
+    setCargando(true);
     const { data } = await supabase.auth.getSession();
     const session = data.session;
-
     if (!session) {
       setCargando(false);
-      router.push("/registro");
+      router.push("/registro?modo=login");
       return;
     }
 
     try {
-      // Pagos: enlace directo de Stripe, sin correo prellenado
-      if (tipo === "suscripcion" || tipo === "suscripcion-internacional" || tipo === "capitulo") {
-        const clave = tipo === "capitulo" ? `capitulo-${capitulo}` : tipo;
-        const base = ENLACES[clave];
-        if (!base) throw new Error("Esta opción aún no está disponible para compra");
-
-        const params = new URLSearchParams({
-          client_reference_id: session.user.id,
-        });
-        window.location.href = `${base}?${params.toString()}`;
-        return;
-      }
-
-      // Portal y cancelación siguen usando la API
       const res = await fetch("/api/portal", {
         method: "POST",
         headers: {

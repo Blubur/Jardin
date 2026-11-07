@@ -1,33 +1,19 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
+  SparklesIcon,
+  CreditCardIcon,
   BookOpenIcon,
-  ShoppingBagIcon,
   QuestionMarkCircleIcon,
   EnvelopeIcon,
-  UserIcon,
-  UserCircleIcon,
-  UserPlusIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-import { supabase } from "@/lib/supabaseClient";
+import { PORTAL_STRIPE } from "@/lib/enlaces";
 
 const enlace =
   "flex items-center gap-2 rounded-sm p-2 text-corte-pergamino/80 transition hover:text-corte-oro";
 const icono = "h-6 w-6 shrink-0";
 
 export default function Navbar() {
-  const [conectado, setConectado] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setConectado(!!data.session));
-    const { data: sub } = supabase.auth.onAuthStateChange((_evento, session) => {
-      setConectado(!!session);
-    });
-    return () => sub.subscription.unsubscribe();
-  }, []);
-
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-corte-oro/20 bg-corte-fondo/90 px-3 py-3 backdrop-blur sm:px-6 sm:py-4">
       <Link href="/" className="corte-oro font-semibold">
@@ -36,15 +22,19 @@ export default function Navbar() {
       </Link>
 
       <div className="flex items-center gap-1 sm:gap-3">
+        <Link href="/#como-funciona" className={`${enlace} hidden md:flex`}>
+          <SparklesIcon className={icono} />
+          <span>Cómo funciona</span>
+        </Link>
+        <Link href="/#planes" className={enlace} aria-label="Planes">
+          <CreditCardIcon className={icono} />
+          <span className="hidden sm:inline">Planes</span>
+        </Link>
         <Link href="/catalogo" className={enlace} aria-label="Catálogo">
           <BookOpenIcon className={icono} />
           <span className="hidden sm:inline">Catálogo</span>
         </Link>
-        <Link href="/carrito" className={enlace} aria-label="Tu pedido">
-          <ShoppingBagIcon className={icono} />
-          <span className="hidden sm:inline">Tu pedido</span>
-        </Link>
-        <Link href="/faq" className={enlace} aria-label="Preguntas frecuentes">
+        <Link href="/#faq" className={enlace} aria-label="Preguntas frecuentes">
           <QuestionMarkCircleIcon className={icono} />
           <span className="hidden sm:inline">FAQ</span>
         </Link>
@@ -52,22 +42,17 @@ export default function Navbar() {
           <EnvelopeIcon className={icono} />
           <span className="hidden sm:inline">Contacto</span>
         </Link>
-        {conectado ? (
-          <Link href="/panel" className={enlace} aria-label="Mi perfil">
-            <UserCircleIcon className={icono} />
-            <span className="hidden sm:inline">Mi perfil</span>
-          </Link>
-        ) : (
-          <>
-            <Link href="/registro" className={enlace} aria-label="Registro">
-              <UserPlusIcon className={icono} />
-              <span className="hidden sm:inline">Registro</span>
-            </Link>
-            <Link href="/login" className={enlace} aria-label="Entrar">
-              <UserIcon className={icono} />
-              <span className="hidden sm:inline">Entrar</span>
-            </Link>
-          </>
+        {PORTAL_STRIPE && (
+          <a
+            href={PORTAL_STRIPE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={enlace}
+            aria-label="Gestionar suscripción"
+          >
+            <Cog6ToothIcon className={icono} />
+            <span className="hidden lg:inline">Mi suscripción</span>
+          </a>
         )}
       </div>
     </nav>

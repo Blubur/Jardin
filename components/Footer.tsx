@@ -28,7 +28,6 @@ export default function Footer() {
             <li><Link href="/#planes" className={enlace}>Planes</Link></li>
             <li><Link href="/catalogo" className={enlace}>Catálogo de capítulos</Link></li>
             <li><Link href="/faq" className={enlace}>Preguntas frecuentes</Link></li>
-            <li><Link href="/panel" className={enlace}>Mi panel</Link></li>
           </ul>
         </div>
 
@@ -94,7 +93,7 @@ export default function Footer() {
           </div>
           <p className="max-w-md text-sm text-corte-pergamino/60">
             No guardamos los datos de tu tarjeta. Cancela tu suscripción
-            cuando quieras desde tu panel.
+            cuando quieras desde el portal seguro de Stripe.
           </p>
         </div>
       </div>

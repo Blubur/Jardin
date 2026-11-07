@@ -232,14 +232,6 @@ export default async function Home() {
               </div>
             </Reveal>
           </div>
-
-          <p className="texto-suave mt-6">
-            Necesitas una cuenta para comprar. Si aún no la tienes{" "}
-            <Link href="/registro" className="underline underline-offset-4 hover:text-corte-pergamino">
-              crea tu cuenta aquí
-            </Link>
-            .
-          </p>
         </div>
       </section>
 
