@@ -1,13 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-// Rutas de acceso (login, registro...) que no requieren sesión
-const RUTAS_PUBLICAS = ["/login", "/registro", "/recuperar", "/completar-perfil", "/actualizar-contrasena", "/auth"];
-
-// Páginas informativas visibles para todo el mundo, con o sin sesión,
-// y sin exigir perfil completo
-const RUTAS_ABIERTAS = ["/faq", "/contacto", "/politicas", "/catalogo"];
-
+// Solo estas zonas exigen sesión (la administración de la autora).
+// El resto de la web es pública y no consulta Supabase.
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -32,46 +27,17 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // getUser() valida el token con el servidor de Auth; getSession() en el
-  // servidor solo lee la cookie y no es de fiar para decidir accesos.
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { pathname } = request.nextUrl;
-  const esRutaPublica = RUTAS_PUBLICAS.some(
-    (r) => pathname === r || pathname.startsWith(r + "/")
-  );
-  const esRutaAbierta = RUTAS_ABIERTAS.some(
-    (r) => pathname === r || pathname.startsWith(r + "/")
-  );
-
-  // Sin sesión: dejar pasar rutas públicas, abiertas y la home
   if (!user) {
-    if (!esRutaPublica && !esRutaAbierta && pathname !== "/") {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-    return response;
-  }
-
-  // Con sesión: comprobar perfil completo, salvo en rutas públicas y abiertas
-  if (!esRutaPublica && !esRutaAbierta) {
-    const { data: perfil } = await supabase
-      .from("perfiles")
-      .select("direccion_postal")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (!perfil || !perfil.direccion_postal) {
-      return NextResponse.redirect(new URL("/completar-perfil", request.url));
-    }
+    return NextResponse.redirect(new URL("/registro?modo=login", request.url));
   }
 
   return response;
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/webhook|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
+  matcher: ["/admin/:path*", "/panel/:path*", "/perfil/:path*"],
 };
