@@ -41,11 +41,11 @@ export const CAMPOS: Campo[] = [
   { grupo: "Home: plan suscripción internacional", clave: "sub2.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Lo mismo que la suscripción mensual, enviado a cualquier país al que llegue Correos: un capítulo nuevo cada mes con su papelería temática." },
   { grupo: "Home: plan suscripción internacional", clave: "sub2.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Suscribirme (internacional)" },
 
-  { grupo: "Home: capítulo suelto", clave: "cap.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "Capítulo suelto" },
-  { grupo: "Home: capítulo suelto", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18,50 €" },
-  { grupo: "Home: capítulo suelto", clave: "cap.nota", etiqueta: "Nota bajo el precio", tipo: "largo", porDefecto: "Pago único, sin suscripción. Bizum sólo está operativo en esta opción." },
-  { grupo: "Home: capítulo suelto", clave: "cap.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Envío con su capítulo y su papelería temática, sin compromiso de continuidad.\nSi has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante Bizum esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado." },
-  { grupo: "Home: capítulo suelto", clave: "cap.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Comprar Capítulo Individual." },
+  { grupo: "Home: capítulo individual", clave: "cap.nombre", etiqueta: "Nombre", tipo: "texto", porDefecto: "capítulo individual" },
+  { grupo: "Home: capítulo individual", clave: "cap.precio", etiqueta: "Precio", tipo: "texto", porDefecto: "18,50 €" },
+  { grupo: "Home: capítulo individual", clave: "cap.nota", etiqueta: "Nota bajo el precio", tipo: "largo", porDefecto: "Pago único, sin suscripción. Bizum sólo está operativo en esta opción." },
+  { grupo: "Home: capítulo individual", clave: "cap.descripcion", etiqueta: "Descripción", tipo: "largo", porDefecto: "Envío con su capítulo y su papelería temática, sin compromiso de continuidad.\nSi has llegado tarde al inicio de los envíos o prefieres hacer el pago mediante Bizum esta es tu mejor opción ya que puedes elegir el capítulo/mes deseado." },
+  { grupo: "Home: capítulo individual", clave: "cap.boton", etiqueta: "Texto del botón", tipo: "texto", porDefecto: "Comprar Capítulo Individual." },
 ];
 
 export function defecto(clave: string): string {

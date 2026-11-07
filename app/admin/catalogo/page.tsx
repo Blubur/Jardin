@@ -58,7 +58,7 @@ export default function AdminCatalogoPage() {
   const [nNumero, setNNumero] = useState("");
   const [nTitulo, setNTitulo] = useState("");
   const [nDescripcion, setNDescripcion] = useState("");
-  const [nPrecio, setNPrecio] = useState("11 €");
+  const [nPrecio, setNPrecio] = useState("18.50 €");
   const [nEnlace, setNEnlace] = useState("");
 
   async function cargarItems() {
@@ -131,7 +131,7 @@ export default function AdminCatalogoPage() {
       numero,
       titulo: nTitulo.trim(),
       descripcion: nDescripcion.trim(),
-      precio: nPrecio.trim() || "11 €",
+      precio: nPrecio.trim() || "18.50 €",
       enlace_pago: nEnlace.trim(),
     });
     setOcupado("");
@@ -148,7 +148,7 @@ export default function AdminCatalogoPage() {
     setNNumero("");
     setNTitulo("");
     setNDescripcion("");
-    setNPrecio("11 €");
+    setNPrecio("18.50 €");
     setNEnlace("");
     setMostrarNuevo(false);
     await cargarItems();

@@ -1,0 +1,43 @@
+app
+├── actualizar-contrasena
+│   └── page.tsx
+├── api
+│   ├── checkout
+│   │   └── route.ts
+│   ├── portal
+│   │   └── route.ts
+│   └── webhook
+│       └── route.ts
+├── auth
+│   └── callback
+│       └── route.ts
+├── carrito
+│   └── page.tsx
+├── catalogo
+│   └── page.tsx
+├── clientes.tsx
+├── completar-perfil
+│   └── page.tsx
+├── contacto
+│   └── page.tsx
+├── faq
+│   └── page.tsx
+├── fonts
+│   ├── CascadiaCode.woff2
+│   └── Soligant.woff2
+├── globals.css
+├── icon.png
+├── layout.tsx
+├── login
+│   └── page.tsx
+├── page.tsx
+├── panel
+│   └── page.tsx
+├── perfil
+│   └── page.tsx
+├── politicas
+│   └── page.tsx
+├── recuperar
+│   └── page.tsx
+└── registro
+    └── page.tsx
