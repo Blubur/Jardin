@@ -168,3 +168,38 @@ body {
 details[open] > .faq-resumen .flor {
   color: rgb(var(--salvia-texto));
 }
+/* ===== Home de scroll continuo ===== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* la navbar es fija */
+}
+
+.banda-clara {
+  background-color: rgb(var(--corte-fondo2) / 0.75);
+  border-top: 1px solid rgb(var(--corte-salvia) / 0.6);
+  border-bottom: 1px solid rgb(var(--corte-salvia) / 0.6);
+}
+.banda-salvia {
+  background-color: rgb(var(--corte-salvia) / 0.22);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
