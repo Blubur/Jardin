@@ -18,7 +18,7 @@ export const ENLACES_REGALO: Record<string, string> = {
 
 // Último día para pedir y que llegue antes de Navidad, con formato AAAA-MM-DD (por ejemplo "2026-12-12").
 // Si lo dejas vacío, no se muestra ni la fecha ni la cuenta atrás.
-export const FECHA_LIMITE_NAVIDAD = "";
+export const FECHA_LIMITE_NAVIDAD = "2026-12-05";
 
 // Texto de la etiqueta de edición limitada (cámbialo o déjalo vacío para quitarla)
 export const ETIQUETA_EDICION_LIMITADA = "Sobre de Navidad · edición limitada";
