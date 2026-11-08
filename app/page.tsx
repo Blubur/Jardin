@@ -2,6 +2,7 @@ import Link from "next/link";
 import BotonPago from "@/components/BotonPago";
 import Galeria from "@/components/Galeria";
 import Reveal from "@/components/Reveal";
+import NavidadRegalos from "@/components/NavidadRegalos";
 import { cargarContenido } from "@/lib/contenido";
 import { defecto } from "@/lib/camposEditables";
 import { supabase } from "@/lib/supabaseClient";
@@ -78,6 +79,8 @@ export default async function Home() {
           )}
         </div>
       </section>
+
+      <NavidadRegalos />
 
       {/* 2. Entrega en curso */}
       {capActual && capActual.imagenes.length > 0 && (
