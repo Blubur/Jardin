@@ -56,7 +56,7 @@ export default function NavidadRegalos() {
             )}
             <h2 className="titulo-2 mt-3">¿No sabes qué regalar en el amigo invisible?</h2>
             <p className="texto-destacado mt-4">
-              Regala una carta de La Corte Errante: un capítulo con su papelería
+              Regala una carta del Jardín de las Herederas: un capítulo con su papelería
               temática, en su sobre y listo para envolver.
             </p>
           </Reveal>
