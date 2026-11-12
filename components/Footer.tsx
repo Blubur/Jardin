@@ -28,6 +28,7 @@ export default function Footer() {
             <li><Link href="/#planes" className={enlace}>Planes</Link></li>
             <li><Link href="/catalogo" className={enlace}>Catálogo de capítulos</Link></li>
             <li><Link href="/faq" className={enlace}>Preguntas frecuentes</Link></li>
+            <li><Link href="/faq-amigo-invisible" className={enlace}>Preguntas del amigo invisible</Link></li>
           </ul>
         </div>
 
