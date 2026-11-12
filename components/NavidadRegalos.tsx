@@ -119,6 +119,10 @@ export default function NavidadRegalos() {
               .
             </span>
           </p>
+
+          <Link href="/faq-amigo-invisible" className="boton boton-secundario mt-6">
+            Preguntas del amigo invisible
+          </Link>
         </div>
       </section>
 
