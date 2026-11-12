@@ -4,7 +4,6 @@ import BotonRegalo from "@/components/BotonRegalo";
 import CuentaAtras from "@/components/CuentaAtras";
 import {
   PRECIO_MENSUAL,
-  PRECIO_CAPITULO,
   PRECIO_CARTA_NAVIDAD,
   PRECIO_PACK_DOBLE,
   PRECIO_REGALO_3_MESES,
@@ -24,7 +23,6 @@ const BOTON =
 export default function NavidadRegalos() {
   const mesesPorSeparado = PRECIO_MENSUAL * 3;
   const ahorro3Meses = mesesPorSeparado - PRECIO_REGALO_3_MESES;
-  const ahorroPack = PRECIO_CARTA_NAVIDAD * 2 - PRECIO_PACK_DOBLE;
 
   const fechaTexto = FECHA_LIMITE_NAVIDAD
     ? new Date(`${FECHA_LIMITE_NAVIDAD}T12:00:00`).toLocaleDateString("es-ES", {
@@ -65,13 +63,7 @@ export default function NavidadRegalos() {
             <Reveal>
               <div className="tarjeta h-full">
                 <h3 className="titulo-3">Una carta</h3>
-                <p className="precio mt-2">
-                  {euros(PRECIO_CARTA_NAVIDAD)}{" "}
-                  <span className="text-base text-corte-pergamino/60 line-through">
-                    {euros(PRECIO_CAPITULO)}
-                  </span>
-                </p>
-                <p className="texto-suave mt-1">Precio especial de Navidad.</p>
+                <p className="precio mt-2">{euros(PRECIO_CARTA_NAVIDAD)}</p>
                 <p className="mt-4 flex-1 text-base text-corte-pergamino/75">
                   Un capítulo con su papelería temática, para un regalo.
                 </p>
@@ -92,9 +84,6 @@ export default function NavidadRegalos() {
                     {euros(PRECIO_CARTA_NAVIDAD * 2)}
                   </span>
                 </p>
-                {ahorroPack > 0 && (
-                  <p className="texto-suave mt-1">Te ahorras {euros(ahorroPack)}.</p>
-                )}
                 <p className="mt-4 flex-1 text-base text-corte-pergamino/75">
                   Para quien tiene que regalar a dos personas: el amigo
                   invisible y otro regalo más.

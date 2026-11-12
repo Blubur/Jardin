@@ -11,9 +11,9 @@ export const PRECIO_REGALO_3_MESES = 48;
 
 // Payment Links de Stripe (pago único). Pega aquí cada enlace cuando lo crees.
 export const ENLACES_REGALO: Record<string, string> = {
-  "regalo-carta": "",
-  "regalo-pack-2": "",
-  "regalo-3-meses": "",
+  "regalo-carta": "https://buy.stripe.com/bJeaEWcry7ax2nrdtg14404",
+  "regalo-pack-2": "https://buy.stripe.com/9B6cN4dvC0M99PTfBo14405",
+  "regalo-3-meses": "https://buy.stripe.com/aFaaEW4Z6fH32nr2OC14406",
 };
 
 // Último día para pedir y que llegue antes de Navidad, con formato AAAA-MM-DD (por ejemplo "2026-12-12").
