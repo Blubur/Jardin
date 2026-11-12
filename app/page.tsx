@@ -73,7 +73,7 @@ export default async function Home() {
               <img
                 src={imagenHero}
                 alt="El Jardín de las Herederas"
-                className="w-full rounded-sm border border-corte-oro/30 object-cover"
+                className="w-full rounded-sm object-cover"
               />
             </Reveal>
           )}
