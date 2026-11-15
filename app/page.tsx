@@ -2,6 +2,7 @@ import Link from "next/link";
 import BotonPago from "@/components/BotonPago";
 import Galeria from "@/components/Galeria";
 import Reveal from "@/components/Reveal";
+import Petalos from "@/components/Petalos";
 import NavidadRegalos from "@/components/NavidadRegalos";
 import { cargarContenido } from "@/lib/contenido";
 import { defecto } from "@/lib/camposEditables";
@@ -51,8 +52,9 @@ export default async function Home() {
   return (
     <main>
       {/* 1. Portada */}
-      <section className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
-        <div className="grid items-center gap-12 md:grid-cols-2">
+      <section className="relative isolate overflow-hidden">
+        <Petalos />
+        <div className="mx-auto grid max-w-5xl items-center gap-12 px-6 py-20 sm:py-28 md:grid-cols-2">
           <Reveal>
             <p className="kicker mb-4">{t("home.kicker")}</p>
             <h1 className="titulo-1">{t("home.titulo")}</h1>
