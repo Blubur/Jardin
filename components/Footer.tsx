@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 
 const enlace = "hover:text-corte-oro";
 const titulo = "font-display text-lg text-corte-pergamino";
@@ -51,6 +51,16 @@ export default function Footer() {
                 veinticuatro0792@gmail.com
               </a>
             </li>
+            <li>
+              <a
+                href="https://www.instagram.com/lilimuunart"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={enlace}
+              >
+                @lilimuunart
+              </a>
+            </li>
             <li><Link href="/contacto" className={enlace}>Escríbeme por WhatsApp</Link></li>
           </ul>
 
@@ -67,6 +77,37 @@ export default function Footer() {
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7" aria-hidden="true">
                 <path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.4a2.9 2.9 0 1 1-2-2.8V9.1a6.3 6.3 0 1 0 5.4 6.3V8.9a8.2 8.2 0 0 0 4.8 1.5V7a4.8 4.8 0 0 1-1-.3z" />
               </svg>
+            </a>
+            <a
+              href="https://www.instagram.com/lilimuunart"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram @lilimuunart"
+              title="Instagram @lilimuunart"
+              className="transition hover:text-corte-oro"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-7 w-7"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" />
+              </svg>
+            </a>
+            <a
+              href="mailto:veinticuatro0792@gmail.com"
+              aria-label="Correo electrónico"
+              title="veinticuatro0792@gmail.com"
+              className="transition hover:text-corte-oro"
+            >
+              <EnvelopeIcon className="h-7 w-7" aria-hidden="true" />
             </a>
             <a
               href="https://ko-fi.com/bluuri"

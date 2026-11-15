@@ -26,7 +26,8 @@ export default function Navbar() {
           <SparklesIcon className={icono} />
           <span>Cómo funciona</span>
         </Link>
-        <Link href="/#planes" className={enlace} aria-label="Planes">
+        {/* En móvil se oculta: el botón "Únete" ya lleva a los planes */}
+        <Link href="/#planes" className={`${enlace} hidden sm:flex`} aria-label="Planes">
           <CreditCardIcon className={icono} />
           <span className="hidden sm:inline">Planes</span>
         </Link>
@@ -38,7 +39,8 @@ export default function Navbar() {
           <QuestionMarkCircleIcon className={icono} />
           <span className="hidden sm:inline">FAQ</span>
         </Link>
-        <Link href="/contacto" className={enlace} aria-label="Contacto">
+        {/* En móvil se oculta para dejar sitio al botón; sigue en el pie de página */}
+        <Link href="/contacto" className={`${enlace} hidden sm:flex`} aria-label="Contacto">
           <EnvelopeIcon className={icono} />
           <span className="hidden sm:inline">Contacto</span>
         </Link>
@@ -54,6 +56,14 @@ export default function Navbar() {
             <span className="hidden lg:inline">Mi suscripción</span>
           </a>
         )}
+
+        {/* Botón siempre visible */}
+        <Link
+          href="/#planes"
+          className="ml-1 whitespace-nowrap rounded-sm bg-corte-oro px-3 py-1.5 text-sm font-medium text-corte-fondo transition hover:bg-corte-oro/90 sm:ml-2 sm:px-5 sm:py-2 sm:text-base"
+        >
+          Únete
+        </Link>
       </div>
     </nav>
   );
