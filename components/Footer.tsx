@@ -16,7 +16,7 @@ export default function Footer() {
             papelería temática, escritos y preparados por una sola persona.
           </p>
           <ul className={lista}>
-            <li>María Gayarre</li>
+            <li>Lilimuun</li>
             <li>España</li>
           </ul>
         </div>
