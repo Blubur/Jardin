@@ -185,6 +185,9 @@ html {
 .pad-cen {
     padding: 0 10rem;
 }
+.pad-cecen {
+  padding: 10rem;
+}
 .reveal {
   opacity: 0;
   transform: translateY(28px);

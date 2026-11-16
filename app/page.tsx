@@ -104,7 +104,7 @@ export default async function Home() {
       )}
 
       {/* 3. Qué incluye */}
-      <section id="incluye" className="mx-auto px-6 py-20">
+      <section id="incluye" className="mx-auto px-6 py-20 pad-cencen">
         <Reveal>
           <h2 className="titulo-2">{t("incluye.titulo")}</h2>
         </Reveal>
@@ -121,7 +121,7 @@ export default async function Home() {
       </section>
 
       {/* 4. Cómo funciona */}
-      <section id="como-funciona" className="banda-salvia">
+      <section id="como-funciona" className="banda-salvia pad-cencen">
         <div className="mx-auto px-6 py-20">
           <Reveal>
             <h2 className="titulo-2">{t("como.titulo")}</h2>
@@ -161,7 +161,7 @@ export default async function Home() {
       </section>
 
       {/* 6. Planes */}
-      <section id="planes" className="banda-clara">
+      <section id="planes" className="banda-clara pad-cencen">
         <div className="mx-auto px-6 py-20">
           <Reveal>
             <h2 className="titulo-2">{t("planes.titulo")}</h2>
