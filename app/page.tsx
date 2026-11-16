@@ -52,7 +52,7 @@ export default async function Home() {
   return (
     <main className="inicio">
       {/* 1. Portada */}
-      <section className="relative isolate overflow-hidden">
+      <section className="relative isolate overflow-hidden pad-cen">
         <Petalos />
         <div className="mx-auto grid items-center gap-12 px-6 py-20 sm:py-28 md:grid-cols-2">
           <Reveal>

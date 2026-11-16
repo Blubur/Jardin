@@ -182,7 +182,9 @@ html {
 .banda-salvia {
   background-color: rgb(var(--corte-salvia) / 0.22);
 }
-
+.pad-cen {
+    padding: 0 10rem;
+}
 .reveal {
   opacity: 0;
   transform: translateY(28px);
