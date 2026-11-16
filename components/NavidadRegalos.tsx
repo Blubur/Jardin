@@ -116,7 +116,7 @@ export default function NavidadRegalos() {
       </section>
 
       {/* Regalo de 3 meses */}
-      <section id="regalo-navidad" className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
+      <section id="regalo-navidad" className="mx-auto px-6 py-16 sm:py-20">
         <Reveal>
           <div className="tarjeta sm:p-10">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

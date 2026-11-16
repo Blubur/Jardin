@@ -54,7 +54,7 @@ export default async function Home() {
       {/* 1. Portada */}
       <section className="relative isolate overflow-hidden">
         <Petalos />
-        <div className="mx-auto grid max-w-5xl items-center gap-12 px-6 py-20 sm:py-28 md:grid-cols-2">
+        <div className="mx-auto grid items-center gap-12 px-6 py-20 sm:py-28 md:grid-cols-2">
           <Reveal>
             <p className="kicker mb-4">{t("home.kicker")}</p>
             <h1 className="titulo-1">{t("home.titulo")}</h1>
@@ -87,7 +87,7 @@ export default async function Home() {
       {/* 2. Entrega en curso */}
       {capActual && capActual.imagenes.length > 0 && (
         <section id="entrega" className="banda-clara">
-          <div className="mx-auto grid max-w-5xl items-center gap-12 px-6 py-20 md:grid-cols-2">
+          <div className="mx-auto grid items-center gap-12 px-6 py-20 md:grid-cols-2">
             <Reveal>
               <Galeria imagenes={capActual.imagenes} alt={`Capítulo ${capActual.numero}`} />
             </Reveal>
@@ -104,7 +104,7 @@ export default async function Home() {
       )}
 
       {/* 3. Qué incluye */}
-      <section id="incluye" className="mx-auto max-w-5xl px-6 py-20">
+      <section id="incluye" className="mx-auto px-6 py-20">
         <Reveal>
           <h2 className="titulo-2">{t("incluye.titulo")}</h2>
         </Reveal>
@@ -122,7 +122,7 @@ export default async function Home() {
 
       {/* 4. Cómo funciona */}
       <section id="como-funciona" className="banda-salvia">
-        <div className="mx-auto max-w-5xl px-6 py-20">
+        <div className="mx-auto px-6 py-20">
           <Reveal>
             <h2 className="titulo-2">{t("como.titulo")}</h2>
             <p className="texto mt-3 whitespace-pre-line">{t("como.intro")}</p>
@@ -162,7 +162,7 @@ export default async function Home() {
 
       {/* 6. Planes */}
       <section id="planes" className="banda-clara">
-        <div className="mx-auto max-w-5xl px-6 py-20">
+        <div className="mx-auto px-6 py-20">
           <Reveal>
             <h2 className="titulo-2">{t("planes.titulo")}</h2>
             <p className="texto mt-3 whitespace-pre-line">{t("planes.intro")}</p>
