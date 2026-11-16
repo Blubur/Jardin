@@ -2,7 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
 export const metadata = {
-  title: "Preguntas del amigo invisible · El Jardín de las Herederas",
+  title: "FAQ del amigo invisible · El Jardín de las Herederas",
 };
 
 // Siempre datos frescos: lo que edites en el panel se ve al recargar
