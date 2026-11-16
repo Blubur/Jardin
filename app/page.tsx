@@ -29,7 +29,7 @@ const NUEVOS: Record<string, string> = {
   "quien.kicker": "Detrás de la Corte",
   "quien.titulo": "¿Quién escribe estas cartas?",
   "quien.texto":
-    "Soy Blu. Escribo El Jardín de las Herederas, la imprimo, la preparo y la envío yo sola, a lo largo del mes y con mucho mimo.\n\nQuería que la historia llegara en papel, a tu buzón, como se recibía antes una carta.",
+    "Soy Lilimuun. Escribo El Jardín de las Herederas, la imprimo, la preparo y la envío yo sola, a lo largo del mes y con mucho mimo.\n\nQuería que la historia llegara en papel, a tu buzón, como se recibía antes una carta.",
   "faq.titulo": "Preguntas frecuentes",
   "final.titulo": "Tu sitio en la Corte te espera",
   "final.texto": "Suscríbete y recibe el próximo capítulo en tu buzón.",
@@ -50,7 +50,7 @@ export default async function Home() {
   const imagenHero = c["home.imagen"];
 
   return (
-    <main>
+    <main className="inicio">
       {/* 1. Portada */}
       <section className="relative isolate overflow-hidden">
         <Petalos />
