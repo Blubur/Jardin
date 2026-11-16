@@ -52,9 +52,9 @@ export default async function Home() {
   return (
     <main className="inicio">
       {/* 1. Portada */}
-      <section className="relative isolate overflow-hidden pad-cen">
+      <section className="relative isolate overflow-hidden">
         <Petalos />
-        <div className="mx-auto grid items-center gap-12 px-6 py-20 sm:py-28 md:grid-cols-2">
+        <div className="grid items-center gap-12 py-20 sm:py-28 md:grid-cols-2">
           <Reveal>
             <p className="kicker mb-4">{t("home.kicker")}</p>
             <h1 className="titulo-1">{t("home.titulo")}</h1>
@@ -87,7 +87,7 @@ export default async function Home() {
       {/* 2. Entrega en curso */}
       {capActual && capActual.imagenes.length > 0 && (
         <section id="entrega" className="banda-clara">
-          <div className="mx-auto grid items-center gap-12 px-6 py-20 md:grid-cols-2">
+          <div className="grid items-center gap-12 py-20 md:grid-cols-2">
             <Reveal>
               <Galeria imagenes={capActual.imagenes} alt={`Capítulo ${capActual.numero}`} />
             </Reveal>
@@ -104,7 +104,7 @@ export default async function Home() {
       )}
 
       {/* 3. Qué incluye */}
-      <section id="incluye" className="mx-auto px-6 py-20 pad-cencen">
+      <section id="incluye" className="py-20">
         <Reveal>
           <h2 className="titulo-2">{t("incluye.titulo")}</h2>
         </Reveal>
@@ -121,8 +121,8 @@ export default async function Home() {
       </section>
 
       {/* 4. Cómo funciona */}
-      <section id="como-funciona" className="banda-salvia pad-cencen">
-        <div className="mx-auto px-6 py-20">
+      <section id="como-funciona" className="banda-salvia">
+        <div className="py-20">
           <Reveal>
             <h2 className="titulo-2">{t("como.titulo")}</h2>
             <p className="texto mt-3 whitespace-pre-line">{t("como.intro")}</p>
@@ -144,7 +144,7 @@ export default async function Home() {
       </section>
 
       {/* 5. Quién está detrás */}
-      <section id="quien" className="mx-auto max-w-3xl px-6 py-20 text-center">
+      <section id="quien" className="py-20 text-center">
         <Reveal>
           <p className="kicker">{t("quien.kicker")}</p>
           <h2 className="titulo-2 mt-2">{t("quien.titulo")}</h2>
@@ -161,8 +161,8 @@ export default async function Home() {
       </section>
 
       {/* 6. Planes */}
-      <section id="planes" className="banda-clara pad-cencen">
-        <div className="mx-auto px-6 py-20">
+      <section id="planes" className="banda-clara">
+        <div className="py-20">
           <Reveal>
             <h2 className="titulo-2">{t("planes.titulo")}</h2>
             <p className="texto mt-3 whitespace-pre-line">{t("planes.intro")}</p>
@@ -242,7 +242,7 @@ export default async function Home() {
 
       {/* 7. Preguntas frecuentes */}
       {faqs.length > 0 && (
-        <section id="faq" className="mx-auto max-w-3xl px-6 py-20">
+        <section id="faq" className="py-20">
           <Reveal>
             <h2 className="titulo-2">{t("faq.titulo")}</h2>
             <div className="mt-8 divide-y divide-corte-oro/20 border-y border-corte-oro/20">
@@ -277,7 +277,7 @@ export default async function Home() {
 
       {/* 8. Llamada final */}
       <section className="banda-salvia">
-        <Reveal className="mx-auto max-w-3xl px-6 py-24 text-center">
+        <Reveal className="py-24 text-center">
           <h2 className="titulo-2">{t("final.titulo")}</h2>
           <p className="texto mx-auto mt-4">{t("final.texto")}</p>
           <Link href="#planes" className="boton boton-primario mt-8">

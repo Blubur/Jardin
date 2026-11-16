@@ -8,7 +8,7 @@ const lista = "mt-3 space-y-1 text-base text-corte-pergamino/70";
 export default function Footer() {
   return (
     <footer className="pie-web mt-24 text-base">
-      <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <h4 className={titulo}>El Jardín de las Herederas</h4>
           <p className="mt-3 text-base text-corte-pergamino/70">
@@ -123,8 +123,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-corte-oro/20 px-6 py-8">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div className="border-t border-corte-oro/20 py-8">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
             <p className="text-sm text-corte-pergamino/80">Pago seguro</p>
             <ul className="mt-2 flex flex-wrap justify-center gap-2 text-sm text-corte-pergamino/80 sm:justify-start">
@@ -140,7 +140,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-corte-oro/20 px-6 py-6 text-center text-sm text-corte-pergamino/60">
+      <div className="border-t border-corte-oro/20 py-6 text-center text-sm text-corte-pergamino/60">
         <p>© 2026 El Jardín de las Herederas. Todos los derechos reservados.</p>
       </div>
     </footer>

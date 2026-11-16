@@ -61,10 +61,6 @@ h1,
 }
 
 body {
-  background-image:
-    radial-gradient(circle at 15% 20%, rgb(var(--acento-salvia) / 0.35), transparent 45%),
-    radial-gradient(circle at 85% 75%, rgb(var(--acento-granate) / 0.06), transparent 45%);
-  background-attachment: fixed;
   font-size: 20px;
 }
 
@@ -86,7 +82,7 @@ body {
 @layer components {
   /* Contenedores de página */
   .contenedor {
-    @apply mx-auto max-w-5xl px-6 py-16 sm:py-24;
+    @apply py-16 sm:py-24;
   }
   .contenedor-estrecho {
     @apply mx-auto max-w-2xl px-6 py-16;
@@ -182,12 +178,6 @@ html {
 .banda-salvia {
   background-color: rgb(var(--corte-salvia) / 0.22);
 }
-.pad-cen {
-    padding: 0 10rem;
-}
-.pad-cecen {
-  padding: 10rem;
-}
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -258,14 +248,6 @@ html {
   }
 }
 
-/* ===== Acuarela, trazo de pincel y papel ===== */
-:root {
-  /* Trazo de pincel irregular (sustituye a las líneas rectas) */
-  --trazo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 20'%3E%3Cfilter id='r' x='-5%25' y='-60%25' width='110%25' height='220%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .5' numOctaves='2' seed='4' result='t'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='t' scale='5'/%3E%3C/filter%3E%3Cpath filter='url(%23r)' fill='%236B3047' fill-opacity='.5' d='M0 9 C80 5 160 11 260 7 S420 4 520 8 S700 11 800 6 L800 12 C700 17 560 12 470 15 S250 16 150 14 S40 15 0 14 Z'/%3E%3C/svg%3E");
-
-  /* Grano de papel */
-  --papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .26 0 0 0 0 .22 0 0 0 .9 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
 
 /* Se quitan los degradados de fondo: ahora lo dan las manchas de cada sección */
 body {
@@ -339,21 +321,16 @@ body::after {
   }
 }
 
-/* Trazo de pincel en lugar del borde recto entre secciones */
-.inicio > section + section,
-.seccion {
-  background-image: var(--trazo);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: min(760px, 88%) 18px;
-}
-.seccion {
-  border-top: 0;
-}
-.pie-web {
-  border-top: 0;
-  background-image: var(--trazo);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: min(760px, 88%) 18px;
+
+/* ===== Margen lateral único de toda la web ===== */
+:root { --margen-pagina: 12rem; }
+@media (max-width: 1024px) { :root { --margen-pagina: 4rem; } }
+@media (max-width: 640px)  { :root { --margen-pagina: 1.5rem; } }
+
+.inicio > section,
+.contenedor,
+.contenedor-estrecho,
+.pie-web > div {
+  padding-left: var(--margen-pagina);
+  padding-right: var(--margen-pagina);
 }
