@@ -50,7 +50,7 @@ export default function RootLayout({
     >
       <body className="bg-corte-fondo text-corte-pergamino font-body">
         <Navbar />
-        <div className="pt-24 min-h-screen">{children}</div>
+        <div className="min-h-screen">{children}</div>
         <Footer />
       </body>
     </html>
